@@ -2,6 +2,7 @@
 using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController:MonoBehaviour
 {
@@ -90,6 +91,16 @@ public class PlayerController:MonoBehaviour
     private void Generate()
     {
         generate = true;//生成可能
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("EnemyBarrage"))
+        {
+            Debug.Log("hit");
+            SceneManager.LoadScene("GameOverScene");
+        }
     }
 }
 
