@@ -7,6 +7,7 @@ public class BarrageController:MonoBehaviour
     [SerializeField] private float speed = 4f;
     private float countTime = 0f;
     private Vector3 startPosition;
+    public float MoveSpeed = 20.0f;         // 移動値
 
     private void Start()
     {
@@ -15,7 +16,9 @@ public class BarrageController:MonoBehaviour
 
     private void Update()
     {
-        Vector3 barrageSpeed = Vector3.up * speed * Time.deltaTime;
+        // 位置の更新
+        transform.Translate(0, MoveSpeed * Time.deltaTime, 0);//オブジェクトの移動
+
         Debug.Log(countTime);
         countTime += Time.deltaTime;
 
@@ -25,8 +28,4 @@ public class BarrageController:MonoBehaviour
         }
     }
 
-    //private IEnumerator BarrageSpeed()
-    //{
-
-    //}
 }

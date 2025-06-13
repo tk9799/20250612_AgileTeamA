@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8007931426492905576}
   - component: {fileID: 217341424474985497}
   - component: {fileID: 4369398970439608059}
-  - component: {fileID: 8781856293576283084}
   m_Layer: 0
   m_Name: Barrage
   m_TagString: Untagged
@@ -103,30 +102,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   barrageTransfom: {fileID: 8007931426492905576}
   speed: 1000
---- !u!50 &8781856293576283084
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5058409115162565276}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0

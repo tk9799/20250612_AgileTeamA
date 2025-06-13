@@ -10,6 +10,8 @@ public class PlayerController:MonoBehaviour
     private Gamepad gamepad;
     //private Vector2 movement;
     public float moveSpeed = 5f;
+    public bool generate = false;
+    public float coolTime = 0f;
     //private PlayerControls controls;
 
     //private void Awake()
@@ -44,13 +46,33 @@ public class PlayerController:MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        generate = true;
+    }
+
     void Update()
     {
+        
         if (Input.GetKey(KeyCode.Joystick1Button1))
         {
-            //Debug.Log("発射ぁ");
-            StartCoroutine(Shot());
+            if (generate)
+            {
+                //Debug.Log("発射ぁ");
+                Instantiate(barrage, playerTransform.position, playerTransform.rotation);
+                Invoke("Generate", 0.1f);//連射速度の調整
+                generate = false;//生成できない
+
+                //if (coolTime >= 0.5f)
+                //{
+                //    generate = true;//生成可能
+                //}
+                //StartCoroutine(Shot());
+            }
+
         }
+        
+        
 
         // 現在接続されているGamepadを取得
         gamepad = Gamepad.current;
@@ -64,16 +86,11 @@ public class PlayerController:MonoBehaviour
 
         playerTransform.position += move;
     }
-
-    private IEnumerator Shot()
+    
+    private void Generate()
     {
-        
-        
-            
-         Instantiate(barrage, playerTransform.position, playerTransform.rotation);
-
-         yield return new WaitForSeconds(0.5f);//次の弾幕が発射されるまでの時間
-        
-        
+        generate = true;//生成可能
     }
 }
+
+
