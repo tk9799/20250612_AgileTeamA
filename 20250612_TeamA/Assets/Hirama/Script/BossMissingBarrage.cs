@@ -4,13 +4,13 @@ using UnityEngine;
 public class BossMissingBarrage : MonoBehaviour
 {
     [Header("íeÇÃÉvÅ[Éã(BarragePool)")]
-    [SerializeField] private BarragePool bulletPool;
+    [SerializeField] private BarragePool barragePool;
     [Header("")]
     [SerializeField] private Transform[] firePoints;
     [Header("íeÇÃë¨ìx")]
     [SerializeField] float bulletSpeed = 3f;
     [Header("íeÇÃê∂ë∂éûä‘(ïb)")]
-    [SerializeField] float bulletLife = 6f;
+    [SerializeField] float bulletLifeTime = 6f;
     [Header("")]
     [SerializeField] private float mixInterval = 2f;
     [Header("")]
@@ -18,14 +18,33 @@ public class BossMissingBarrage : MonoBehaviour
 
     void Start()
     {
-        //StartCoroutine(FireBarrageSequence());
+        StartCoroutine(FireBarrageSequence());
     }
 
-    //private IEnumerator FireBarrageSequence()
-    //{
-    //    for(int i = 0; i < firePoints.Length; i++)
-    //    {
+    private IEnumerator FireBarrageSequence()
+    {
+        for (int i = 0; i < firePoints.Length; i++)
+        {
+            Transform firePoint = firePoints[i];
 
-    //    }
-    //}
+            Vector2 direction = Vector2.down;
+
+            GameObject bullet = barragePool.GetBullet(firePoint.position, Quaternion.identity);
+            Barrage barrage = bullet.GetComponent<Barrage>();
+            barrage.Initialize(direction, bulletSpeed, bulletLifeTime, barragePool, this);
+
+            float waitTime = Random.Range(minInterval, mixInterval);
+            yield return new WaitForSeconds(waitTime);
+        }
+    }
+
+    public void AddBullet(Barrage bullet)
+    {
+
+    }
+
+    public void RemoveBullet(Barrage bullet)
+    {
+
+    }
 }

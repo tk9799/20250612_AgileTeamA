@@ -5,7 +5,7 @@ public class Barrage : MonoBehaviour
     private Rigidbody2D rb;
     private BarragePool pool;
     private float lifeTime;
-    private BossOmnidirectionalBarrage owner;
+    private IBarrageOwner owner;
 
     private void Awake()
     {
@@ -16,14 +16,14 @@ public class Barrage : MonoBehaviour
         float speed,
         float life,
         BarragePool poolRef,
-        BossOmnidirectionalBarrage ownerRef)
+        IBarrageOwner ownerRef)
     {
         pool = poolRef;
         lifeTime = life;
         owner = ownerRef;
-        rb.linearVelocity = direction * speed;
+        rb.velocity = direction * speed;
 
-        owner?.AddBullet(this);
+        //owner?.AddBullet(this);
 
         CancelInvoke();
         Invoke(nameof(ReturnToPool), lifeTime);
@@ -31,8 +31,8 @@ public class Barrage : MonoBehaviour
 
     void ReturnToPool()
     {
-        rb.linearVelocity = Vector2.zero;
-        owner?.RemoveBullet(this);
+        rb.velocity = Vector2.zero;
+       // owner?.RemoveBullet(this);
         pool.ReturnBullet(gameObject);
     }
 }

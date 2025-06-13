@@ -9,7 +9,7 @@ public class BossHP : MonoBehaviour
     private float currentHP;
 
     //ボスの全方向弾幕発射を制御するスクリプトの参照
-    private BossOmnidirectionalBarrage barrageControl;
+    private IBarrageOwner barrageControl;
 
     void Start()
     {
@@ -17,7 +17,7 @@ public class BossHP : MonoBehaviour
         currentHP = MaxHP;
 
         //同じゲームオブジェクトにある弾幕制御スクリプトを取得
-        barrageControl = GetComponent<BossOmnidirectionalBarrage>();
+        barrageControl = GetComponent<IBarrageOwner>();
     }
 
     //ボスがダメージを受けると呼ばれる処理
