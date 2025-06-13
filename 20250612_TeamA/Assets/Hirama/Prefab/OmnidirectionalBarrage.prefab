@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 477069232785630640}
   m_Layer: 0
   m_Name: OmnidirectionalBarrage
-  m_TagString: Untagged
+  m_TagString: EnemyBarrage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
