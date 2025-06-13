@@ -5,7 +5,7 @@ public class Barrage : MonoBehaviour
     private Rigidbody2D rb;
     private BarragePool pool;
     private float lifeTime;
-    private EnemyBarrageControl owner;
+    private BossOmnidirectionalBarrage owner;
 
     private void Awake()
     {
@@ -16,7 +16,7 @@ public class Barrage : MonoBehaviour
         float speed,
         float life,
         BarragePool poolRef,
-        EnemyBarrageControl ownerRef)
+        BossOmnidirectionalBarrage ownerRef)
     {
         pool = poolRef;
         lifeTime = life;

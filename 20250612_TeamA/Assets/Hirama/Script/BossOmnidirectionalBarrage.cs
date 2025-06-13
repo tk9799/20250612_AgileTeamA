@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBarrageControl : MonoBehaviour
+public class BossOmnidirectionalBarrage : MonoBehaviour
 {
     [Header("弾のプール(BarragePool)")]
     [SerializeField] private BarragePool bulletPool;
     [Header("弾の速度")]
-    [SerializeField] float bulletVelocity = 2f;
+    [SerializeField] float bulletSpeed = 2f;
     [Header("発射間隔")]
     [SerializeField] float interval = 1f;
     [Header("弾の生存時間(秒)")]
@@ -40,7 +40,7 @@ public class EnemyBarrageControl : MonoBehaviour
 
             GameObject bulletObj = bulletPool.GetBullet(transform.position, Quaternion.identity);
             Barrage bullet = bulletObj.GetComponent<Barrage>();
-            bullet.Initialize(direction, bulletVelocity, bulletLife, bulletPool, this);
+            bullet.Initialize(direction, bulletSpeed, bulletLife, bulletPool, this);
 
             angle += angleStep;
         }

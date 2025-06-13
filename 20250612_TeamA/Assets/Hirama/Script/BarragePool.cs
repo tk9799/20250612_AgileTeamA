@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public class BarragePool : MonoBehaviour
 {
     [SerializeField] private GameObject bulletPrefab;
-
     [SerializeField] private int poolSize = 200;
 
     private Queue<GameObject> pool = new Queue<GameObject>();
