@@ -1,48 +1,79 @@
 using UnityEngine;
+using System.Collections.Generic;
 
+/// <summary>
+/// ボスのHPを管理し、死亡時の弾の処理も行うクラス
+/// </summary>
 public class BossHP : MonoBehaviour
 {
-    [Header("ボスの最大HP")]
-    [SerializeField] public float MaxHP = 100f;
+    [Header("ボスのHP")]
+    [SerializeField] public int maxHP = 100;
 
-    //現在のHPを保持する変数
-    private float currentHP;
+    //現在のHP
+    private int currentHP;
 
-    //ボスの全方向弾幕発射を制御するスクリプトの参照
-    private IBarrageOwner barrageControl;
+    //ボスが発射した、現在アクティブな弾のリスト
+    private List<GameObject> activeBullets = new List<GameObject>();
 
-    void Start()
+    private void Start()
     {
-        //初期HPを最大HPに設定
-        currentHP = MaxHP;
-
-        //同じゲームオブジェクトにある弾幕制御スクリプトを取得
-        barrageControl = GetComponent<IBarrageOwner>();
+        //ゲーム開始時にHPを初期化
+        currentHP = maxHP;
     }
 
-    //ボスがダメージを受けると呼ばれる処理
+    /// <summary>
+    /// ダメージを受けてHPを減少させ、0以下なら死亡処理
+    /// </summary>
     public void TakeDamage(int damage)
     {
-        //現在HPからダメージ値を引く
         currentHP -= damage;
 
-        //HPが0以下ならボス死亡処理を実行
+        //HPが0以下になったら死亡処理
         if (currentHP <= 0)
         {
-            BossDie();
+            currentHP = 0;
+            OnDeath();
         }
     }
 
-    //ボスの死亡処理
-    void BossDie()
+    /// <summary>
+    /// 弾をアクティブなリストに登録
+    /// </summary>
+    public void RegisterBullet(GameObject bullet)
     {
-        //弾幕発射スクリプトが存在すれば、死亡時の処理を呼び出す
-        if (barrageControl != null)
+        if (bullet != null)
         {
-            barrageControl.OnDeath();
+            activeBullets.Add(bullet);
         }
+    }
 
-        //ボスのゲームオブジェクトを非アクティブに
+    /// <summary>
+    /// 弾をアクティブなリストから除外
+    /// </summary>
+    public void UnregisterBullet(GameObject bullet)
+    {
+        if (bullet != null)
+        {
+            activeBullets.Remove(bullet);
+        }
+    }
+
+    /// <summary>
+    /// ボスが死亡したときの処理
+    /// </summary>
+    private void OnDeath()
+    {
+        //ボス本体を非アクティブに
         gameObject.SetActive(false);
+
+        //アクティブな弾をすべて無効化してプールに戻す
+        foreach (var bullet in activeBullets)
+        {
+            if (bullet != null)
+            {
+                bullet.SetActive(false);
+                BulletPool.Instance.ReturnBullet(bullet);
+            }
+        }
     }
 }
