@@ -1,25 +1,33 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBarrageControl : MonoBehaviour
+/// <summary>
+/// ボスが全方位弾幕を定期的に発射するクラス
+/// </summary>
+public class BossOmnidirectionalBarrage : MonoBehaviour
 {
-    [Header("弾のプール(BarragePool)")]
-    [SerializeField] private BarragePool bulletPool;
+    [Header("弾発射管理")]
+    [SerializeField] private BulletSpawner bulletSpawner;
+
     [Header("弾の速度")]
-    [SerializeField] float bulletVelocity = 2f;
+    [SerializeField] private float bulletSpeed = 2f;
+
     [Header("発射間隔")]
-    [SerializeField] float interval = 1f;
-    [Header("弾の生存時間(秒)")]
-    [SerializeField] float bulletLife = 6f;
-    [Header("弾を撃つまでの時間")]
-    [SerializeField] float remainingTime = 2f;
+    [SerializeField] private float interval = 1f;
+
+    [Header("弾の寿命")]
+    [SerializeField] private float bulletLifeTime = 6f;
+
+    [Header("発射までの待機時間")]
+    [SerializeField] private float remainingTime = 2f;
+
     [Header("弾数(全方位)")]
     [SerializeField] private int bulletCount = 32;
 
-    private List<Barrage> activeBullets = new List<Barrage>();
+    [SerializeField] private BossHP bossHP;
 
-    void FixedUpdate()
+    private void Update()
     {
+        //発射タイマーを減算し、一定時間ごとに弾幕を発射
         remainingTime -= Time.deltaTime;
         if (remainingTime <= 0.0f)
         {
@@ -28,50 +36,42 @@ public class EnemyBarrageControl : MonoBehaviour
         }
     }
 
-    void FireBarrage()
+    /// <summary>
+    /// 弾幕の中心を自分の位置にして全方位弾を発射
+    /// </summary>
+    private void FireBarrage()
     {
-        float angleStep = 360f / bulletCount;
-        float angle = 0.0f;
-
-        for (int i = 0; i < bulletCount; i++)
-        {
-            float rad = angle * Mathf.Deg2Rad;
-            Vector2 direction = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)).normalized;
-
-            GameObject bulletObj = bulletPool.GetBullet(transform.position, Quaternion.identity);
-            Barrage bullet = bulletObj.GetComponent<Barrage>();
-            bullet.Initialize(direction, bulletVelocity, bulletLife, bulletPool, this);
-
-            angle += angleStep;
-        }
+        bulletSpawner.FireCircle(transform.position, bulletCount, bulletSpeed, bulletLifeTime, this);
     }
 
-    public void AddBullet(Barrage bullet)
+    /// <summary>
+    /// ボスのHPシステムに弾を登録（生存弾の管理）
+    /// </summary>
+    public void AddBullet(Bullet bullet)
     {
-        if (!activeBullets.Contains(bullet))
+        if (bossHP == null)
         {
-            activeBullets.Add(bullet);
+            return;
         }
+        bossHP.RegisterBullet(bullet.gameObject);
     }
 
-    public void RemoveBullet(Barrage bullet)
+    /// <summary>
+    /// 弾が消滅したときにHP管理リストから削除
+    /// </summary>
+    public void RemoveBullet(Bullet bullet)
     {
-        if (activeBullets.Contains(bullet))
-        {
-            activeBullets.Remove(bullet);
-        }
+        bossHP?.UnregisterBullet(bullet.gameObject);
     }
 
-    public void OnDeath()
+    /// <summary>
+    /// 即時に弾幕を1回発射し、以降は通常の間隔で発射を継続
+    /// </summary>
+    public void StartBarrageImmediately()
     {
-
-        foreach (var bullet in activeBullets)
-        {
-            if (bullet != null && bullet.gameObject.activeInHierarchy)
-            {
-                bullet.gameObject.SetActive(false);
-            }
-        }
-        activeBullets.Clear();
+        //即発射
+        FireBarrage();
+        //次回の発射まで通常通り待機
+        remainingTime = interval;
     }
 }
