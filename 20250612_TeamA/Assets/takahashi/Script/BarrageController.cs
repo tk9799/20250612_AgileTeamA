@@ -19,7 +19,7 @@ public class BarrageController:MonoBehaviour
         // 位置の更新
         transform.Translate(0, MoveSpeed * Time.deltaTime, 0);//オブジェクトの移動
 
-        Debug.Log(countTime);
+        //Debug.Log(countTime);
         countTime += Time.deltaTime;
 
         if (countTime >= 3f)
