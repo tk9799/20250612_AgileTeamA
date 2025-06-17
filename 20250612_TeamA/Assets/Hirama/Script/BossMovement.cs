@@ -74,4 +74,10 @@ public class BossMovement : MonoBehaviour
             }
         }
     }
+
+    public void StopMovement()
+    {
+        isActive = false;
+        isMoving = false;
+    }
 }

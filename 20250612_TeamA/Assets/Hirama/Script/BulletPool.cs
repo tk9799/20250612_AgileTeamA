@@ -48,7 +48,7 @@ public class BulletPool : MonoBehaviour
         if (pool.Count > 0)
         {
             //プールから弾を取り出し、現在の使用数と残数をログに出力
-            Debug.Log($"[POOL] 使用：{initialPoolSize - pool.Count}, 空き：{pool.Count}");
+            //Debug.Log($"[POOL] 使用：{initialPoolSize - pool.Count}, 空き：{pool.Count}");
             return pool.Dequeue();
         }
         else

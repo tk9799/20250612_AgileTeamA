@@ -25,8 +25,15 @@ public class BossOmnidirectionalBarrage : MonoBehaviour
 
     [SerializeField] private BossHP bossHP;
 
+    private bool isFiring = true;
+
     private void Update()
     {
+        if (!isFiring)
+        {
+            return;
+        }
+
         //発射タイマーを減算し、一定時間ごとに弾幕を発射
         remainingTime -= Time.deltaTime;
         if (remainingTime <= 0.0f)
@@ -73,5 +80,22 @@ public class BossOmnidirectionalBarrage : MonoBehaviour
         FireBarrage();
         //次回の発射まで通常通り待機
         remainingTime = interval;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void StopBarrage()
+    {
+        isFiring = false;
+
+        // 全弾を取得して停止
+        var bullets = FindObjectsOfType<Bullet>();
+        foreach (var bullet in bullets)
+        {
+            bullet.Stop();
+        }
+
+        Debug.Log("ボスの弾幕を全て停止した");
     }
 }

@@ -25,6 +25,9 @@ public class BossEntrance : MonoBehaviour
     [Header("ボス移動スクリプト")]
     [SerializeField] private BossMovement bossMovement;
 
+    [Header("ボスHPスクリプト")]
+    [SerializeField] private BossHP bossHP; 
+
     // 弾幕開始までの残り時間
     private float delayTimer = 0f;
     //現在降下中かどうか
@@ -44,6 +47,11 @@ public class BossEntrance : MonoBehaviour
 
         //降下開始フラグを有効にする
         isFalling = true;
+
+        //降下中は無敵
+        bossHP?.SetInvincible(true);
+
+        //降下が完了した
         hasArrived = false;
 
         //弾幕発射処理を無効化（登場演出が終わるまで弾を撃たせない）
@@ -96,6 +104,9 @@ public class BossEntrance : MonoBehaviour
     {
         if (barrageScript != null)
         {
+            //弾幕開始と同時に無敵解除
+            bossHP?.SetInvincible(false);
+
             barrageScript.enabled = true;
             barrageScript.StartBarrageImmediately();
             //弾幕と同時に移動開始

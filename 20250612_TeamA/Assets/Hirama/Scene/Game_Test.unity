@@ -130,8 +130,8 @@ GameObject:
   - component: {fileID: 186453405}
   - component: {fileID: 186453404}
   - component: {fileID: 186453411}
-  - component: {fileID: 186453410}
   - component: {fileID: 186453409}
+  - component: {fileID: 186453410}
   - component: {fileID: 186453412}
   - component: {fileID: 186453408}
   - component: {fileID: 186453407}
@@ -207,8 +207,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -289,10 +289,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startY: 10
   targetY: 3
-  fallSpeed: 2
-  barrageDelay: 3
+  fallSpeed: 2.5
+  barrageDelay: 1
   barrageScript: {fileID: 186453411}
   bossMovement: {fileID: 186453412}
+  bossHP: {fileID: 186453410}
 --- !u!114 &186453410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,6 +307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
+  currentHP: 0
 --- !u!114 &186453411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,7 +421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 3098904615349818375, guid: d8e0b7dbd72be0e4e9b6d09f38763cff, type: 3}
-  initialPoolSize: 300
+  initialPoolSize: 500
 --- !u!1 &755862500
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,7 +615,7 @@ Transform:
   m_GameObject: {fileID: 1619471350}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 1.5, z: 0}
+  m_LocalPosition: {x: 2, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -644,7 +646,7 @@ Transform:
   m_GameObject: {fileID: 1629250804}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 1.5, z: 0}
+  m_LocalPosition: {x: -2, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -661,6 +663,7 @@ GameObject:
   - component: {fileID: 1684020502}
   - component: {fileID: 1684020501}
   - component: {fileID: 1684020505}
+  - component: {fileID: 1684020506}
   - component: {fileID: 1684020503}
   - component: {fileID: 1684020504}
   m_Layer: 0
@@ -735,7 +738,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1012555994}
@@ -819,6 +822,20 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5644772216225871667, guid: 3b4607133fde38c4b81396e2ea134fd6, type: 3}
   firePoint: {fileID: 1012555994}
   fireRate: 0.2
+--- !u!114 &1684020506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1684020500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fb43a5d03fac3942bedaddd96a67da0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lives: 3
+  invincibilityTime: 1
 --- !u!1 &2054119693
 GameObject:
   m_ObjectHideFlags: 0
