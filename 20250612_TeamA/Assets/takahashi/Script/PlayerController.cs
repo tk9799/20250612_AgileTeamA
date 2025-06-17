@@ -9,10 +9,13 @@ public class PlayerController:MonoBehaviour
     [SerializeField] Transform playerTransform;
     [SerializeField] GameObject barrage;//弾幕のプレハブ
     private Gamepad gamepad;
+    [SerializeField] private Animator animator;
     //private Vector2 movement;
     public float moveSpeed = 5f;
     public bool generate = false;
     public float coolTime = 0f;
+    private bool isRight = false;
+    private bool isLeft = false;
     //private PlayerControls controls;
 
     //private void Awake()
@@ -50,6 +53,7 @@ public class PlayerController:MonoBehaviour
     private void Start()
     {
         generate = true;
+        this.animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -72,8 +76,6 @@ public class PlayerController:MonoBehaviour
             }
 
         }
-        
-        
 
         // 現在接続されているGamepadを取得
         gamepad = Gamepad.current;
@@ -84,6 +86,26 @@ public class PlayerController:MonoBehaviour
         float moveY = Input.GetAxis("Vertical");   // 上下
 
         Vector3 move = new Vector3(moveX, moveY,0f) * moveSpeed * Time.deltaTime;
+        
+        animator.SetBool("isRight", isRight);
+        animator.SetBool("isLeft", isLeft);
+        //this.animator.SetTrigger("Move");
+
+        if (moveX >= 0.1)
+        {
+            Debug.Log("right");
+            isRight = true;
+        }
+        else if (moveX <= -0.1)
+        {
+            Debug.Log("left");
+            isLeft = true;
+        }
+        else if (moveX == 0)
+        {
+            isRight = false;
+            isLeft = false;
+        }
 
         playerTransform.position += move;
     }
