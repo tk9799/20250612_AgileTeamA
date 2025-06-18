@@ -10,10 +10,13 @@ public class BossHP : MonoBehaviour
     [SerializeField] public int maxHP = 100;
 
     [Header("現在のボスのHP")]
-    [SerializeField] private int currentHP;
+    [SerializeField] public int currentHP;
+
+    [SerializeField] private PlayerController playerController;
 
     //無敵状態かどうか
     private bool isInvincible = false;
+    public bool destroy = false;
 
     //ボスが発射した、現在アクティブな弾のリスト
     private List<GameObject> activeBullets = new List<GameObject>();
@@ -91,6 +94,24 @@ public class BossHP : MonoBehaviour
                 bullet.SetActive(false);
                 BulletPool.Instance.ReturnBullet(bullet);
             }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("PlayerBarrage"))
+        {
+            currentHP -= 1;
+            Debug.Log(currentHP);
+        }
+        if(currentHP == 0)
+        {
+            destroy = true;
+            if(playerController != null)
+            {
+                //playerController.
+            }
+            OnDeath();
         }
     }
 }

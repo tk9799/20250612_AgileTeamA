@@ -3,19 +3,33 @@ using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerController:MonoBehaviour
 {
+    [Header("復活後の無敵時間")]
+    [SerializeField] private float invincibilityTime = 4f;
+    [Header("デフォルト無敵時間")]
+    [SerializeField] private float DefoltInvincibilityTime = 4f;
     [SerializeField] Transform playerTransform;
     [SerializeField] GameObject barrage;//弾幕のプレハブ
+    [SerializeField] BossHP bossHP;
     private Gamepad gamepad;
     [SerializeField] private Animator animator;
+    //[SerializeField] BoxCollider2D boxCollider;
     //private Vector2 movement;
     public float moveSpeed = 5f;
     public bool generate = false;
     public float coolTime = 0f;
-    private bool isRight = false;
+    private bool isRight = false;//アニメーション切替のbool
     private bool isLeft = false;
+    private bool addProcess = false;//スコアの加算処理判定
+    private int hitCount = 0;
+    private int score = 0;//スコア
+    private int totalScore = 0;//合計スコア
+    private Text lifeText;
+    
     //private PlayerControls controls;
 
     //private void Awake()
@@ -50,10 +64,17 @@ public class PlayerController:MonoBehaviour
 
     }
 
+    private void BossDestroy()
+    {
+        this.score += 5000;
+    }
+
     private void Start()
     {
         generate = true;
         this.animator = GetComponent<Animator>();
+        
+        
     }
 
     void Update()
@@ -93,12 +114,10 @@ public class PlayerController:MonoBehaviour
 
         if (moveX >= 0.1)
         {
-            Debug.Log("right");
             isRight = true;
         }
         else if (moveX <= -0.1)
         {
-            Debug.Log("left");
             isLeft = true;
         }
         else if (moveX == 0)
@@ -108,21 +127,23 @@ public class PlayerController:MonoBehaviour
         }
 
         playerTransform.position += move;
+
+        playerTransform.position = new Vector2(
+            //移動範囲を制限する
+            Mathf.Clamp(transform.position.x , -2.6f, 2.6f),
+            Mathf.Clamp(transform.position.y , -4.8f, 5.0f)
+            );
+
+        //if(bossHP != null && bossHP.destroy)
+        //{
+        //    this.scoreText.text = this.score.ToString();
+        //}
+        
     }
     
     private void Generate()
     {
         generate = true;//生成可能
-    }
-
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("EnemyBarrage"))
-        {
-            Debug.Log("hit");
-            SceneManager.LoadScene("GameOverScene");
-        }
     }
 }
 
