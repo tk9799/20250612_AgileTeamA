@@ -57,6 +57,8 @@ public class BulletPool : MonoBehaviour
             Debug.Log("弾プールが不足しています。新たに生成します。");
             return Instantiate(bulletPrefab);
         }
+
+        return pool.Count > 0 ? pool.Dequeue() : Instantiate(bulletPrefab);
     }
 
     /// <summary>

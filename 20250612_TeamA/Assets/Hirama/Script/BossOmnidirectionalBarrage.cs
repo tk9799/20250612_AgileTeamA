@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -25,6 +27,14 @@ public class BossOmnidirectionalBarrage : MonoBehaviour
 
     [SerializeField] private BossHP bossHP;
 
+    [SerializeField] private BulletPool omniBulletPool;
+
+    [Header("追加発射の間隔（秒）")]
+    [SerializeField] private float fireInterval = 3f;
+
+    private float fireTimer;
+    private List<Bullet> activeBullets = new List<Bullet>();
+
     private bool isFiring = true;
 
     private void Update()
@@ -41,6 +51,28 @@ public class BossOmnidirectionalBarrage : MonoBehaviour
             FireBarrage();
             remainingTime = interval;
         }
+
+        fireTimer += Time.deltaTime;
+        if (fireTimer >= fireInterval)
+        {
+            fireTimer = 0f;
+            ClearBullets();
+            FireOmnidirectional();
+        }
+    }
+
+    private void FireOmnidirectional()
+    {
+        bulletSpawner.FireFanWithPool(
+            transform.position,
+            bulletCount,
+            0f,
+            360f,
+            bulletSpeed,
+            bulletLifeTime,
+            omniBulletPool,
+            this
+        );
     }
 
     /// <summary>
@@ -61,6 +93,20 @@ public class BossOmnidirectionalBarrage : MonoBehaviour
             return;
         }
         bossHP.RegisterBullet(bullet.gameObject);
+
+        activeBullets.Add(bullet);
+    }
+
+    public void ClearBullets()
+    {
+        foreach (var bullet in activeBullets)
+        {
+            if (bullet != null)
+            {
+                bullet.gameObject.SetActive(false);
+            }
+        }
+        activeBullets.Clear();
     }
 
     /// <summary>
@@ -88,13 +134,7 @@ public class BossOmnidirectionalBarrage : MonoBehaviour
     public void StopBarrage()
     {
         isFiring = false;
-
-        // 全弾を取得して停止
-        var bullets = FindObjectsOfType<Bullet>();
-        foreach (var bullet in bullets)
-        {
-            bullet.Stop();
-        }
+        bulletSpawner.StopAllBullets();
 
         Debug.Log("ボスの弾幕を全て停止した");
     }
