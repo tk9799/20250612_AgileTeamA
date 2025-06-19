@@ -12,7 +12,7 @@ public class BossHP : MonoBehaviour
     [Header("現在のボスのHP")]
     [SerializeField] public int currentHP;
 
-    [SerializeField] private PlayerController playerController;
+    [SerializeField] private Player_Test playerController;
 
     //無敵状態かどうか
     private bool isInvincible = false;
@@ -25,6 +25,11 @@ public class BossHP : MonoBehaviour
     {
         //ゲーム開始時にHPを初期化
         currentHP = maxHP;
+
+        if (playerController == null)
+        {
+            playerController = FindAnyObjectByType<Player_Test>();
+        }
     }
 
     /// <summary>
@@ -83,6 +88,11 @@ public class BossHP : MonoBehaviour
     /// </summary>
     private void OnDeath()
     {
+        if (playerController != null)
+        {
+            playerController.AddScore(5000);
+        }
+
         //ボス本体を非アクティブに
         gameObject.SetActive(false);
 
@@ -101,17 +111,22 @@ public class BossHP : MonoBehaviour
     {
         if (other.CompareTag("PlayerBarrage"))
         {
-            currentHP -= 1;
-            Debug.Log(currentHP);
+            TakeDamage(1);
         }
-        if(currentHP == 0)
-        {
-            destroy = true;
-            if(playerController != null)
-            {
-                //playerController.
-            }
-            OnDeath();
-        }
+
+        //if (other.CompareTag("PlayerBarrage"))
+        //{
+        //    currentHP -= 1;
+        //    Debug.Log(currentHP);
+        //}
+        //if(currentHP == 0)
+        //{
+        //    destroy = true;
+        //    if(playerController != null)
+        //    {
+
+        //    }
+        //    OnDeath();
+        //}
     }
 }

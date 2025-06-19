@@ -125,7 +125,7 @@ public class BulletSpawner : MonoBehaviour
     /// <summary>
     /// ’e‚ğ1”­¶¬‚µAİ’è‚·‚é‹¤’Êˆ—
     /// </summary>
-    private void SpawnBullet(Vector3 position,
+    public void SpawnBullet(Vector3 position,
         Vector2 direction,
         float speed,
         float lifetime,
