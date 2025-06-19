@@ -8,6 +8,7 @@ public class PlayerJudgement : MonoBehaviour
     [SerializeField] private int lives = 3;
     [SerializeField] private Transform myTransform;
     [SerializeField] private Transform playerTransfom;
+    private Vector2 myPosition;
 
     private Text lifeText;
 
@@ -17,9 +18,14 @@ public class PlayerJudgement : MonoBehaviour
         lifeText.text = "" + lives;
     }
 
-    private void Update()
+    new void Update()
     {
-        myTransform.position= playerTransfom.position;
+        //myTransform.position= playerTransfom.position;
+        //myPosition = myTransform.position;
+        //myPosition.x = myTransform.position.x + 0.11f;
+        //myPosition.y = myTransform.position.y - 0.14f;
+
+        //playerTransfom.position = myPosition;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -104,6 +104,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   barrageTransfom: {fileID: 8007931426492905576}
   speed: 1000
+  bossHP: {fileID: 0}
+  bulletPrefab: {fileID: 5058409115162565276}
   MoveSpeed: 20
 --- !u!50 &-6602057515889788629
 Rigidbody2D:
