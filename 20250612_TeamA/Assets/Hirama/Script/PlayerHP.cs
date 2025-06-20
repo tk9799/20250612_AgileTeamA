@@ -1,96 +1,102 @@
-using System.Linq;
 using UnityEngine;
+using System;
+using System.Collections;
 
 public class PlayerHP : MonoBehaviour
 {
-    [Header("初期残り残機")]
-    [SerializeField] private int lives = 3;
+    [Header("残機数（初期値）")]
+    [SerializeField] public int lifeCount = 3;
 
-    [Header("復活後の無敵時間")]
-    [SerializeField] private float invincibilityTime = 2f;
+    [Header("復活までの待ち時間")]
+    [SerializeField] public float respawnDelay = 2f;
 
-    //死亡中かどうか（死亡処理の多重実行を防ぐ）
+    [Header("復活時の無敵時間")]
+    [SerializeField] public float invincibleTime = 2f;
+
+    [Header("リスポーン位置")]
+    [SerializeField] public Vector2 respawnPosition = new Vector2(0, -3f);
+
+    public event Action<int> OnLifeChanged;
+    public event Action OnPlayerDied;
+
+    private SpriteRenderer spriteRenderer;
+    private Collider2D hitCollider;
+
     private bool isDead = false;
+    //private bool isInvincible = false;
 
-    //無敵状態かどうか（復活直後に即死しないようにする）
-    private bool isInvincible = false;
-
-    /// <summary>
-    /// プレイヤーが死亡したときに呼ばれる
-    /// </summary>
-    public void Die()
+    void Start()
     {
-        //すでに死亡中、または無敵中なら何もしない
-        if (isDead || isInvincible)
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        hitCollider = GetComponent<Collider2D>();
+
+        OnLifeChanged?.Invoke(lifeCount);
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        //EnemyBulleのタグを付ける
+        if (other.CompareTag("EnemyBullet") && !isDead)
         {
-            return;
+            other.gameObject.SetActive(false);
+            HandleDeath();
         }
+    }
 
-        //死亡状態に設定
+    void HandleDeath()
+    {
         isDead = true;
+        lifeCount--;
+        OnLifeChanged?.Invoke(lifeCount);
 
-        //残機を1つ減らす
-        lives--;
-
-        Debug.Log($"プレイヤーが死んだ。残り残機: {lives}");
-
-        //レイヤーオブジェクトを一時的に非表示・無効化
-        gameObject.SetActive(false);
-
-        //残機が残っていれば復活処理を行う
-        if (lives > 0)
+        if (lifeCount > 0)
         {
-            //1秒後に Respawn() を呼び出す
-            Invoke(nameof(Respawn), 1f);
+            Debug.Log("プレイヤー被弾、残機あり → 復活予定");
+            StartCoroutine(RespawnAfterDelay());
         }
         else
         {
-            //シーン内のボス弾幕コンポーネントを検索して弾幕停止
-            var boss = FindFirstObjectByType<BossOmnidirectionalBarrage>();
-            if (boss != null)
-            {
-                boss.StopBarrage();
-            }
-
-            //シーン内のボス移動コンポーネントを検索して移動停止
-            var bossMovement = FindFirstObjectByType<BossMovement>();
-            if (bossMovement != null)
-            {
-                bossMovement.StopMovement();
-            }
-
-            Debug.Log("ゲームオーバー");
+            Debug.Log("プレイヤーがやられた！残機なし → ゲームオーバー");
+            OnPlayerDied?.Invoke();
+            GameOverManager.Instance?.StopAllEnemies();
+            gameObject.SetActive(false);
         }
     }
 
-    /// <summary>
-    /// プレイヤーが復活するときに呼ばれる
-    /// </summary>
-    private void Respawn()
+    IEnumerator RespawnAfterDelay()
     {
-        //死亡状態を解除
+        //一時的に無敵＆非表示
+        spriteRenderer.enabled = false;
+        hitCollider.enabled = false;
+
+        yield return new WaitForSeconds(respawnDelay);
+
+        transform.position = respawnPosition;
+        spriteRenderer.enabled = true;
+        hitCollider.enabled = true;
         isDead = false;
 
-        //プレイヤーの位置を初期位置に戻す
-        transform.position = new Vector3(0, -3, 0);
-
-        //プレイヤーを再表示・再有効化
-        gameObject.SetActive(true);
-
-        //一定時間無敵状態にする
-        isInvincible = true;
-        Invoke(nameof(EndInvincibility), invincibilityTime);
-
-        Debug.Log("プレイヤーが復活した（無敵状態）");
+        //無敵時間スタート
+        StartCoroutine(InvincibilityCoroutine(invincibleTime));
     }
 
-    /// <summary>
-    /// 無敵状態を終了する
-    /// </summary>
-    private void EndInvincibility()
+    IEnumerator InvincibilityCoroutine(float duration)
     {
-        //無敵状態を解除
-        isInvincible = false;
-        Debug.Log("無敵終了");
+        //isInvincible = true;
+        float timer = 0f;
+        hitCollider.enabled = false;
+
+        while (timer < duration)
+        {
+            //点滅演出（0.1秒ごとに切り替え）
+            spriteRenderer.enabled = !spriteRenderer.enabled;
+            yield return new WaitForSeconds(0.1f);
+            timer += 0.1f;
+        }
+
+        //無敵終了
+        spriteRenderer.enabled = true;
+        hitCollider.enabled = true;
+        //isInvincible = false;
     }
 }

@@ -1,78 +1,58 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
-/// 弾の再利用プール
+/// 弾のオブジェクトプール。弾の生成コストを削減。
 /// </summary>
 public class BulletPool : MonoBehaviour
 {
-    //シングルトンインスタンス
-    public static BulletPool Instance;
-
-    [Header("弾の設定")]
-    [Header("使用する弾のプレハブ")]
+    [Header("プール用に使用する弾のプレハブ")]
     [SerializeField] public GameObject bulletPrefab;
 
-    [Header("最初に生成しておく弾の数")]
-    public int initialPoolSize = 200;
+    [Header("初期生成数")]
+    [SerializeField] public int initialPoolSize = 300;
 
-    //非アクティブ弾を保持するプール
-    private Queue<GameObject> pool = new Queue<GameObject>();
+    //実際のオブジェクトプール
+    private Queue<Bullet> pool = new Queue<Bullet>();
 
-    private void Awake()
+    void Awake()
     {
-        //シングルトンインスタンスの初期化（複数存在する場合は破棄）
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
-        //初期プール生成：弾を非アクティブで生成しキューに追加
+        //初期数だけ弾を生成して非アクティブ化し、プールに入れる
         for (int i = 0; i < initialPoolSize; i++)
         {
-            GameObject bullet = Instantiate(bulletPrefab);
-            bullet.SetActive(false);
-            pool.Enqueue(bullet);
+            AddBulletToPool();
         }
     }
 
-    /// <summary>
-    /// 使用可能な弾をプールから取り出す。なければ新規生成
-    /// </summary>
-    public GameObject GetBullet()
+    // プールに弾を追加
+    private void AddBulletToPool()
     {
-        if (pool.Count > 0)
-        {
-            //プールから弾を取り出し、現在の使用数と残数をログに出力
-            //Debug.Log($"[POOL] 使用：{initialPoolSize - pool.Count}, 空き：{pool.Count}");
-            return pool.Dequeue();
-        }
-        else
-        {
-            //プールが空の場合は新しい弾を生成
-            Debug.Log("弾プールが不足しています。新たに生成します。");
-            return Instantiate(bulletPrefab);
-        }
-
-        return pool.Count > 0 ? pool.Dequeue() : Instantiate(bulletPrefab);
+        //プレハブから弾を生成し、非アクティブ状態でプールへ
+        var obj = Instantiate(bulletPrefab);
+        obj.SetActive(false);
+        pool.Enqueue(obj.GetComponent<Bullet>());
     }
 
-    /// <summary>
-    /// 使用済みの弾をプールに戻す
-    /// </summary>
-    public void ReturnBullet(GameObject bullet)
+    // 使用可能な弾を取得
+    public Bullet GetBullet()
     {
-        //同じ弾が重複して戻されないようチェック
-        if (!pool.Contains(bullet))
+        //プールから弾を取り出し、必要なら追加生成
+        if (pool.Count == 0)
         {
-            //再利用準備のため非アクティブ化
-            bullet.SetActive(false);
-            //プールに戻す
-            pool.Enqueue(bullet);
+            AddBulletToPool();
         }
+        var bullet = pool.Dequeue();
+        bullet.gameObject.SetActive(true);
+        //Debug.Log($"[BulletPool] 発射: {bullet.name} を使用 (残り: {pool.Count})");
+        return bullet;
+    }
+
+    // 弾をプールに戻す
+    public void ReturnBullet(Bullet bullet)
+    {
+        //弾を非アクティブ化してプールへ戻す
+        bullet.gameObject.SetActive(false);
+        pool.Enqueue(bullet);
+        //Debug.Log($"[BulletPool] 回収: {bullet.name} をプールに戻した (合計: {pool.Count})");
     }
 }

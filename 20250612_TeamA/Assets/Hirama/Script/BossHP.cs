@@ -1,132 +1,58 @@
 using UnityEngine;
-using System.Collections.Generic;
+using static UnityEngine.Rendering.DebugUI;
 
-/// <summary>
-/// ボスのHPを管理し、死亡時の弾の処理も行うクラス
-/// </summary>
-public class BossHP : MonoBehaviour
+public class BossHP : MonoBehaviour, IDamageable
 {
-    [Header("初期のボスのHP")]
+    [Header("最大HP")]
     [SerializeField] public int maxHP = 100;
 
-    [Header("現在のボスのHP")]
-    [SerializeField] public int currentHP;
+    private int currentHP;
 
-    [SerializeField] private Player_Test playerController;
-
-    //無敵状態かどうか
     private bool isInvincible = false;
-    public bool destroy = false;
 
-    //ボスが発射した、現在アクティブな弾のリスト
-    private List<GameObject> activeBullets = new List<GameObject>();
-
-    private void Start()
+    void Start()
     {
-        //ゲーム開始時にHPを初期化
         currentHP = maxHP;
-
-        if (playerController == null)
-        {
-            playerController = FindAnyObjectByType<Player_Test>();
-        }
     }
 
-    /// <summary>
-    /// 無敵状態の設定
-    /// </summary>
     public void SetInvincible(bool value)
     {
+        //isInvincible = invincible;
         isInvincible = value;
+        Debug.Log($"[BossHP] 無敵状態: {isInvincible}");
     }
 
-    /// <summary>
-    /// ダメージを受けてHPを減少させ、0以下なら死亡処理
-    /// </summary>
-    public void TakeDamage(int damage)
+    public void TakeDamage(int amount)
     {
         if (isInvincible)
         {
-            //無敵中はダメージ無視
             return;
         }
 
-        currentHP -= damage;
+        currentHP -= amount;
+        Debug.Log($"[BossHP] ダメージを受けた: -{amount} → 残りHP: {currentHP}");
 
-        //HPが0以下になったら死亡処理
         if (currentHP <= 0)
         {
-            currentHP = 0;
-            OnDeath();
+            Die();
         }
     }
 
-    /// <summary>
-    /// 弾をアクティブなリストに登録
-    /// </summary>
-    public void RegisterBullet(GameObject bullet)
+    void Die()
     {
-        if (bullet != null)
-        {
-            activeBullets.Add(bullet);
-        }
-    }
+        Debug.Log("[BossHP] ボス撃破！");
 
-    /// <summary>
-    /// 弾をアクティブなリストから除外
-    /// </summary>
-    public void UnregisterBullet(GameObject bullet)
-    {
-        if (bullet != null)
-        {
-            activeBullets.Remove(bullet);
-        }
-    }
+        //全敵弾を消す
+        Bullet[] bullets = FindObjectsByType<Bullet>(FindObjectsSortMode.None);
 
-    /// <summary>
-    /// ボスが死亡したときの処理
-    /// </summary>
-    private void OnDeath()
-    {
-        if (playerController != null)
+        foreach (var bullet in bullets)
         {
-            playerController.AddScore(5000);
-        }
-
-        //ボス本体を非アクティブに
-        gameObject.SetActive(false);
-
-        //アクティブな弾をすべて無効化してプールに戻す
-        foreach (var bullet in activeBullets)
-        {
-            if (bullet != null)
+            if (bullet.CompareTag("EnemyBullet"))
             {
-                bullet.SetActive(false);
-                BulletPool.Instance.ReturnBullet(bullet);
+                bullet.gameObject.SetActive(false);
             }
         }
-    }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("PlayerBarrage"))
-        {
-            TakeDamage(1);
-        }
-
-        //if (other.CompareTag("PlayerBarrage"))
-        //{
-        //    currentHP -= 1;
-        //    Debug.Log(currentHP);
-        //}
-        //if(currentHP == 0)
-        //{
-        //    destroy = true;
-        //    if(playerController != null)
-        //    {
-
-        //    }
-        //    OnDeath();
-        //}
+        Destroy(gameObject);
     }
 }
