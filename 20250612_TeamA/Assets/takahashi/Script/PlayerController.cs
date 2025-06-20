@@ -87,10 +87,12 @@ public class PlayerController:MonoBehaviour
         {
             if (generate)
             {
-                //Debug.Log("発射ぁ");
-                //Instantiate(barrage, playerTransform.position, playerTransform.rotation);
-                //barrage = BulletPool.Instance.GetBullet();
+                Debug.Log("発射ぁ");
                 //barrage.SetActive(true);
+                //barrage.transform.position = playerTransform.position;
+                //Instantiate(barrage, playerTransform.position, playerTransform.rotation);
+                barrage = BulletPool.Instance.GetBullet();
+                barrage.SetActive(true);
                 poolPlayer.Launch(transform.position);
                 Invoke("Generate", 0.1f);//連射速度の調整
                 generate = false;//生成できない
