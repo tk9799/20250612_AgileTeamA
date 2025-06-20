@@ -1,116 +1,103 @@
 using UnityEngine;
 
-/// <summary>
-/// ボスの登場演出（降下 → 待機 → 弾幕開始）を制御するクラス
-/// </summary>
 public class BossEntrance : MonoBehaviour
 {
-    [Header("移動設定")]
-    [Header("登場時の初期Y位置")]
-    [SerializeField] private float startY = 10f;
+    [Header("開始位置（降下前）")]
+    [SerializeField] public Vector2 startPosition = new Vector2(0, 10);
 
-    [Header("到達目標Y位置")]
-    [SerializeField] private float targetY = 3f;
+    [Header("登場位置（降下後）")]
+    [SerializeField] public Vector2 enterPosition = new Vector2(0, 3);
 
-    [Header("降下スピード")]
-    [SerializeField] private float fallSpeed = 2f;
+    [Header("降下速度")]
+    [SerializeField] public float descendSpeed = 2f;
 
-    [Header("弾幕までの待機時間")]
-    [Header("降下後に弾幕を始めるまでの待機時間")]
-    [SerializeField] private float barrageDelay = 3f;
+    [Header("停止後の待機時間")]
+    [SerializeField] public float waitTime = 2f;
 
-    [Header("弾幕制御スクリプト")]
-    [SerializeField] private BossOmnidirectionalBarrage barrageScript;
+    [Header("弾幕の管理コンポーネント")]
+    [SerializeField] public PatternManager patternManager;
 
-    [Header("ボス移動スクリプト")]
-    [SerializeField] private BossMovement bossMovement;
+    [Header("移動コンポーネント（BossMover）")]
+    [SerializeField] public BossMovement bossMovement;
 
-    [Header("ボスHPスクリプト")]
-    [SerializeField] private BossHP bossHP; 
+    [Header("BossHPコンポーネント")]
+    [SerializeField] public BossHP bossHP;
 
-    // 弾幕開始までの残り時間
-    private float delayTimer = 0f;
-    //現在降下中かどうか
-    private bool isFalling = false;
-    //降下が完了して待機中かどうか
-    private bool hasArrived = false;
+    //現在のステート（降下中・待機中・完了）
+    private enum State { Descending, Waiting, Done }
+    private State currentState = State.Descending;
 
-    /// <summary>
-    /// オブジェクトがアクティブになったときに呼ばれる処理
-    /// </summary>
-    private void OnEnable()
+    private float waitTimer = 0f;
+
+    void Start()
     {
-        //ボスの位置を画面外（startY）に移動して初期化
-        Vector3 pos = transform.position;
-        pos.y = startY;
-        transform.position = pos;
+        //ボスを初期位置に配置
+        transform.position = startPosition;
 
-        //降下開始フラグを有効にする
-        isFalling = true;
-
-        //降下中は無敵
-        bossHP?.SetInvincible(true);
-
-        //降下が完了した
-        hasArrived = false;
-
-        //弾幕発射処理を無効化（登場演出が終わるまで弾を撃たせない）
-        barrageScript = GetComponent<BossOmnidirectionalBarrage>();
-        if (barrageScript != null)
+        //弾幕と移動を一時停止
+        if (patternManager != null)
         {
-            barrageScript.enabled = false;
+            if (patternManager.omniBarrage != null)
+                patternManager.omniBarrage.enabled = false;
+            if (patternManager.fanBarrage != null)
+                patternManager.fanBarrage.enabled = false;
+
+            patternManager.enabled = false;
+        }
+
+        //移動とHPも一時停止・無敵化
+        if (bossMovement != null)
+            bossMovement.enabled = false;
+
+        if (bossHP != null)
+            bossHP.SetInvincible(true);
+    }
+
+    void Update()
+    {
+        //ステートに応じて処理を切り替え
+        switch (currentState)
+        {
+            case State.Descending:
+                Descend();
+                break;
+
+            case State.Waiting:
+                Wait();
+                break;
+
+            case State.Done:
+                // 完了済み
+                break;
         }
     }
 
-    /// <summary>
-    /// 毎フレーム処理
-    /// </summary>
-    private void Update()
+    //降下処理
+    void Descend()
     {
-        if (isFalling)
-        {
-            //降下処理：targetY に向かって毎フレーム移動
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                new Vector3(transform.position.x, targetY, transform.position.z),
-                fallSpeed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position,
+            enterPosition, descendSpeed * Time.deltaTime);
 
-            //到達したら降下を終了し、弾幕開始までの待機を開始
-            if (Mathf.Abs(transform.position.y - targetY) < 0.01f)
-            {
-                isFalling = false;
-                hasArrived = true;
-                delayTimer = barrageDelay;
-            }
-        }
-        else if (hasArrived)
+        if (Vector2.Distance(transform.position, enterPosition) < 0.01f)
         {
-            //弾幕開始までの待機処理
-            delayTimer -= Time.deltaTime;
-
-            if (delayTimer <= 0f)
-            {
-                hasArrived = false;
-                //弾幕開始
-                StartBarrage();
-            }
+            currentState = State.Waiting;
+            waitTimer = 0f;
         }
     }
 
-    /// <summary>
-    /// 弾幕を有効化し、同時に移動も開始
-    /// </summary>
-    private void StartBarrage()
+    //待機 → 弾幕解放
+    void Wait()
     {
-        if (barrageScript != null)
+        waitTimer += Time.deltaTime;
+        if (waitTimer >= waitTime)
         {
-            //弾幕開始と同時に無敵解除
+            //弾幕切り替え
+            patternManager?.SwitchToOmniBarrage();
+            //移動再開
+            bossMovement.enabled = true;
+            //無敵解除
             bossHP?.SetInvincible(false);
-
-            barrageScript.enabled = true;
-            barrageScript.StartBarrageImmediately();
-            //弾幕と同時に移動開始
-            bossMovement.BeginMovement();
+            currentState = State.Done;
         }
     }
 }

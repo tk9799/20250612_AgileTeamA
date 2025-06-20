@@ -1,5 +1,3 @@
-using NUnit.Framework;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -7,135 +5,65 @@ using UnityEngine;
 /// </summary>
 public class BossOmnidirectionalBarrage : MonoBehaviour
 {
-    [Header("弾発射管理")]
-    [SerializeField] private BulletSpawner bulletSpawner;
+    [Header("弾の基本設定")]
+    [SerializeField] public BulletBase bulletBase;
 
-    [Header("弾の速度")]
-    [SerializeField] private float bulletSpeed = 2f;
+    [Header("弾を撃つ間隔（秒）")]
+    [SerializeField] public float fireInterval = 1.0f;
 
-    [Header("発射間隔")]
-    [SerializeField] private float interval = 1f;
+    [Header("全方位に撃つ弾数")]
+    [SerializeField] public int bulletCount = 32;
 
-    [Header("弾の寿命")]
-    [SerializeField] private float bulletLifeTime = 6f;
+    [Header("PatternManager参照")]
+    [SerializeField] public PatternManager patternManager;
 
-    [Header("発射までの待機時間")]
-    [SerializeField] private float remainingTime = 2f;
+    [Header("BulletPoolManager参照")]
+    [SerializeField] public BulletPoolManager poolManager;
 
-    [Header("弾数(全方位)")]
-    [SerializeField] private int bulletCount = 32;
+    private float timer;
 
-    [SerializeField] private BossHP bossHP;
-
-    [SerializeField] private BulletPool omniBulletPool;
-
-    [Header("追加発射の間隔（秒）")]
-    [SerializeField] private float fireInterval = 3f;
-
-    private float fireTimer;
-    private List<Bullet> activeBullets = new List<Bullet>();
-
-    private bool isFiring = true;
-
-    private void Update()
+    void Awake()
     {
-        if (!isFiring)
+        enabled = false;
+    }
+
+    void OnEnable()
+    {
+        timer = fireInterval;
+    }
+
+    void Update()
+    {
+        timer += Time.deltaTime;
+        if (timer >= fireInterval)
+        {
+            Fire();
+            timer = 0f;
+
+            //PatternManager に発射を報告
+            patternManager?.ReportOmniBarrageFired();
+        }
+    }
+
+    private void Fire()
+    {
+        var pool = poolManager.GetPool(bulletBase);
+
+        if (pool == null)
         {
             return;
         }
 
-        //発射タイマーを減算し、一定時間ごとに弾幕を発射
-        remainingTime -= Time.deltaTime;
-        if (remainingTime <= 0.0f)
+        float angleStep = 360f / bulletCount;
+        Vector2 pos = transform.position;
+
+        for (int i = 0; i < bulletCount; i++)
         {
-            FireBarrage();
-            remainingTime = interval;
+            float angle = angleStep * i;
+            Vector2 dir = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad),
+                Mathf.Sin(angle * Mathf.Deg2Rad));
+            Bullet bullet = pool.GetBullet();
+            bullet.Init(bulletBase, pos, dir.normalized * bulletBase.speed);
         }
-
-        fireTimer += Time.deltaTime;
-        if (fireTimer >= fireInterval)
-        {
-            fireTimer = 0f;
-            ClearBullets();
-            FireOmnidirectional();
-        }
-    }
-
-    private void FireOmnidirectional()
-    {
-        bulletSpawner.FireFanWithPool(
-            transform.position,
-            bulletCount,
-            0f,
-            360f,
-            bulletSpeed,
-            bulletLifeTime,
-            omniBulletPool,
-            this
-        );
-    }
-
-    /// <summary>
-    /// 弾幕の中心を自分の位置にして全方位弾を発射
-    /// </summary>
-    private void FireBarrage()
-    {
-        bulletSpawner.FireCircle(transform.position, bulletCount, bulletSpeed, bulletLifeTime, this);
-    }
-
-    /// <summary>
-    /// ボスのHPシステムに弾を登録（生存弾の管理）
-    /// </summary>
-    public void AddBullet(Bullet bullet)
-    {
-        if (bossHP == null)
-        {
-            return;
-        }
-        bossHP.RegisterBullet(bullet.gameObject);
-
-        activeBullets.Add(bullet);
-    }
-
-    public void ClearBullets()
-    {
-        foreach (var bullet in activeBullets)
-        {
-            if (bullet != null)
-            {
-                bullet.gameObject.SetActive(false);
-            }
-        }
-        activeBullets.Clear();
-    }
-
-    /// <summary>
-    /// 弾が消滅したときにHP管理リストから削除
-    /// </summary>
-    public void RemoveBullet(Bullet bullet)
-    {
-        bossHP?.UnregisterBullet(bullet.gameObject);
-    }
-
-    /// <summary>
-    /// 即時に弾幕を1回発射し、以降は通常の間隔で発射を継続
-    /// </summary>
-    public void StartBarrageImmediately()
-    {
-        //即発射
-        FireBarrage();
-        //次回の発射まで通常通り待機
-        remainingTime = interval;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public void StopBarrage()
-    {
-        isFiring = false;
-        bulletSpawner.StopAllBullets();
-
-        Debug.Log("ボスの弾幕を全て停止した");
     }
 }

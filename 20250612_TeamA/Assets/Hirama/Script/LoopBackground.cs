@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LoopBackground : MonoBehaviour
@@ -10,6 +11,8 @@ public class LoopBackground : MonoBehaviour
 
     [Header("”wŒi1–‡‚Ì‚‚³")]
     [SerializeField] public float bgHeight = 10f;
+
+    public static readonly List<LoopBackground> AllBackgrounds = new();
 
     //–ˆƒtƒŒ[ƒ€”wŒi‚ğ‰º‚ÉˆÚ“®‚µA‰º‚Éo‚½‚çã‚ÉÄ”z’u
     void Update()
@@ -30,6 +33,21 @@ public class LoopBackground : MonoBehaviour
                 bg.position = new Vector3(bg.position.x, highestY + bgHeight, bg.position.z);
             }
         }
+    }
+
+    public void StopScroll()
+    {
+        enabled = false;
+    }
+
+    void OnEnable()
+    {
+        AllBackgrounds.Add(this);
+    }
+
+    void OnDisable()
+    {
+        AllBackgrounds.Remove(this);
     }
 
     //Œ»İ‚Ì”wŒi‚Ì’†‚Åˆê”Ôã‚É‚ ‚éYÀ•W‚ğ•Ô‚·

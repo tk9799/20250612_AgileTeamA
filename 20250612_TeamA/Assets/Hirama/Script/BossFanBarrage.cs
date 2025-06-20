@@ -1,102 +1,90 @@
 using UnityEngine;
 
 /// <summary>
-/// ボスがプレイヤー方向に向けて扇形弾幕を発射するクラス
+/// プレイヤーに向けて扇形弾幕を発射するクラス
 /// </summary>
 public class BossFanBarrage : MonoBehaviour
 {
-    [Header("弾幕設定")]
-    [Header("弾を生成・管理するコンポーネント")]
-    [SerializeField] private BulletSpawner bulletSpawner;
+    [Header("弾の基本設定")]
+    [SerializeField] public BulletBase bulletBase;
 
-    [Header("プレイヤーのTransform")]
-    [SerializeField] private Transform playerTransform;
+    [Header("弾を撃つ間隔（秒）")]
+    [SerializeField] public float fireInterval = 1.0f;
 
-    [Header("弾の速度")]
-    [SerializeField] private float bulletSpeed = 4f;
+    [Header("1回の発射で撃つ弾の数")]
+    [SerializeField] public int bulletCount = 3;
 
-    [Header("弾の寿命（秒）")]
-    [SerializeField] private float bulletLifeTime = 6f;
+    [Header("扇の角度")]
+    [SerializeField] public float fanAngle = 30f;
 
-    [Header("弾幕発射間隔（秒）")]
-    [SerializeField] private float interval = 1f;
+    [Header("ターゲットはプレイヤー")]
+    [SerializeField] public Transform target;
 
-    [Header("1回の発射あたりの弾数")]
-    [SerializeField] private int bulletPerShot = 3;
+    [Header("PatternManager参照")]
+    [SerializeField] public PatternManager patternManager;
 
-    [Header("扇形の角度")]
-    [SerializeField] private float fanAngle = 30f;
+    [Header("BulletPoolManager参照")]
+    [SerializeField] public BulletPoolManager poolManager;
 
-    [SerializeField] private FanBulletPool fanBulletPool;
 
-    [Header("追加発射の間隔（秒）")]
-    [SerializeField] private float fireInterval = 3f;
+    private float timer;
 
-    //発射タイマー
-    private float timer = 0f;
+    private bool hasFired = false;
 
-    //
-    private float fireTimer;
+    void Awake()
+    {
+        //最初は無効化（BossEntranceなどから制御）
+        enabled = false;
+    }
 
-    //弾幕発射中フラグ
-    private bool isFiring = true;
+    void Start()
+    {
+        timer = 0f;
+    }
+
+    void OnEnable()
+    {
+        timer = 0f;
+        hasFired = false;
+    }
 
     void Update()
     {
-        //ボスからプレイヤーへのベクトル
-        if (!isFiring || playerTransform == null)
+        if (target == null || hasFired)
         {
             return;
         }
 
-        timer -= Time.deltaTime;
-        if (timer <= 0f)
+        timer += Time.deltaTime;
+        if (timer >= fireInterval)
         {
-            //扇形弾幕を発射
-            FireFan();
-            //タイマーリセット
-            timer = interval;
-        }
+            Fire();
+            timer = 0f;
 
-        fireTimer += Time.deltaTime;
-        if (fireTimer >= fireInterval)
-        {
-            fireTimer = 0f;
-            FireFan();
+            patternManager?.ReportFanBarrageFired();
         }
     }
 
-    /// <summary>
-    /// プレイヤー方向に向けた扇形弾幕を発射する
-    /// </summary>
-    private void FireFan()
+    private void Fire()
     {
-        //ボスからプレイヤーへのベクトル
-        Vector3 toPlayer = playerTransform.position - transform.position;
+        var pool = poolManager.GetPool(bulletBase);
+        if (pool == null) return;
 
-        //ベクトルから角度（度数）を取得
+        Vector2 position = transform.position;
+        Vector2 toPlayer = (target.position - transform.position).normalized;
         float baseAngle = Mathf.Atan2(toPlayer.y, toPlayer.x) * Mathf.Rad2Deg;
 
-        // bulletSpawnerのFanFireを使って弾を発射（角度中心をプレイヤー方向に）
-        bulletSpawner.FireFan(
-            transform.position,
-            bulletPerShot,
-            baseAngle - fanAngle / 2f,
-            fanAngle,
-            bulletSpeed,
-            bulletLifeTime,
-            fanBulletPool,
-            this
-        );
+        float angleStart = baseAngle - fanAngle / 2f;
+        float angleStep = bulletCount > 1 ? fanAngle / (bulletCount - 1) : 0f;
+
+        for (int i = 0; i < bulletCount; i++)
+        {
+            float angle = angleStart + angleStep * i;
+            Vector2 dir = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad),
+                Mathf.Sin(angle * Mathf.Deg2Rad));
+
+            Bullet bullet = pool.GetBullet();
+            bullet.Init(bulletBase, position, dir.normalized * bulletBase.speed);
+        }
     }
-
-    /// <summary>
-    /// 弾幕を有効にする
-    /// </summary>
-    public void StartBarrage() => isFiring = true;
-
-    /// <summary>
-    /// 弾幕を停止する
-    /// </summary>
-    public void StopBarrage() => isFiring = false;
 }

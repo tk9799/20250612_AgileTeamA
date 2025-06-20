@@ -1,83 +1,44 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// ボスが指定された複数のポイントを順に移動する挙動を制御する
-/// </summary>
 public class BossMovement : MonoBehaviour
 {
-    [Header("ボスが移動するポイントの配列")]
-    [SerializeField] private Transform[] movePoints;
+    [Header("移動ポイント")]
+    [SerializeField] public List<Transform> movePoints;
 
-    [Header("ボスの移動速度")]
-    [SerializeField] private float moveSpeed = 2f;
+    [Header("移動速度")]
+    [SerializeField] public float moveSpeed = 2f;
 
-    [Header("各ポイントで停止する時間")]
-    [SerializeField] private float moveDelay = 1f;
+    [Header("各ポイントでの待機時間")]
+    [SerializeField] public float waitTime = 1f;
 
-    //現在の移動先ポイントのインデックス
-    private int currentPointIndex = 0;
-    //停止中の待機タイマー
-    private float delayTimer = 0f;
+    private int currentIndex = 0;
+    private float waitTimer = 0f;
+    private bool isWaiting = false;
 
-    //現在移動中かどうか
-    private bool isMoving = false;
-    //外部から有効化されるまで移動しない
-    private bool isActive = false;
-
-    /// <summary>
-    /// ボスの移動を開始する。外部（演出など）から呼び出すことを想定。
-    /// </summary>
-    public void BeginMovement()
+    void Update()
     {
-        //移動を有効化
-        isActive = true;
-        //最初の移動はすぐに開始
-        isMoving = true;
-    }
+        if (movePoints == null || movePoints.Count == 0) return;
 
-    private void Update()
-    {
-        //移動が無効、または移動ポイント未設定なら何もしない
-        if (!isActive || movePoints.Length == 0)
+        if (isWaiting)
         {
-            return;
-        }
-
-        if (isMoving)
-        {
-            //現在の移動ターゲットポイント
-            Transform target = movePoints[currentPointIndex];
-
-            //ターゲットに向かって移動
-            transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
-
-            //目的地に到着したら一時停止し、次の移動ポイントへ
-            if (Vector3.Distance(transform.position, target.position) < 0.01f)
+            waitTimer += Time.deltaTime;
+            if (waitTimer >= waitTime)
             {
-                //停止状態にする
-                isMoving = false;
-                //次の移動までの待機時間をセット
-                delayTimer = moveDelay;
-                //次のポイントへ
-                currentPointIndex = (currentPointIndex + 1) % movePoints.Length;
+                isWaiting = false;
+                currentIndex = (currentIndex + 1) % movePoints.Count;
             }
         }
         else
         {
-            //停止中：待機タイマーを減らす
-            delayTimer -= Time.deltaTime;
+            Vector2 target = movePoints[currentIndex].position;
+            transform.position = Vector2.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
 
-            //待機終了後、次のポイントへ移動再開
-            if (delayTimer <= 0f)
+            if (Vector2.Distance(transform.position, target) < 0.01f)
             {
-                isMoving = true;
+                isWaiting = true;
+                waitTimer = 0f;
             }
         }
-    }
-
-    public void StopMovement()
-    {
-        isActive = false;
-        isMoving = false;
     }
 }

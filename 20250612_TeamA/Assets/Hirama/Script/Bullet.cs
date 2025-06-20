@@ -1,95 +1,121 @@
 using UnityEngine;
 
 /// <summary>
-/// 敵の弾の挙動を管理するスクリプト
+/// 単体の弾を表すクラス
 /// </summary>
 public class Bullet : MonoBehaviour
 {
-    [Header("移動設定")]
-    [Header("弾の移動速度")]
-    [SerializeField] public float BulletSpeed = 5f;
-    //弾の進行方向
-    public Vector2 direction;
+    [Header("BulletBase")]
+    [SerializeField] public BulletBase bulletBase;
 
-    [Header("寿命設定")]
-    [Header("弾が自動で消えるまでの時間")]
+    [Header("移動速度")]
+    [SerializeField] public Vector2 velocity;
+
+    [Header("生存時間")]
     [SerializeField] public float lifeTime = 10f;
 
-    [Header("画面外削除設定")]
-    [SerializeField] public Vector2 boundsCenter = Vector2.zero;
-    //幅×高さを自由に指定
-    [SerializeField] public Vector2 boundsSize = new Vector2(8f, 12f);
+    //この弾が所属するオブジェクトプール
+    private BulletPool ownerPool;
 
-    //寿命カウント用タイマー
-    private float timer = 0f;
+    //発射後の経過時間
+    private float timer;
 
-    //弾を発射したオブジェクトへの参照
-    public MonoBehaviour owner;
+    //一時停止用フラグ
+    public bool isStopped = false;
 
-    private bool isStopped = false;
+    //二重返却防止
+    private bool isReturned = false;
 
-    private void OnEnable()
+    public void SetOwnerPool(BulletPool pool)
     {
-        //弾が再利用された時のタイマーリセット
-        timer = 0f;
+        ownerPool = pool;
     }
 
-    private void Update()
+    void OnEnable()
     {
-        if (isStopped)
+        //弾が有効化されたら状態を初期化
+        timer = 0f;
+        isStopped = false;
+        isReturned = false;
+    }
+
+    void Update()
+    {
+        //一時停止中でなければ毎フレーム処理を実行
+        if (!isStopped)
         {
-            return;
+            //移動
+            Move();
+            //寿命チェック
+            UpdateLifetime();
+            //画面外チェック
+            CheckOutOfBounds();
         }
+    }
 
-        //指定方向へ弾を移動
-        transform.Translate(direction.normalized * BulletSpeed * Time.deltaTime, Space.World);
+    // 弾の移動処理
+    private void Move()
+    {
+        //velocity に従って弾を移動
+        transform.position += (Vector3)(velocity * Time.deltaTime);
+    }
 
-        //寿命タイマー更新。時間を過ぎたらオブジェクトプールに返す
+    // 寿命による自動消去
+    private void UpdateLifetime()
+    {
+        //生存時間が経過したらプールに返す
         timer += Time.deltaTime;
         if (timer >= lifeTime)
         {
-            //Poolに戻る
-            BulletPool.Instance.ReturnBullet(this.gameObject);
-            return;
-        }
-
-        //
-        Vector2 pos = transform.position;
-        Vector2 min = boundsCenter - boundsSize / 2f;
-        Vector2 max = boundsCenter + boundsSize / 2f;
-
-        if (pos.x < min.x || pos.x > max.x || pos.y < min.y || pos.y > max.y)
-        {
-            BulletPool.Instance.ReturnBullet(this.gameObject);
-            return;
+            ReturnToPool();
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    // 画面外に出たら自動で消す処理
+    private void CheckOutOfBounds()
     {
-        //プレイヤーに衝突したときの処理
-        if (other.CompareTag("Player"))
-        {
-            var playerHP = other.GetComponent<PlayerHP>();
-            if (playerHP != null)
-            {
-                //プレイヤー即死処理
-                playerHP.Die();
-            }
+        //画面外に出たかを判定
+        Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
 
-            //所有者が特定の型（例：ボス）なら、弾管理からも削除
-            if (owner is BossOmnidirectionalBarrage boss)
-            {
-                boss.RemoveBullet(this);
-            }
-            //弾を非アクティブ化
-            BulletPool.Instance.ReturnBullet(this.gameObject);
-            return;
+        if (screenPos.x < -0.1f || screenPos.x > 1.1f ||
+            screenPos.y < -0.1f || screenPos.y > 1.1f)
+        {
+            ReturnToPool();
         }
     }
 
-    public void Stop()
+    private void ReturnToPool()
     {
-        isStopped = true;
+        //二重返却防止
+        if (isReturned)
+        {
+            return;
+        }
+        isReturned = true;
+
+        //所属プールに返却 or 非アクティブ化
+        if (ownerPool != null)
+        {
+            ownerPool.ReturnBullet(this);
+        }
+        else
+        {
+            //念のため、ownerPoolがなければ非アクティブ化だけ
+            gameObject.SetActive(false);
+        }
+    }
+
+    // 弾の初期化
+    public void Init(BulletBase baseData, Vector2 position, Vector2 velocity)
+    {
+        //弾の初期化（位置・速度・設定）
+        this.bulletBase = baseData;
+        transform.position = position;
+        this.velocity = velocity;
+        this.lifeTime = baseData.lifetime;
+        isStopped = false;
+
+        // スプライトを設定
+        //GetComponent<SpriteRenderer>().sprite = baseData.sprite;
     }
 }
