@@ -16,6 +16,8 @@ public class BarrageController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        poolPlayer = transform.parent.GetComponent<BalletPoolPlayer>();
+        gameObject.SetActive(false);
         startPosition = transform.position;
     }
 
@@ -31,20 +33,20 @@ public class BarrageController : MonoBehaviour
         //}
     }
 
-    private void OnEnable()
-    {
-        Invoke("Disable", 3f);
-    }
+    //private void OnEnable()
+    //{
+    //    Invoke("Disable", 3f);
+    //}
 
-    private void Disable()
-    {
-        gameObject.SetActive(false);
-    }
+    //private void Disable()
+    //{
+    //    gameObject.SetActive(false);
+    //}
 
-    void OnDisable()
-    {
-        CancelInvoke(); // 前回の Invoke をキャンセル
-    }
+    //void OnDisable()
+    //{
+    //    CancelInvoke(); // 前回の Invoke をキャンセル
+    //}
 
     void OnCollisionEnter(Collision collision)
     {
@@ -54,7 +56,7 @@ public class BarrageController : MonoBehaviour
     private void OnBecameInvisible()
     {
         //追記　下の回収処理を呼び出す
-
+        poolPlayer.ReturnBullet(this);
     }
 
 

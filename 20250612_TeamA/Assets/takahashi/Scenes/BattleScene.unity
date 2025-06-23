@@ -492,7 +492,7 @@ MonoBehaviour:
   - {fileID: 1386275548}
   - {fileID: 1408126791}
   moveSpeed: 2
-  moveDelay: 5
+  waitTime: 1
 --- !u!114 &187057833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,9 +506,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 10
-  currentHP: 0
-  playerController: {fileID: 0}
-  destroy: 0
 --- !u!114 &187057834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,11 +518,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09559a3824161a847abb473d94ad3571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startY: 10
-  targetY: 3
-  fallSpeed: 2.5
-  barrageDelay: 1
-  barrageScript: {fileID: 187057835}
+  startPosition: {x: 0, y: 10}
+  enterPosition: {x: 0, y: 3}
+  descendSpeed: 2
+  waitTime: 2
+  patternManager: {fileID: 0}
   bossMovement: {fileID: 187057832}
   bossHP: {fileID: 187057833}
 --- !u!114 &187057835
@@ -540,15 +537,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c76508b5a150b945b85009b17953275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpawner: {fileID: 216926225}
-  bulletSpeed: 2
-  interval: 1
-  bulletLifeTime: 6
-  remainingTime: 2
-  bulletCount: 32
-  bossHP: {fileID: 187057833}
-  omniBulletPool: {fileID: 0}
+  bulletBase: {fileID: 0}
   fireInterval: 3
+  bulletCount: 32
+  patternManager: {fileID: 0}
+  poolManager: {fileID: 0}
 --- !u!212 &187057836
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -648,7 +641,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd8aab29d46886942974d8c1968f6232, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultPool: {fileID: 1947459383}
 --- !u!4 &216926226
 Transform:
   m_ObjectHideFlags: 0
@@ -1972,7 +1964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f75cafebcdf43b41b6aa4b1ac230c59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerBulletPrefab: {fileID: 5058409115162565276, guid: e11bbfd4772eeab4ea06033d75bb8c1c, type: 3}
+  playerBulletPrefab: {fileID: 4369398970439608059, guid: e11bbfd4772eeab4ea06033d75bb8c1c, type: 3}
   initialPoolSize: 10
 --- !u!4 &1656957520
 Transform:
@@ -2121,7 +2113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87d8a0118ed1d9c4ab34ed3c669263f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 3098904615349818375, guid: d8e0b7dbd72be0e4e9b6d09f38763cff, type: 3}
+  bulletPrefab: {fileID: 5577450479770595606, guid: d8e0b7dbd72be0e4e9b6d09f38763cff, type: 3}
   initialPoolSize: 200
 --- !u!4 &1947459384
 Transform:
@@ -2321,9 +2313,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
-  currentHP: 0
-  playerController: {fileID: 0}
-  destroy: 0
 --- !u!114 &2031136488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2336,15 +2325,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c76508b5a150b945b85009b17953275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpawner: {fileID: 0}
-  bulletSpeed: 2
-  interval: 1
-  bulletLifeTime: 6
-  remainingTime: 2
-  bulletCount: 32
-  bossHP: {fileID: 0}
-  omniBulletPool: {fileID: 0}
+  bulletBase: {fileID: 0}
   fireInterval: 3
+  bulletCount: 32
+  patternManager: {fileID: 0}
+  poolManager: {fileID: 0}
 --- !u!58 &2031136489
 CircleCollider2D:
   m_ObjectHideFlags: 0

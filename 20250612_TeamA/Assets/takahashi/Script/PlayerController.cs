@@ -17,7 +17,7 @@ public class PlayerController:MonoBehaviour
     [Header("弾幕のプレハブ")]
     [SerializeField] GameObject barrage;//弾幕のプレハブ
     [SerializeField] BossHP bossHP;
-    [SerializeField] BalletPoolPlayer poolPlayer;
+    [SerializeField] BalletPoolPlayer poolPlayer;//オブジェクトプール
     private Gamepad gamepad;
     [SerializeField] private Animator animator;
     //[SerializeField] BoxCollider2D boxCollider;
@@ -91,8 +91,8 @@ public class PlayerController:MonoBehaviour
                 //barrage.SetActive(true);
                 //barrage.transform.position = playerTransform.position;
                 //Instantiate(barrage, playerTransform.position, playerTransform.rotation);
-                barrage = BulletPool.Instance.GetBullet();
-                barrage.SetActive(true);
+                //barrage = BulletPool.Instance.GetBullet();
+                //barrage.SetActive(true);
                 poolPlayer.Launch(transform.position);
                 Invoke("Generate", 0.1f);//連射速度の調整
                 generate = false;//生成できない
@@ -158,7 +158,7 @@ public class PlayerController:MonoBehaviour
         {
             return;
         }
-        bossHP.RegisterBullet(bullet.gameObject);
+        //bossHP.RegisterBullet(bullet.gameObject);
     }
 
     private void Generate()
