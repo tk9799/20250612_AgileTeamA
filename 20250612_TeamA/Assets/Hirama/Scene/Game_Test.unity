@@ -380,7 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09559a3824161a847abb473d94ad3571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPosition: {x: 0, y: 10}
+  startPosition: {x: 7, y: 10}
   enterPosition: {x: 0, y: 3}
   descendSpeed: 3
   waitTime: 1
