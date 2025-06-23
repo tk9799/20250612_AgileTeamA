@@ -1965,7 +1965,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerBulletPrefab: {fileID: 4369398970439608059, guid: e11bbfd4772eeab4ea06033d75bb8c1c, type: 3}
-  initialPoolSize: 10
+  initialPoolSize: 2
 --- !u!4 &1656957520
 Transform:
   m_ObjectHideFlags: 0

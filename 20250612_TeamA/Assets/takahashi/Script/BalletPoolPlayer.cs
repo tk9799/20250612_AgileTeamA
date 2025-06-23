@@ -18,7 +18,7 @@ public class BalletPoolPlayer : MonoBehaviour
     Vector3 setPosition= new Vector3(0,0,0);
 
     //非アクティブ弾を保持するプール
-    Queue<BarrageController> balletQueue;
+    private Queue<BarrageController> balletQueue=new Queue<BarrageController>();
 
     private void Awake()
     {
