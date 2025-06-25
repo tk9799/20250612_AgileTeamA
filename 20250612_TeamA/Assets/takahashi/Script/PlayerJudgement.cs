@@ -30,7 +30,8 @@ public class PlayerJudgement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("EnemyBarrage"))
+        //Debug.Log("hit");
+        if (collision.gameObject.CompareTag("EnemyBullet") || collision.gameObject.CompareTag("Boss"))
         {
             Debug.Log("hit");
             //invincibilityTime -= Time.deltaTime;

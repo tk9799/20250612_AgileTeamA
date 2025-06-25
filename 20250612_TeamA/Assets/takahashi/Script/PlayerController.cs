@@ -22,7 +22,7 @@ public class PlayerController:MonoBehaviour
     [SerializeField] private Animator animator;
     //[SerializeField] BoxCollider2D boxCollider;
     //private Vector2 movement;
-    public float moveSpeed = 5f;
+    [SerializeField] public float moveSpeed = 5f;
     public bool generate = false;
     public float coolTime = 0f;
     private bool isRight = false;//アニメーション切替のbool
@@ -83,7 +83,7 @@ public class PlayerController:MonoBehaviour
     void Update()
     {
         
-        if (Input.GetKey(KeyCode.Joystick1Button1))
+        if (Input.GetKey(KeyCode.JoystickButton1))
         {
             if (generate)
             {
@@ -114,7 +114,18 @@ public class PlayerController:MonoBehaviour
         float moveX = Input.GetAxis("Horizontal"); // 左右
         float moveY = Input.GetAxis("Vertical");   // 上下
 
+        if (Input.GetKey(KeyCode.Joystick1Button3))
+        {
+            moveSpeed = 2f;
+        }
+        if (Input.GetKeyUp(KeyCode.Joystick1Button3))
+        {
+            moveSpeed = 5f;
+        }
+
         Vector3 move = new Vector3(moveX, moveY,0f) * moveSpeed * Time.deltaTime;
+
+        
         
         animator.SetBool("isRight", isRight);
         animator.SetBool("isLeft", isLeft);
