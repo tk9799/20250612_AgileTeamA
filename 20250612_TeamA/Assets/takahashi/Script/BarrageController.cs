@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class BarrageController : MonoBehaviour
 {
+    [Header("この弾のダメージ量")]
+    [SerializeField] public int damage = 1;
     BalletPoolPlayer poolPlayer;
     [SerializeField] private float speed = 4f;
     BossHP bossHP;
@@ -70,5 +72,21 @@ public class BarrageController : MonoBehaviour
     {
         //オブジェクトプールのReturnBullet関数を呼び出し自身を回収
         poolPlayer.ReturnBullet(this);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+
+        if (other.gameObject.CompareTag("Boss"))
+        {
+            IDamageable target = other.GetComponent<IDamageable>();
+            if(target != null)
+            {
+                target.TakeDamage(damage);
+            }
+            gameObject.SetActive(false);
+        }
+        
+        //Destroy(this.gameObject);
     }
 }

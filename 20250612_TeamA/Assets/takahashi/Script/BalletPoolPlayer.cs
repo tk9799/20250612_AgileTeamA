@@ -36,11 +36,11 @@ public class BalletPoolPlayer : MonoBehaviour
         //初期プール生成：弾を非アクティブで生成しキューに追加
         for (int i = 0; i < initialPoolSize; i++)
         {
-            Debug.Log(initialPoolSize);
+            //Debug.Log(initialPoolSize);
             //生成
             BarrageController tmpBullet = Instantiate(playerBulletPrefab, setPosition,Quaternion.identity,transform);
             //tmpBullet.SetActive(false);
-            Debug.Log("非表示");
+            //Debug.Log("非表示");
             //Queueに追加
             balletQueue.Enqueue(tmpBullet);
         }
