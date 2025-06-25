@@ -3,25 +3,25 @@ using UnityEngine;
 public class BossEntrance : MonoBehaviour
 {
     [Header("開始位置（降下前）")]
-    [SerializeField] public Vector2 startPosition = new Vector2(0, 10);
+    public Vector2 startPosition = new Vector2(0, 10);
 
     [Header("登場位置（降下後）")]
-    [SerializeField] public Vector2 enterPosition = new Vector2(0, 3);
+    public Vector2 enterPosition = new Vector2(0, 3);
 
     [Header("降下速度")]
-    [SerializeField] public float descendSpeed = 2f;
+    public float descendSpeed = 2f;
 
     [Header("停止後の待機時間")]
-    [SerializeField] public float waitTime = 2f;
+    public float waitTime = 2f;
 
     [Header("弾幕の管理コンポーネント")]
-    [SerializeField] public PatternManager patternManager;
+    public PatternManager patternManager;
 
     [Header("移動コンポーネント（BossMover）")]
-    [SerializeField] public BossMovement bossMovement;
+    public BossMovement bossMovement;
 
     [Header("BossHPコンポーネント")]
-    [SerializeField] public BossHP bossHP;
+    public BossHP bossHP;
 
     //現在のステート（降下中・待機中・完了）
     private enum State { Descending, Waiting, Done }

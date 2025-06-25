@@ -6,19 +6,19 @@ using UnityEngine;
 public class BossOmnidirectionalBarrage : MonoBehaviour
 {
     [Header("弾の基本設定")]
-    [SerializeField] public BulletBase bulletBase;
+    public BulletBase bulletBase;
 
     [Header("弾を撃つ間隔（秒）")]
-    [SerializeField] public float fireInterval = 1.0f;
+    public float fireInterval = 1.0f;
 
     [Header("全方位に撃つ弾数")]
-    [SerializeField] public int bulletCount = 32;
+    public int bulletCount = 32;
 
     [Header("PatternManager参照")]
-    [SerializeField] public PatternManager patternManager;
+    public PatternManager patternManager;
 
     [Header("BulletPoolManager参照")]
-    [SerializeField] public BulletPoolManager poolManager;
+    public BulletPoolManager poolManager;
 
     private float timer;
 

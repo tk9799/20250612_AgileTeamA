@@ -6,13 +6,13 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [Header("BulletBase")]
-    [SerializeField] public BulletBase bulletBase;
+    public BulletBase bulletBase;
 
     [Header("移動速度")]
-    [SerializeField] public Vector2 velocity;
+    public Vector2 velocity;
 
     [Header("生存時間")]
-    [SerializeField] public float lifeTime = 10f;
+    public float lifeTime = 10f;
 
     //この弾が所属するオブジェクトプール
     private BulletPool ownerPool;
