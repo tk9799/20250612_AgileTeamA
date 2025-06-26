@@ -4,7 +4,7 @@ using static UnityEngine.Rendering.DebugUI;
 public class BossHP : MonoBehaviour, IDamageable
 {
     [Header("ç≈ëÂHP")]
-    [SerializeField] public int maxHP = 100;
+    public int maxHP = 100;
 
     private int currentHP;
 
@@ -17,7 +17,6 @@ public class BossHP : MonoBehaviour, IDamageable
 
     public void SetInvincible(bool value)
     {
-        //isInvincible = invincible;
         isInvincible = value;
         Debug.Log($"[BossHP] ñ≥ìGèÛë‘: {isInvincible}");
     }

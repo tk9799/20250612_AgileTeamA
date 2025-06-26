@@ -4,13 +4,13 @@ using UnityEngine;
 public class BossMovement : MonoBehaviour
 {
     [Header("移動ポイント")]
-    [SerializeField] public List<Transform> movePoints;
+    public List<Transform> movePoints;
 
     [Header("移動速度")]
-    [SerializeField] public float moveSpeed = 2f;
+    public float moveSpeed = 2f;
 
     [Header("各ポイントでの待機時間")]
-    [SerializeField] public float waitTime = 1f;
+    public float waitTime = 1f;
 
     private int currentIndex = 0;
     private float waitTimer = 0f;

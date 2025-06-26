@@ -7,10 +7,10 @@ using UnityEngine;
 public class BulletPool : MonoBehaviour
 {
     [Header("プール用に使用する弾のプレハブ")]
-    [SerializeField] public GameObject bulletPrefab;
+    public GameObject bulletPrefab;
 
     [Header("初期生成数")]
-    [SerializeField] public int initialPoolSize = 300;
+    public int initialPoolSize = 300;
 
     //実際のオブジェクトプール
     private Queue<Bullet> pool = new Queue<Bullet>();

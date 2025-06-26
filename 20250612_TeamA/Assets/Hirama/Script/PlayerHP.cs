@@ -5,16 +5,16 @@ using System.Collections;
 public class PlayerHP : MonoBehaviour
 {
     [Header("残機数（初期値）")]
-    [SerializeField] public int lifeCount = 3;
+    public int lifeCount = 3;
 
     [Header("復活までの待ち時間")]
-    [SerializeField] public float respawnDelay = 2f;
+    public float respawnDelay = 2f;
 
     [Header("復活時の無敵時間")]
-    [SerializeField] public float invincibleTime = 2f;
+    public float invincibleTime = 2f;
 
     [Header("リスポーン位置")]
-    [SerializeField] public Vector2 respawnPosition = new Vector2(0, -3f);
+    public Vector2 respawnPosition = new Vector2(0, -3f);
 
     public event Action<int> OnLifeChanged;
     public event Action OnPlayerDied;
@@ -23,7 +23,6 @@ public class PlayerHP : MonoBehaviour
     private Collider2D hitCollider;
 
     private bool isDead = false;
-    //private bool isInvincible = false;
 
     void Start()
     {
@@ -82,7 +81,6 @@ public class PlayerHP : MonoBehaviour
 
     IEnumerator InvincibilityCoroutine(float duration)
     {
-        //isInvincible = true;
         float timer = 0f;
         hitCollider.enabled = false;
 
@@ -97,6 +95,5 @@ public class PlayerHP : MonoBehaviour
         //無敵終了
         spriteRenderer.enabled = true;
         hitCollider.enabled = true;
-        //isInvincible = false;
     }
 }

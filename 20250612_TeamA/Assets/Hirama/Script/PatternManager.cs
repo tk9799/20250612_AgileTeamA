@@ -3,13 +3,13 @@ using UnityEngine;
 public class PatternManager : MonoBehaviour
 {
     [Header("切り替え条件：全方位弾の発射回数")]
-    [SerializeField] public int maxOmniShots = 5;
+    public int maxOmniShots = 5;
 
     [Header("全方位弾幕")]
-    [SerializeField] public BossOmnidirectionalBarrage omniBarrage;
+    public BossOmnidirectionalBarrage omniBarrage;
 
     [Header("プレイヤーに向けて撃つ扇形弾幕")]
-    [SerializeField] public BossFanBarrage fanBarrage;
+    public BossFanBarrage fanBarrage;
 
     private int currentOmniShots = 0;
     private enum PatternState { Omni, Fan }

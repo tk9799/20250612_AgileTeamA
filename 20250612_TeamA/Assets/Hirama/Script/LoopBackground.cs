@@ -4,13 +4,13 @@ using UnityEngine;
 public class LoopBackground : MonoBehaviour
 {
     [Header("スクロールする背景（複数）")]
-    [SerializeField] public Transform[] backgrounds;
+    public Transform[] backgrounds;
 
     [Header("スクロール速度")]
-    [SerializeField] public float scrollSpeed = 2f;
+    public float scrollSpeed = 2f;
 
     [Header("背景1枚の高さ")]
-    [SerializeField] public float bgHeight = 10f;
+    public float bgHeight = 10f;
 
     public static readonly List<LoopBackground> AllBackgrounds = new();
 

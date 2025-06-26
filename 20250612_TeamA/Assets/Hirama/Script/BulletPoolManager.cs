@@ -10,10 +10,10 @@ public class BulletPoolManager : MonoBehaviour
     public class PoolEntry
     {
         [Header("弾の設定ScriptableObject")]
-        [SerializeField] public BulletBase bulletBase;
+        public BulletBase bulletBase;
 
         [Header("その弾用のプール")]
-        [SerializeField] public BulletPool bulletPool;
+        public BulletPool bulletPool;
     }
 
     [Header("弾種ごとのプールリスト")]

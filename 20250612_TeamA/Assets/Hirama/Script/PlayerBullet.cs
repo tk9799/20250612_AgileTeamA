@@ -3,10 +3,10 @@ using UnityEngine;
 public class PlayerBullet : MonoBehaviour
 {
     [Header("‚±‚Ì’e‚Ìƒ_ƒ[ƒW—Ê")]
-    [SerializeField] public int damage = 1;
+    public int damage = 1;
 
     [Header("¶‘¶ŠÔ")]
-    [SerializeField] public float lifeTime = 5f;
+    public float lifeTime = 5f;
 
     void Start()
     {

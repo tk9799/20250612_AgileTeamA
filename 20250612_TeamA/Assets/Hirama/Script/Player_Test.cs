@@ -3,13 +3,13 @@ using UnityEngine;
 public class Player_Test : MonoBehaviour
 {
     [Header("移動速度")]
-    [SerializeField] public float moveSpeed = 5f;
+    public float moveSpeed = 5f;
 
     [Header("画面端の移動制限")]
-    [SerializeField] public float minX = -12f;
-    [SerializeField] public float maxX = 12f;
-    [SerializeField] public float minY = -6f;
-    [SerializeField] public float maxY = 6f;
+    public float minX = -12f;
+    public float maxX = 12f;
+    public float minY = -6f;
+    public float maxY = 6f;
 
     void Update()
     {

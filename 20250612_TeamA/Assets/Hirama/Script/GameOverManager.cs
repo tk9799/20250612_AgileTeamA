@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameOverManager : MonoBehaviour
 {
-    [SerializeField] public static GameOverManager Instance;
+    public static GameOverManager Instance;
 
     void Awake()
     {

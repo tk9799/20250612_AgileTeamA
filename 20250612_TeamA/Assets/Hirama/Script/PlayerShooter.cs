@@ -3,16 +3,16 @@ using UnityEngine;
 public class PlayerShooter : MonoBehaviour
 {
     [Header("発射する弾のプレハブ")]
-    [SerializeField] public GameObject bulletPrefab;
+    public GameObject bulletPrefab;
 
     [Header("発射間隔（秒）")]
-    [SerializeField] public float fireRate = 0.2f;
+    public float fireRate = 0.2f;
 
     [Header("弾のスピード")]
-    [SerializeField] public float bulletSpeed = 10f;
+    public float bulletSpeed = 10f;
 
     [Header("弾の発射位置")]
-    [SerializeField] public Transform firePoint;
+    public Transform firePoint;
 
     private float fireTimer = 0f;
 

@@ -6,25 +6,25 @@ using UnityEngine;
 public class BossFanBarrage : MonoBehaviour
 {
     [Header("’e‚ÌŠî–{İ’è")]
-    [SerializeField] public BulletBase bulletBase;
+    public BulletBase bulletBase;
 
     [Header("’e‚ğŒ‚‚ÂŠÔŠui•bj")]
-    [SerializeField] public float fireInterval = 1.0f;
+    public float fireInterval = 1.0f;
 
     [Header("1‰ñ‚Ì”­Ë‚ÅŒ‚‚Â’e‚Ì”")]
-    [SerializeField] public int bulletCount = 3;
+    public int bulletCount = 3;
 
     [Header("î‚ÌŠp“x")]
-    [SerializeField] public float fanAngle = 30f;
+    public float fanAngle = 30f;
 
     [Header("ƒ^[ƒQƒbƒg‚ÍƒvƒŒƒCƒ„[")]
-    [SerializeField] public Transform target;
+    public Transform target;
 
     [Header("PatternManagerQÆ")]
-    [SerializeField] public PatternManager patternManager;
+    public PatternManager patternManager;
 
     [Header("BulletPoolManagerQÆ")]
-    [SerializeField] public BulletPoolManager poolManager;
+    public BulletPoolManager poolManager;
 
 
     private float timer;

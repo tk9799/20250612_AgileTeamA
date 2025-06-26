@@ -11,11 +11,11 @@ public class BulletBase : ScriptableObject
     //[SerializeField] public Sprite sprite;
 
     [Header("’e‘¬")]
-    [SerializeField] public float speed = 5f;
+    public float speed = 5f;
 
     [Header("¶‘¶ŠÔ")]
-    [SerializeField] public float lifetime = 5f;
+    public float lifetime = 5f;
 
     [Header("“–‚½‚è”»’è‚Ì”¼Œa")]
-    [SerializeField] public float hitboxRadius = 0.1f;
+    public float hitboxRadius = 0.1f;
 }
