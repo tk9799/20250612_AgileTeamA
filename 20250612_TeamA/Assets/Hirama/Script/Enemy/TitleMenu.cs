@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TitleMenu : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class TitleMenu : MonoBehaviour
 
     void Update()
     {
+
         //上下キー or W/Sキーで選択
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {

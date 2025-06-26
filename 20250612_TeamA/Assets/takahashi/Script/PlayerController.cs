@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using TMPro;
-using UnityEditor.ShaderGraph;
+//using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Pool;
@@ -49,6 +49,8 @@ public class PlayerController:MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Collider2D hitCollider;
     public bool blinking = false;
+
+    bool isDeadJudge = false;
 
     //private PlayerControls controls;
 
@@ -176,9 +178,11 @@ public class PlayerController:MonoBehaviour
         //{
         //    this.scoreText.text = this.score.ToString();
         //}
-        if (playerJudgement != null && playerJudgement.isDead)
+        if (playerJudgement != null && playerJudgement.isDead && !isDeadJudge)
         {
+            //Debug.LogError("呼び出されている");
             StartCoroutine(RespawnAfterDelay());
+            isDeadJudge = true;
         }
     }
 
@@ -226,11 +230,11 @@ public class PlayerController:MonoBehaviour
         float timer = 0f;
         hitCollider.enabled = false;
 
-        while (timer < duration)
+        while (timer < duration)//無敵時間と同じ時間になるまで
         {
-            blinking = true;//点滅している
+            //blinking = true;//点滅している
             //点滅演出（0.1秒ごとに切り替え）
-            spriteRenderer.enabled = !spriteRenderer.enabled;
+            spriteRenderer.enabled = !spriteRenderer.enabled;//非表示
             yield return new WaitForSeconds(0.1f);
             timer += 0.1f;
             Debug.Log(timer);
@@ -240,6 +244,7 @@ public class PlayerController:MonoBehaviour
         spriteRenderer.enabled = true;
         hitCollider.enabled = true;
         blinking = false;//点滅終了
+        isDeadJudge = false;
         //isInvincible = false;
     }
 
