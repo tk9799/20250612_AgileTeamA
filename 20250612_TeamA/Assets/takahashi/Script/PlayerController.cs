@@ -104,11 +104,11 @@ public class PlayerController:MonoBehaviour
     {
         //playerTransform.position = judgementTransform.position;
         
-        if (Input.GetKey(KeyCode.JoystickButton1))
+        if (Input.GetKey(KeyCode.JoystickButton0))
         {
-            if (generate)
+            if (generate && !isDeadJudge)
             {
-                Debug.Log("発射ぁ");
+                //Debug.Log("発射ぁ");
                 //barrage.SetActive(true);
                 //barrage.transform.position = playerTransform.position;
                 //Instantiate(barrage, playerTransform.position, playerTransform.rotation);
@@ -117,14 +117,7 @@ public class PlayerController:MonoBehaviour
                 poolPlayer.Launch(transform.position);
                 Invoke("Generate", 0.1f);//連射速度の調整
                 generate = false;//生成できない
-
-                //if (coolTime >= 0.5f)
-                //{
-                //    generate = true;//生成可能
-                //}
-                //StartCoroutine(Shot());
             }
-
         }
 
         // 現在接続されているGamepadを取得
@@ -135,11 +128,11 @@ public class PlayerController:MonoBehaviour
         float moveX = Input.GetAxis("Horizontal"); // 左右
         float moveY = Input.GetAxis("Vertical");   // 上下
 
-        if (Input.GetKey(KeyCode.Joystick1Button3))
+        if (Input.GetKey(KeyCode.Joystick1Button2))
         {
             moveSpeed = 2f;
         }
-        if (Input.GetKeyUp(KeyCode.Joystick1Button3))
+        if (Input.GetKeyUp(KeyCode.Joystick1Button2))
         {
             moveSpeed = 5f;
         }
@@ -183,28 +176,13 @@ public class PlayerController:MonoBehaviour
             //Debug.LogError("呼び出されている");
             StartCoroutine(RespawnAfterDelay());
             isDeadJudge = true;
+            generate = false;
+            //if (Input.GetKey(KeyCode.JoystickButton1))
+            //{
+            //    generate = false;
+            //}
         }
     }
-
-    //public void HandleDeath()
-    //{
-    //    isDead = true;
-    //    //lifeCount--;
-    //    //OnLifeChanged?.Invoke(lives);
-
-    //    if (playerJudgement!=null&& playerJudgement.lives>0)
-    //    {
-    //        Debug.Log("プレイヤー被弾、残機あり → 復活予定");
-    //        StartCoroutine(RespawnAfterDelay());
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("プレイヤーがやられた！残機なし → ゲームオーバー");
-    //        OnPlayerDied?.Invoke();
-    //        GameOverManager.Instance?.StopAllEnemies();
-    //        gameObject.SetActive(false);
-    //    }
-    //}
 
     IEnumerator RespawnAfterDelay()
     {
@@ -237,7 +215,7 @@ public class PlayerController:MonoBehaviour
             spriteRenderer.enabled = !spriteRenderer.enabled;//非表示
             yield return new WaitForSeconds(0.1f);
             timer += 0.1f;
-            Debug.Log(timer);
+            //Debug.Log(timer);
         }
 
         //無敵終了
@@ -245,6 +223,7 @@ public class PlayerController:MonoBehaviour
         hitCollider.enabled = true;
         blinking = false;//点滅終了
         isDeadJudge = false;
+        generate = true;
         //isInvincible = false;
     }
 
