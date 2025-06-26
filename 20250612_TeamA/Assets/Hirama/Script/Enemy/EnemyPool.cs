@@ -28,7 +28,7 @@ public class EnemyPool : MonoBehaviour
     /// <summary>
     ///  “G‚ğƒv[ƒ‹‚©‚çæ‚èo‚·
     /// </summary>
-    public GameObject GetEnemy(Vector3 positio)
+    public GameObject GetEnemy(Vector3 position)
     {
         GameObject enemy;
 
@@ -42,7 +42,7 @@ public class EnemyPool : MonoBehaviour
             enemy = CreateNewEnemy();
         }
 
-        enemy.transform.position = positio;
+        enemy.transform.position = position;
         enemy.SetActive(true);
         return enemy;
     }

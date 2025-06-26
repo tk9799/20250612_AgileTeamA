@@ -13,6 +13,9 @@ public class Enemy : MonoBehaviour
 
     private EnemyPool pool;
 
+    //死亡通知イベント
+    public event System.Action<Enemy> OnEnemyDestroyed;
+
     public void SetPool(EnemyPool pool)
     {
         this.pool = pool;
@@ -44,11 +47,15 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         Debug.Log("[Enemy] 撃破 → プールに戻す");
+        //通知を飛ばす
+        OnEnemyDestroyed?.Invoke(this);
         pool.ReturnEnemy(gameObject);
     }
 
     public void ReturnToPoolFromOffScreen()
     {
+        //消滅でも通知
+        OnEnemyDestroyed?.Invoke(this);
         pool.ReturnEnemy(gameObject);
     }
 }

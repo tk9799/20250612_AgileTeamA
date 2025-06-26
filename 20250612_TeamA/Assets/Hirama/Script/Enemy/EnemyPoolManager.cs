@@ -11,6 +11,7 @@ public class EnemyPoolManager : MonoBehaviour
     {
         [Header("“G‚Ì¯•Ê–¼")]
         public string enemyType;
+
         [Header("‘Î‰‚·‚éEnemyPool")]
         public EnemyPool pool;
     }
@@ -19,6 +20,9 @@ public class EnemyPoolManager : MonoBehaviour
     public List<EnemyPoolEntry> enemyPools = new List<EnemyPoolEntry>();
 
     private Dictionary<string, EnemyPool> poolDictionary = new Dictionary<string, EnemyPool>();
+
+    //Œ»İƒAƒNƒeƒBƒu‚È“GƒŠƒXƒg
+    private List<Enemy> activeEnemies = new List<Enemy>();
 
     void Awake()
     {
@@ -39,12 +43,43 @@ public class EnemyPoolManager : MonoBehaviour
     {
         if (poolDictionary.ContainsKey(type))
         {
-            return poolDictionary[type].GetEnemy(position);
+            //return poolDictionary[type].GetEnemy(position);
+            GameObject enemyObj = poolDictionary[type].GetEnemy(position);
+
+            //Enemy‚ğ“o˜^
+            Enemy enemy = enemyObj.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                RegisterEnemy(enemy);
+            }
+
+            return enemyObj;
         }
         else
         {
             Debug.LogError($"Enemy type '{type}' ‚ª“o˜^‚³‚ê‚Ä‚¢‚Ü‚¹‚ñI");
             return null;
         }
+    }
+
+    //“G‚Ì“o˜^E‰ğœ
+    public void RegisterEnemy(Enemy enemy)
+    {
+        if (!activeEnemies.Contains(enemy))
+        {
+            activeEnemies.Add(enemy);
+            enemy.OnEnemyDestroyed += HandleEnemyDestroyed;
+        }
+    }
+
+    private void HandleEnemyDestroyed(Enemy enemy)
+    {
+        activeEnemies.Remove(enemy);
+        enemy.OnEnemyDestroyed -= HandleEnemyDestroyed;
+    }
+
+    public bool AreAllEnemiesGone()
+    {
+        return activeEnemies.Count == 0;
     }
 }

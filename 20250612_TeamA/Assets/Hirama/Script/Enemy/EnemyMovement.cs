@@ -11,8 +11,15 @@ public class EnemyMovement : MonoBehaviour
     [Header("移動速度")]
     public float moveSpeed = 2f;
 
+    private Enemy enemy;
+
     //一度でも画面内に入ったかどうかのフラグ
     private bool hasAppearedOnScreen = false;
+
+    private void Start()
+    {
+        enemy = GetComponent<Enemy>();
+    }
 
     private void Update()
     {
@@ -30,9 +37,9 @@ public class EnemyMovement : MonoBehaviour
     //カメラから見えなくなった時に呼ばれる処理
     private void OnBecameInvisible()
     {
-        if (hasAppearedOnScreen)
+        if (hasAppearedOnScreen && enemy != null)
         {
-            GetComponent<Enemy>().ReturnToPoolFromOffScreen();
+            enemy.ReturnToPoolFromOffScreen();
         }
     }
 }
