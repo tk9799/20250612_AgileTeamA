@@ -1,19 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using TMPro;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using TMPro;
-using UnityEngine.Pool;
 
 public class PlayerController:MonoBehaviour
 {
-    [Header("復活後の無敵時間")]
-    [SerializeField] private float invincibilityTime = 4f;
-    [Header("デフォルト無敵時間")]
-    [SerializeField] private float DefoltInvincibilityTime = 4f;
+    [Header("復活までの待ち時間")]
+    [SerializeField] public float respawnDelay = 2f;
+
+    [Header("復活時の無敵時間")]
+    [SerializeField] public float invincibleTime = 2f;
+
+    [Header("リスポーン位置")]
+    [SerializeField] public Vector2 respawnPosition = new Vector2(0, -4.45f);
     [SerializeField] Transform playerTransform;
+    [SerializeField] Transform judgementTransform;
     [Header("弾幕のプレハブ")]
     [SerializeField] GameObject barrage;//弾幕のプレハブ
     [SerializeField] BossHP bossHP;
@@ -32,7 +38,18 @@ public class PlayerController:MonoBehaviour
     private int score = 0;//スコア
     private int totalScore = 0;//合計スコア
     private Text lifeText;
-    
+
+    [SerializeField] PlayerJudgement playerJudgement;
+    public bool isDead = false;
+    public bool isDeath = false;
+
+    public event Action<int> OnLifeChanged;
+    public event Action OnPlayerDied;
+
+    private SpriteRenderer spriteRenderer;
+    private Collider2D hitCollider;
+    public bool blinking = false;
+
     //private PlayerControls controls;
 
     //private void Awake()
@@ -76,12 +93,14 @@ public class PlayerController:MonoBehaviour
     {
         generate = true;
         this.animator = GetComponent<Animator>();
-        
-        
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        hitCollider = GetComponent<Collider2D>();
     }
 
     void Update()
     {
+        //playerTransform.position = judgementTransform.position;
         
         if (Input.GetKey(KeyCode.JoystickButton1))
         {
@@ -157,7 +176,71 @@ public class PlayerController:MonoBehaviour
         //{
         //    this.scoreText.text = this.score.ToString();
         //}
-        
+        if (playerJudgement != null && playerJudgement.isDead)
+        {
+            StartCoroutine(RespawnAfterDelay());
+        }
+    }
+
+    //public void HandleDeath()
+    //{
+    //    isDead = true;
+    //    //lifeCount--;
+    //    //OnLifeChanged?.Invoke(lives);
+
+    //    if (playerJudgement!=null&& playerJudgement.lives>0)
+    //    {
+    //        Debug.Log("プレイヤー被弾、残機あり → 復活予定");
+    //        StartCoroutine(RespawnAfterDelay());
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("プレイヤーがやられた！残機なし → ゲームオーバー");
+    //        OnPlayerDied?.Invoke();
+    //        GameOverManager.Instance?.StopAllEnemies();
+    //        gameObject.SetActive(false);
+    //    }
+    //}
+
+    IEnumerator RespawnAfterDelay()
+    {
+        //一時的に無敵＆非表示
+        spriteRenderer.enabled = false;
+        hitCollider.enabled = false;
+
+        yield return new WaitForSeconds(respawnDelay);
+
+        //transform.position = respawnPosition;
+        playerTransform.position = respawnPosition;
+        spriteRenderer.enabled = true;
+        hitCollider.enabled = true;
+        isDead = false;
+
+        //無敵時間スタート
+        StartCoroutine(InvincibilityCoroutine(invincibleTime));
+    }
+
+    IEnumerator InvincibilityCoroutine(float duration)
+    {
+        //isInvincible = true;
+        float timer = 0f;
+        hitCollider.enabled = false;
+
+        while (timer < duration)
+        {
+            blinking = true;//点滅している
+            //点滅演出（0.1秒ごとに切り替え）
+            spriteRenderer.enabled = !spriteRenderer.enabled;
+            yield return new WaitForSeconds(0.1f);
+            timer += 0.1f;
+            Debug.Log(timer);
+        }
+
+        //無敵終了
+        spriteRenderer.enabled = true;
+        hitCollider.enabled = true;
+        blinking = false;//点滅終了
+        //isInvincible = false;
     }
 
     /// <summary>
