@@ -68,7 +68,7 @@ public class BalletPoolPlayer : MonoBehaviour
         //Queue‚ª‹ó‚È‚çnull
         if (balletQueue.Count <= 0)
         {
-            Debug.LogError("‰½‚à“o˜^‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ‚Å‚µ‚½");
+            //Debug.LogError("‰½‚à“o˜^‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ‚Å‚µ‚½");
             return null;
         }
 
@@ -91,7 +91,7 @@ public class BalletPoolPlayer : MonoBehaviour
         bullet.gameObject.SetActive(false);
         //Queue‚ÉŠi”[
         balletQueue.Enqueue(bullet);
-        Debug.Log("‰ñŽû");
+        //Debug.Log("‰ñŽû");
         ////“¯‚¶’e‚ªd•¡‚µ‚Ä–ß‚³‚ê‚È‚¢‚æ‚¤ƒ`ƒFƒbƒN
         //if (!playerBulletQueue.Contains(bullet))
         //{

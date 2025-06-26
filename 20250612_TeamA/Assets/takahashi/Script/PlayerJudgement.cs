@@ -48,8 +48,9 @@ public class PlayerJudgement : MonoBehaviour
             //敵の弾幕、本体に当たった時ライフを減らす
             Debug.Log("hit");
 
-            if (lives == 0)
+            if (lives <= 0)
             {
+                Debug.Log("シーン移行");
                 SceneManager.LoadScene("GameOverScene");
             }
             else
@@ -64,11 +65,12 @@ public class PlayerJudgement : MonoBehaviour
 
     void HandleDeath()
     {
+        Debug.Log(lives);
         isDead = true;
         //lifeCount--;
         OnLifeChanged?.Invoke(lives);
 
-        if (lives > 0)
+        if (lives >= 0)
         {
             Debug.Log("プレイヤー被弾、残機あり → 復活予定");
             StartCoroutine(RespawnAfterDelay());
@@ -79,6 +81,7 @@ public class PlayerJudgement : MonoBehaviour
             OnPlayerDied?.Invoke();
             GameOverManager.Instance?.StopAllEnemies();
             gameObject.SetActive(false);
+            //SceneManager.LoadScene("GameOverScene");
         }
     }
 
