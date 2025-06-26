@@ -54,7 +54,7 @@ public class BulletPoolManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"BulletBase {baseData.name} に対応するプールが見つかりません");
+            Debug.Log($"BulletBase {baseData.name} に対応するプールが見つかりません");
             return null;
         }
     }
