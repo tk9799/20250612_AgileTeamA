@@ -35,7 +35,7 @@ public class PlayerJudgement : MonoBehaviour
     public bool isInvincible = false;//–³“G”»’è
     private Text lifeText;
 
-    private bool a = false;
+    private bool oneProcess = false;
 
     private void Start()
     {
@@ -154,20 +154,24 @@ public class PlayerJudgement : MonoBehaviour
 
     public IEnumerator InvincibleTime()
     {
-        if(a)
+        if(oneProcess)
         {
             yield break;
         }
 
-        a = true;
+        oneProcess = true;
         Debug.Log("–³“GŠÔŠJn");
         hitCollider.enabled = false;
+        if (hitCollider == null)
+        {
+            Debug.LogWarning("hitCollider ‚ª null ‚Å‚·I");
+        }
         //spriteRenderer.color = Color.red;
         yield return new WaitForSeconds(1.0f);
-
+        
         Debug.Log("–³“GŠÔI—¹");
         hitCollider.enabled = true;
-        a = false;
+        oneProcess = false;
         //yield break;
     }
 }
