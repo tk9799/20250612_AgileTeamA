@@ -13,6 +13,9 @@ public class Enemy : MonoBehaviour
 
     private EnemyPool pool;
 
+    //一度でも画面内に入ったかどうかのフラグ
+    private bool hasAppearedOnScreen = false;
+
     //死亡通知イベント
     public event System.Action<Enemy> OnEnemyDestroyed;
 
@@ -38,6 +41,22 @@ public class Enemy : MonoBehaviour
         if (currentHP <= 0)
         {
             Die();
+        }
+    }
+
+    //カメラに映ったときに呼ばれる処理
+    private void OnBecameVisible()
+    {
+        hasAppearedOnScreen = true;
+    }
+
+    //カメラから見えなくなった時に呼ばれる処理
+    private void OnBecameInvisible()
+    {
+        if (hasAppearedOnScreen)
+        {
+            ReturnToPoolFromOffScreen();
+            hasAppearedOnScreen = false;
         }
     }
 

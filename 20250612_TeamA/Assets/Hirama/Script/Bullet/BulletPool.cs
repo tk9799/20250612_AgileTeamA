@@ -15,6 +15,8 @@ public class BulletPool : MonoBehaviour
     //実際のオブジェクトプール
     private Queue<Bullet> pool = new Queue<Bullet>();
 
+    private List<Bullet> activeBullets = new List<Bullet>();
+
     void Awake()
     {
         //初期数だけ弾を生成して非アクティブ化し、プールに入れる
@@ -29,8 +31,10 @@ public class BulletPool : MonoBehaviour
     {
         //プレハブから弾を生成し、非アクティブ状態でプールへ
         var obj = Instantiate(bulletPrefab);
+        var bullet = obj.GetComponent<Bullet>();
+        bullet.SetOwnerPool(this);
         obj.SetActive(false);
-        pool.Enqueue(obj.GetComponent<Bullet>());
+        pool.Enqueue(bullet);
     }
 
     // 使用可能な弾を取得
@@ -42,7 +46,9 @@ public class BulletPool : MonoBehaviour
             AddBulletToPool();
         }
         var bullet = pool.Dequeue();
+        bullet.SetOwnerPool(this);
         bullet.gameObject.SetActive(true);
+        activeBullets.Add(bullet);
         //Debug.Log($"[BulletPool] 発射: {bullet.name} を使用 (残り: {pool.Count})");
         return bullet;
     }
@@ -53,6 +59,12 @@ public class BulletPool : MonoBehaviour
         //弾を非アクティブ化してプールへ戻す
         bullet.gameObject.SetActive(false);
         pool.Enqueue(bullet);
+        activeBullets.Remove(bullet);
         //Debug.Log($"[BulletPool] 回収: {bullet.name} をプールに戻した (合計: {pool.Count})");
+    }
+
+    public List<Bullet> GetAllActiveBullets()
+    {
+        return new List<Bullet>(activeBullets);
     }
 }

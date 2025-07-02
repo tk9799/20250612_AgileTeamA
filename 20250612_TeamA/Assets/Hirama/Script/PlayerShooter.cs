@@ -37,7 +37,5 @@ public class PlayerShooter : MonoBehaviour
         {
             rb.linearVelocity = Vector2.up * bulletSpeed;
         }
-
-        // オプション: 発射音、アニメーションなど
     }
 }
