@@ -20,16 +20,22 @@ public class PlayerJudgement : MonoBehaviour
     [SerializeField] private Transform myTransform;
     [SerializeField] private Transform playerTransfom;
     [SerializeField] public PlayerController playerController;
+    [SerializeField] private GameObject guradObject;
+    [SerializeField] public float invincible = 1.0f;//ジャストガード時の無敵時間
 
     public event Action<int> OnLifeChanged;
     public event Action OnPlayerDied;
 
     private SpriteRenderer spriteRenderer;
-    private Collider2D hitCollider;
+    [SerializeField] private BoxCollider2D hitCollider;
 
     private Vector2 myPosition;
     public bool isDead = false;
+    private bool isInput = false;
+    public bool isInvincible = false;//無敵判定
     private Text lifeText;
+
+    private bool a = false;
 
     private void Start()
     {
@@ -37,7 +43,16 @@ public class PlayerJudgement : MonoBehaviour
         lifeText.text = "" + lives;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
-        hitCollider = GetComponent<Collider2D>();
+        //hitCollider = GetComponent<BoxCollider2D>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Joystick1Button5))
+        {
+            isInput = true;
+            StartCoroutine(GeneratorGuard());
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -122,5 +137,37 @@ public class PlayerJudgement : MonoBehaviour
         spriteRenderer.enabled = true;
         hitCollider.enabled = true;
         //isInvincible = false;
+    }
+
+    private IEnumerator GeneratorGuard()
+    {
+        Debug.Log("ガード");
+        //一定時間シールドを出現する
+        guradObject.SetActive(true);
+        yield return new WaitForSeconds(1.0f);
+        Debug.Log("ガード非表示");
+
+        //シールドを消す
+        isInput = false;
+        guradObject.SetActive(false);
+    }
+
+    public IEnumerator InvincibleTime()
+    {
+        if(a)
+        {
+            yield break;
+        }
+
+        a = true;
+        Debug.Log("無敵時間開始");
+        hitCollider.enabled = false;
+        //spriteRenderer.color = Color.red;
+        yield return new WaitForSeconds(1.0f);
+
+        Debug.Log("無敵時間終了");
+        hitCollider.enabled = true;
+        a = false;
+        //yield break;
     }
 }
