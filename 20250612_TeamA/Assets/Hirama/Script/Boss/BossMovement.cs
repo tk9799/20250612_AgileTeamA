@@ -4,7 +4,7 @@ using UnityEngine;
 public class BossMovement : MonoBehaviour
 {
     [Header("移動ポイント")]
-    public List<Transform> movePoints;
+    public List<Vector2> movePositions;
 
     [Header("移動速度")]
     public float moveSpeed = 2f;
@@ -18,7 +18,10 @@ public class BossMovement : MonoBehaviour
 
     void Update()
     {
-        if (movePoints == null || movePoints.Count == 0) return;
+        if (movePositions == null || movePositions.Count == 0)
+        {
+            return;
+        }
 
         if (isWaiting)
         {
@@ -26,12 +29,12 @@ public class BossMovement : MonoBehaviour
             if (waitTimer >= waitTime)
             {
                 isWaiting = false;
-                currentIndex = (currentIndex + 1) % movePoints.Count;
+                currentIndex = (currentIndex + 1) % movePositions.Count;
             }
         }
         else
         {
-            Vector2 target = movePoints[currentIndex].position;
+            Vector2 target = movePositions[currentIndex];
             transform.position = Vector2.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
 
             if (Vector2.Distance(transform.position, target) < 0.01f)

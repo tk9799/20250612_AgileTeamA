@@ -12,7 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0014563578d783440b2b551d2ff4bf0d, type: 3}
   m_Name: FanBarrage
   m_EditorClassIdentifier: 
-  sprite: {fileID: 8668244255012727895, guid: 3a2122ce4b6c0c64298e0ea086d939fe, type: 3}
+  color: {r: 1, g: 1, b: 1, a: 1}
+  scale: {x: 0.4, y: 0.4}
+  damage: 1
   speed: 4
   lifetime: 10
   hitboxRadius: 0.1
+  rotationSpeed: 0
+  acceleration: 0
+  homing: 0
+  homingStrength: 0
+  piercing: 0
+  hitEffect: {fileID: 0}
+  deathEffect: {fileID: 0}
+  shotSE: {fileID: 0}
+  hitSE: {fileID: 0}
+  bulletId: 
+  type: 0

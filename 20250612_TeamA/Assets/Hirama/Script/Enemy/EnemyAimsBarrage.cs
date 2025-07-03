@@ -35,10 +35,13 @@ public class EnemyAimsBarrage : MonoBehaviour
     public float delayBeforeOneShot = 0f;
 
     private Transform player;
+    private Coroutine fireCoroutine;
     private bool hasFiredOnce = false;
 
-    void Start()
+    void OnEnable()
     {
+        hasFiredOnce = false;
+
         var playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
@@ -47,11 +50,11 @@ public class EnemyAimsBarrage : MonoBehaviour
 
         if (fireMode == FireMode.Loop)
         {
-            StartCoroutine(FireLoopCoroutine());
+            fireCoroutine = StartCoroutine(FireLoopCoroutine());
         }
         else if (fireMode == FireMode.OneShot)
         {
-            StartCoroutine(FireSetOnceCoroutine());
+            fireCoroutine = StartCoroutine(FireSetOnceCoroutine());
         }
     }
 
@@ -104,5 +107,14 @@ public class EnemyAimsBarrage : MonoBehaviour
 
         Vector2 dir = (player.position - transform.position).normalized;
         BulletPoolManager.Instance.FireBullet(bulletbase, transform.position, dir);
+    }
+
+    void OnDisable()
+    {
+        if (fireCoroutine != null)
+        {
+            StopCoroutine(fireCoroutine);
+            fireCoroutine = null;
+        }
     }
 }

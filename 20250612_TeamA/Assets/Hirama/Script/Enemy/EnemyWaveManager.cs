@@ -11,16 +11,16 @@ public class EnemyWaveManager : MonoBehaviour
     public class EnemySpawnInfo
     {
         [Header("出現させる敵の種類(EnemyPoolManagerの識別名)")]
-        public string enemyType;
+        public string enemyType = "";
 
         [Header("出現位置")]
-        public Vector3 spawnPosition;
-
-        [Header("この敵を出すまでの待機時間(秒)")]
-        public float spawnDelay = 0f;
+        public Vector3 spawnPosition = new Vector3(0f, 0f);
 
         [Header("連続出現数（1以上）")]
         public int spawnCount = 1;
+
+        [Header("この敵を出すまでの待機時間(秒)")]
+        public float spawnDelay = 0f;
 
         [Header("連続出現時の間隔（秒）")]
         public float spawnInterval = 0.2f;
@@ -45,8 +45,14 @@ public class EnemyWaveManager : MonoBehaviour
     [Header("ウェーブ定義リスト")]
     public List<EnemyWave> waves = new List<EnemyWave>();
 
+    [Header("ボスプレハブ")]
+    public GameObject bossPrefab;
+
+    [Header("ボスの出現位置")]
+    public Vector3 bossSpawnPosition = new Vector3(7f, 10f, 0f);
+
     [Header("敵の出現に使うEnemyPoolManager")]
-    public EnemyPoolManager poolManager;
+    public EnemyPoolManager enemyPoolManager;
 
     //現在出現中の敵リスト（倒されたらリストから外す）
     private List<Enemy> currentWaveEnemies = new List<Enemy>();
@@ -82,7 +88,11 @@ public class EnemyWaveManager : MonoBehaviour
 
                     Vector3 actualSpawnPos = spawnInfo.spawnPosition + offset;
 
-                    GameObject enemyObj = poolManager.GetEnemy(spawnInfo.enemyType, actualSpawnPos);
+                    //目標位置の横ずれ
+                    Vector2 centerPosOffset = new Vector2(spawnInfo.spawnOffsetPerUnit.x * j,
+                        spawnInfo.spawnOffsetPerUnit.y * j);
+
+                    GameObject enemyObj = enemyPoolManager.GetEnemy(spawnInfo.enemyType, actualSpawnPos);
                     if (enemyObj == null)
                     {
                         Debug.LogError($"[WaveManager] 敵 {spawnInfo.enemyType} の出現に失敗");
@@ -99,7 +109,7 @@ public class EnemyWaveManager : MonoBehaviour
                         var movement = enemy.GetComponent<EnemyMovement>();
                         if (movement != null && spawnInfo.movementSettings != null)
                         {
-                            movement.Initialize(spawnInfo.movementSettings);
+                            movement.Initialize(spawnInfo.movementSettings, actualSpawnPos, centerPosOffset);
                         }
                     }
 
@@ -116,7 +126,34 @@ public class EnemyWaveManager : MonoBehaviour
         }
 
         Debug.Log("[WaveManager] 全Wave終了 → 次の処理へ");
-        //ボス出現などの次処理はここに追加
+
+        if (bossPrefab != null)
+        {
+            GameObject bossObj = Instantiate(bossPrefab, bossSpawnPosition, Quaternion.identity);
+            Transform player = GameObject.FindWithTag("Player")?.transform;
+            BulletPoolManager bulletPool = FindAnyObjectByType<BulletPoolManager>();
+
+            // BossFanBarrage
+            var fan = bossObj.GetComponentInChildren<BossFanBarrage>();
+            if (fan != null)
+            {
+                fan.target = player;
+                fan.poolManager = bulletPool;
+            }
+
+            // BossOmnidirectionalBarrage
+            var omni = bossObj.GetComponentInChildren<BossOmnidirectionalBarrage>();
+            if (omni != null)
+            {
+                omni.poolManager = bulletPool;
+            }
+
+            Debug.Log("[WaveManager] ボスを出現させました");
+        }
+        else
+        {
+            Debug.Log("[WaveManager] ボスプレハブが未設定です");
+        }
     }
 
     void HandleEnemyDestroyed(Enemy enemy)

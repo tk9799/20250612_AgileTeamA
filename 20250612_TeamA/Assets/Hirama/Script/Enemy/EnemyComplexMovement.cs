@@ -3,10 +3,10 @@ using UnityEngine;
 public class EnemyComplexMovement : MonoBehaviour
 {
     [Header("出現位置")]
-    public Vector2 spawnPosition = new Vector2(-10f, 4f);
+    public Vector2 spawnPosition = new Vector2(0f, 6f);
 
     [Header("中央付近の目標位置")]
-    public Vector2 centerPosition = new Vector2(0f, 0f);
+    public Vector2 centerPosition = new Vector2(0f, 4f);
 
     [Header("移動速度")]
     public float moveSpeed = 3f;
@@ -36,17 +36,21 @@ public class EnemyComplexMovement : MonoBehaviour
     private Vector3 baseStopPosition;
     private float swayTimer = 0f;
 
-    public void Initialize(ComplexMovementSettings settings)
+    public void Initialize(ComplexMovementSettings settings, Vector3 worldSpawnPos, Vector2 centerPosOffset)
     {
-        spawnPosition = settings.spawnPosition;
-        centerPosition = settings.centerPosition;
+        // EnemyWaveManager 側から渡された位置に設定
+        transform.position = worldSpawnPos;
+
+        centerPosition = settings.centerPosition + centerPosOffset;
+
+        // ScriptableObject の内容を使用
         finalMoveDirection = settings.finalMoveDirection;
         stopDuration = settings.stopDuration;
         stopSwayAmplitude = settings.stopSwayAmplitude;
         stopSwayFrequency = settings.stopSwayFrequency;
         moveSpeed = settings.moveSpeed;
 
-        transform.position = new Vector3(spawnPosition.x, spawnPosition.y, 0f);
+        // 状態初期化
         currentState = State.MoveToCenter;
         stopTimer = 0f;
         swayTimer = 0f;

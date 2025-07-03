@@ -25,7 +25,7 @@ public class EnemyMovement : MonoBehaviour
     /// <summary>
     /// 移動パターンの初期化（Waveごとに呼ばれる）
     /// </summary>
-    public void Initialize(EnemyMovementSettings settings)
+    public void Initialize(EnemyMovementSettings settings, Vector3 worldSpawnPos, Vector2 centerPosOffset)
     {
         DisableAll(); // 前の設定を無効にする
 
@@ -33,7 +33,7 @@ public class EnemyMovement : MonoBehaviour
         if (settings is ComplexMovementSettings c && complex != null)
         {
             complex.enabled = true;
-            complex.Initialize(c);
+            complex.Initialize(c, worldSpawnPos, centerPosOffset);
         }
         else if (settings is CurveMovementSettings cu && curve != null)
         {
