@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0014563578d783440b2b551d2ff4bf0d, type: 3}
-  m_Name: BulletBase
+  m_Name: EnemyBarrage
   m_EditorClassIdentifier: 
   color: {r: 1, g: 1, b: 1, a: 1}
   scale: {x: 0.3, y: 0.3}

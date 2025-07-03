@@ -21,14 +21,37 @@ public class EnemyOmnidirectionalBarrage : MonoBehaviour
     [Header("セット間の待機時間（秒）")]
     public float intervalBetweenSets = 3f;
 
-    [Header("開始時に自動で発射する")]
-    public bool autoStart = true;
+    private Coroutine fireCoroutine;
 
-    void Start()
+    void OnEnable()
     {
-        if (autoStart)
+        // 出現したら自動で撃ち始める
+        StartFiring();
+    }
+
+    void OnDisable()
+    {
+        StopFiring();
+    }
+
+    /// <summary>
+    /// 弾幕発射開始
+    /// </summary>
+    private void StartFiring()
+    {
+        if (fireCoroutine == null)
+            fireCoroutine = StartCoroutine(FireLoop());
+    }
+
+    /// <summary>
+    /// 弾幕発射停止
+    /// </summary>
+    private void StopFiring()
+    {
+        if (fireCoroutine != null)
         {
-            StartCoroutine(FireLoop());
+            StopCoroutine(fireCoroutine);
+            fireCoroutine = null;
         }
     }
 
@@ -38,7 +61,8 @@ public class EnemyOmnidirectionalBarrage : MonoBehaviour
         {
             for (int shot = 0; shot < shotsPerSet; shot++)
             {
-                FireCircle(); // 全方位1回分
+                //全方位
+                FireCircle();
                 if (shot < shotsPerSet - 1)
                     yield return new WaitForSeconds(intervalBetweenShots);
             }

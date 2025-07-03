@@ -732,6 +732,8 @@ MonoBehaviour:
       spawnOffsetPerUnit: {x: 0, y: 0}
       movementSettings: {fileID: 11400000, guid: af2e844b66116404aab66b83f07f885b, type: 2}
     delayBeforeStart: 0
+  bossPrefab: {fileID: 219325882313491230, guid: d44ce0cbe8bdd234aa3c8a1d3a98b14d, type: 3}
+  bossSpawnPosition: {x: 0, y: 10, z: 0}
   poolManager: {fileID: 391333365}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

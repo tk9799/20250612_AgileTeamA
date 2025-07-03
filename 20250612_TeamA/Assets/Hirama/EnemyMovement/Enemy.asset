@@ -9,11 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f312fecb58e80146be0367243d37652, type: 3}
+  m_Script: {fileID: 11500000, guid: da0e78fe07e377f43aefdfcabfd18b78, type: 3}
   m_Name: Enemy
   m_EditorClassIdentifier: 
-  moveSpeed: 3
-  startPoint: {x: 5, y: 9, z: 0}
-  midPoint: {x: 0, y: -5, z: 0}
-  endPoint: {x: -5, y: 9, z: 0}
-  duration: 6
+  moveSpeed: 2
+  spawnPosition: {x: 0, y: 0}
+  centerPosition: {x: -2.5, y: 3}
+  finalMoveDirection: {x: 0, y: 1}
+  stopDuration: 5
+  stopSwayAmplitude: 0.1
+  stopSwayFrequency: 3
