@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Hirama/Scene/GameTitle.unity
     guid: 1f9d280f664423641a1d24de5913522b
   - enabled: 0

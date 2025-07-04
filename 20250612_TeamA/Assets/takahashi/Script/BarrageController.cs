@@ -77,7 +77,7 @@ public class BarrageController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
 
-        if (other.gameObject.CompareTag("Boss"))
+        if (other.gameObject.CompareTag("Enemy"))
         {
             IDamageable target = other.GetComponent<IDamageable>();
             if(target != null)
