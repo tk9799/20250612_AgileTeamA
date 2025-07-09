@@ -207,7 +207,7 @@ public class PlayerJudgement : MonoBehaviour
         hitCollider.enabled = false;
         isInvincible = true;
         spriteRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.05f);
 
         Debug.Log("–³“GŠÔI—¹");
         spriteRenderer.color = Color.white;
