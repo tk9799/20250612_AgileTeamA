@@ -26,6 +26,10 @@ public class GuardController2 : MonoBehaviour
     [SerializeField] public SpriteRenderer spriteRenderer;//ƒV[ƒ‹ƒh‚Ì‰æ‘œ
     [SerializeField] public CircleCollider2D circeCollider;
     public bool judgementEnd = false;
+
+    private float justRadius = 1f;
+    private float justRange = 0.45f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -37,81 +41,119 @@ public class GuardController2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //float notePos=transform.position;
-        float distances = 0f;
-
-        Vector2 enemyBarragePosition = enemyBarrage.position;//“G’e–‹‚Ìƒgƒ‰ƒ“ƒXƒtƒH[ƒ€ƒ|ƒWƒVƒ‡ƒ“
-        Vector2 enemyBarragePosition2 = enemyBarrage2.position;
-        Vector2 enemyBarragePosition3 = enemyBarrage3.position;
-        Vector2 enemyBarragePosition4 = enemyBarrage4.position;
-        Vector2 enemyBarragePosition5 = enemyBarrage5.position;
-
-        Vector2 guardPosition = justGuardTransform.position;//ƒK[ƒh‚Ì’†SÀ•W‚ğæ“¾
-
-        Vector2 distance = guardPosition - enemyBarragePosition;//’e–‹‚©‚çƒvƒŒƒCƒ„[‚Ö‚Ì‹——£
-        Vector2 distance2 = guardPosition - enemyBarragePosition2;
-        Vector2 distance3 = guardPosition - enemyBarragePosition3;
-        Vector2 distance4 = guardPosition - enemyBarragePosition4;
-        Vector2 distance5 = guardPosition - enemyBarragePosition5;
-
-        float distanceVector = distance.sqrMagnitude;//ƒxƒNƒgƒ‹‚Ì‹——£‚Ì2æ
-        float distanceVector2 = distance.sqrMagnitude;//ƒxƒNƒgƒ‹‚Ì‹——£‚Ì2æ
-        float distanceVector3 = distance.sqrMagnitude;//ƒxƒNƒgƒ‹‚Ì‹——£‚Ì2æ
-        float distanceVector4 = distance.sqrMagnitude;//ƒxƒNƒgƒ‹‚Ì‹——£‚Ì2æ
-        float distanceVector5 = distance.sqrMagnitude;//ƒxƒNƒgƒ‹‚Ì‹——£‚Ì2æ
-
-        float sumRadius = enemyBarrageRadius + justGuardDistanceRadius;//”¼Œa‚Ì˜a
-        float sumRadius2 = enemyBarrage2Radius + justGuardDistanceRadius;//”¼Œa‚Ì˜a
-        float sumRadius3 = enemyBarrage3Radius + justGuardDistanceRadius;//”¼Œa‚Ì˜a
-        float sumRadius4 = enemyBarrage4Radius + justGuardDistanceRadius;//”¼Œa‚Ì˜a
-        float sumRadius5 = enemyBarrage5Radius + justGuardDistanceRadius;//”¼Œa‚Ì˜a
-
-        float sprSumRadius = sumRadius * sumRadius;//”¼Œa‚Ì˜a‚Ì2æ
-        float sprSumRadius2 = sumRadius2 * sumRadius2;//”¼Œa‚Ì˜a‚Ì2æ
-        float sprSumRadius3 = sumRadius3 * sumRadius3;//”¼Œa‚Ì˜a‚Ì2æ
-        float sprSumRadius4 = sumRadius4 * sumRadius4;//”¼Œa‚Ì˜a‚Ì2æ
-        float sprSumRadius5 = sumRadius5 * sumRadius5;//”¼Œa‚Ì˜a‚Ì2æ
-
-        if (distanceVector <= sprSumRadius)//‹——£‚Ì2æ‚ª”¼Œa‚Ì˜a‚Ì2æˆÈ‰º‚È‚ç
+        float notePos=Vector2.Distance(justGuardTransform.position,enemyBarrage.position);
+        float notePos2=Vector2.Distance(justGuardTransform.position,enemyBarrage2.position);
+        float notePos3=Vector2.Distance(justGuardTransform.position,enemyBarrage3.position);
+        float notePos4=Vector2.Distance(justGuardTransform.position,enemyBarrage4.position);
+        float notePos5=Vector2.Distance(justGuardTransform.position,enemyBarrage5.position);
+        float distances = Mathf.Abs(notePos-justRadius);//”»’èƒ‰ƒCƒ“‚©‚ç‚Ì‹——£
+        float distances2 = Mathf.Abs(notePos2-justRadius);//”»’èƒ‰ƒCƒ“‚©‚ç‚Ì‹——£
+        float distances3 = Mathf.Abs(notePos3-justRadius);//”»’èƒ‰ƒCƒ“‚©‚ç‚Ì‹——£
+        float distances4 = Mathf.Abs(notePos4-justRadius);//”»’èƒ‰ƒCƒ“‚©‚ç‚Ì‹——£
+        float distances5 = Mathf.Abs(notePos5-justRadius);//”»’èƒ‰ƒCƒ“‚©‚ç‚Ì‹——£
+        if (distances <= justRange)
         {
-            Debug.Log("hit");
-            gameObject.SetActive(false);
-            StartCoroutine(playerJudgement.InvincibleTime());
-            judgementEnd = true;
-            Debug.Log("InvincibleTime" + judgementEnd);
+            Debug.Log(distances);
+            Debug.Log("justGuard");
+            enemyBarrageObject.SetActive(false);
         }
-        else if (distanceVector2 <= sprSumRadius2)
+        else if (distances2 <= justRange)
         {
-            Debug.Log("hit");
-            gameObject.SetActive(false);
-            StartCoroutine(playerJudgement.InvincibleTime());
-            judgementEnd = true;
-            Debug.Log("InvincibleTime" + judgementEnd);
+            Debug.Log(distances2);
+            Debug.Log("justGuard");
+            enemyBarrageObject2.SetActive(false);
         }
-        else if (distanceVector3 <= sprSumRadius3)
+        else if (distances3 <= justRange)
         {
-            Debug.Log("hit");
-            gameObject.SetActive(false);
-            StartCoroutine(playerJudgement.InvincibleTime());
-            judgementEnd = true;
-            Debug.Log("InvincibleTime" + judgementEnd);
+            Debug.Log(distances3);
+            Debug.Log("justGuard");
+            enemyBarrageObject3.SetActive(false);
         }
-        else if (distanceVector4 <= sprSumRadius4)
+        else if (distances4 <= justRange)
         {
-            Debug.Log("hit");
-            gameObject.SetActive(false);
-            StartCoroutine(playerJudgement.InvincibleTime());
-            judgementEnd = true;
-            Debug.Log("InvincibleTime" + judgementEnd);
+            Debug.Log(distances4);
+            Debug.Log("justGuard");
+            enemyBarrageObject4.SetActive(false);
         }
-        else if (distanceVector5 <= sprSumRadius5)
+        else if (distances5 <= justRange)
         {
-            Debug.Log("hit");
-            gameObject.SetActive(false);
-            StartCoroutine(playerJudgement.InvincibleTime());
-            judgementEnd = true;
-            Debug.Log("InvincibleTime" + judgementEnd);
+            Debug.Log(distances5);
+            Debug.Log("justGuard");
+            enemyBarrageObject5.SetActive(false);
         }
+
+        //Vector2 enemyBarragePosition = enemyBarrage.position;//“G’e–‹‚Ìƒgƒ‰ƒ“ƒXƒtƒH[ƒ€ƒ|ƒWƒVƒ‡ƒ“
+        //Vector2 enemyBarragePosition2 = enemyBarrage2.position;
+        //Vector2 enemyBarragePosition3 = enemyBarrage3.position;
+        //Vector2 enemyBarragePosition4 = enemyBarrage4.position;
+        //Vector2 enemyBarragePosition5 = enemyBarrage5.position;
+
+        //Vector2 guardPosition = justGuardTransform.position;//ƒK[ƒh‚Ì’†SÀ•W‚ğæ“¾
+
+        //Vector2 distance = guardPosition - enemyBarragePosition;//’e–‹‚©‚çƒvƒŒƒCƒ„[‚Ö‚Ì‹——£
+        //Vector2 distance2 = guardPosition - enemyBarragePosition2;
+        //Vector2 distance3 = guardPosition - enemyBarragePosition3;
+        //Vector2 distance4 = guardPosition - enemyBarragePosition4;
+        //Vector2 distance5 = guardPosition - enemyBarragePosition5;
+
+        //float distanceVector = distance.sqrMagnitude;//ƒxƒNƒgƒ‹‚Ì‹——£‚Ì2æ
+        //float distanceVector2 = distance.sqrMagnitude;//ƒxƒNƒgƒ‹‚Ì‹——£‚Ì2æ
+        //float distanceVector3 = distance.sqrMagnitude;//ƒxƒNƒgƒ‹‚Ì‹——£‚Ì2æ
+        //float distanceVector4 = distance.sqrMagnitude;//ƒxƒNƒgƒ‹‚Ì‹——£‚Ì2æ
+        //float distanceVector5 = distance.sqrMagnitude;//ƒxƒNƒgƒ‹‚Ì‹——£‚Ì2æ
+
+        //float sumRadius = enemyBarrageRadius + justGuardDistanceRadius;//”¼Œa‚Ì˜a
+        //float sumRadius2 = enemyBarrage2Radius + justGuardDistanceRadius;//”¼Œa‚Ì˜a
+        //float sumRadius3 = enemyBarrage3Radius + justGuardDistanceRadius;//”¼Œa‚Ì˜a
+        //float sumRadius4 = enemyBarrage4Radius + justGuardDistanceRadius;//”¼Œa‚Ì˜a
+        //float sumRadius5 = enemyBarrage5Radius + justGuardDistanceRadius;//”¼Œa‚Ì˜a
+
+        //float sprSumRadius = sumRadius * sumRadius;//”¼Œa‚Ì˜a‚Ì2æ
+        //float sprSumRadius2 = sumRadius2 * sumRadius2;//”¼Œa‚Ì˜a‚Ì2æ
+        //float sprSumRadius3 = sumRadius3 * sumRadius3;//”¼Œa‚Ì˜a‚Ì2æ
+        //float sprSumRadius4 = sumRadius4 * sumRadius4;//”¼Œa‚Ì˜a‚Ì2æ
+        //float sprSumRadius5 = sumRadius5 * sumRadius5;//”¼Œa‚Ì˜a‚Ì2æ
+
+        //if (distanceVector <= sprSumRadius)//‹——£‚Ì2æ‚ª”¼Œa‚Ì˜a‚Ì2æˆÈ‰º‚È‚ç
+        //{
+        //    Debug.Log("hit");
+        //    gameObject.SetActive(false);
+        //    StartCoroutine(playerJudgement.InvincibleTime());
+        //    judgementEnd = true;
+        //    Debug.Log("InvincibleTime" + judgementEnd);
+        //}
+        //else if (distanceVector2 <= sprSumRadius2)
+        //{
+        //    Debug.Log("hit");
+        //    gameObject.SetActive(false);
+        //    StartCoroutine(playerJudgement.InvincibleTime());
+        //    judgementEnd = true;
+        //    Debug.Log("InvincibleTime" + judgementEnd);
+        //}
+        //else if (distanceVector3 <= sprSumRadius3)
+        //{
+        //    Debug.Log("hit");
+        //    gameObject.SetActive(false);
+        //    StartCoroutine(playerJudgement.InvincibleTime());
+        //    judgementEnd = true;
+        //    Debug.Log("InvincibleTime" + judgementEnd);
+        //}
+        //else if (distanceVector4 <= sprSumRadius4)
+        //{
+        //    Debug.Log("hit");
+        //    gameObject.SetActive(false);
+        //    StartCoroutine(playerJudgement.InvincibleTime());
+        //    judgementEnd = true;
+        //    Debug.Log("InvincibleTime" + judgementEnd);
+        //}
+        //else if (distanceVector5 <= sprSumRadius5)
+        //{
+        //    Debug.Log("hit");
+        //    gameObject.SetActive(false);
+        //    StartCoroutine(playerJudgement.InvincibleTime());
+        //    judgementEnd = true;
+        //    Debug.Log("InvincibleTime" + judgementEnd);
+        //}
 
 
     }
