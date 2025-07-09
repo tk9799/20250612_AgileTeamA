@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// 雑魚敵の基本クラス
 /// </summary>
-public class Enemy : MonoBehaviour,IDamageable
+public class EnemyHP : MonoBehaviour,IDamageable
 {
     [Header("最大HP")]
     public int maxHP = 10;
@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour,IDamageable
     private bool hasAppearedOnScreen = false;
 
     //死亡通知イベント
-    public event System.Action<Enemy> OnEnemyDestroyed;
+    public event System.Action<EnemyHP> OnEnemyDestroyed;
 
     public void SetPool(EnemyPool pool)
     {

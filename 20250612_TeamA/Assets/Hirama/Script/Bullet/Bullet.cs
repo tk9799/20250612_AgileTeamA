@@ -120,7 +120,7 @@ public class Bullet : MonoBehaviour
         if (sr != null)
         {
             //弾の見た目となるスプライト画像
-            //sr.sprite = baseData.sprite;
+            sr.sprite = baseData.sprite;
             sr.color = baseData.color;
             transform.localScale = baseData.scale;
         }

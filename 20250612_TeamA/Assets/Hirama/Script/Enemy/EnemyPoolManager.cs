@@ -22,7 +22,7 @@ public class EnemyPoolManager : MonoBehaviour
     private Dictionary<string, EnemyPool> poolDictionary = new Dictionary<string, EnemyPool>();
 
     //Œ»İƒAƒNƒeƒBƒu‚È“GƒŠƒXƒg
-    private List<Enemy> activeEnemies = new List<Enemy>();
+    private List<EnemyHP> activeEnemies = new List<EnemyHP>();
 
     void Awake()
     {
@@ -47,7 +47,7 @@ public class EnemyPoolManager : MonoBehaviour
             GameObject enemyObj = poolDictionary[type].GetEnemy(position);
 
             //Enemy‚ğ“o˜^
-            Enemy enemy = enemyObj.GetComponent<Enemy>();
+            EnemyHP enemy = enemyObj.GetComponent<EnemyHP>();
             if (enemy != null)
             {
                 RegisterEnemy(enemy);
@@ -63,7 +63,7 @@ public class EnemyPoolManager : MonoBehaviour
     }
 
     //“G‚Ì“o˜^E‰ğœ
-    public void RegisterEnemy(Enemy enemy)
+    public void RegisterEnemy(EnemyHP enemy)
     {
         if (!activeEnemies.Contains(enemy))
         {
@@ -72,7 +72,7 @@ public class EnemyPoolManager : MonoBehaviour
         }
     }
 
-    private void HandleEnemyDestroyed(Enemy enemy)
+    private void HandleEnemyDestroyed(EnemyHP enemy)
     {
         activeEnemies.Remove(enemy);
         enemy.OnEnemyDestroyed -= HandleEnemyDestroyed;

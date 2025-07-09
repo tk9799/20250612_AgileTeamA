@@ -6,17 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Hirama/Scene/GameTitle.unity
+    path: Assets/Hirama/Scene/GameTitleScene.unity
     guid: 1f9d280f664423641a1d24de5913522b
-  - enabled: 0
-    path: Assets/Hirama/Scene/Game_Test.unity
-    guid: 029c4344e2c1a5c4798fd77497d943c6
-  - enabled: 0
-    path: Assets/Hirama/Scene/Enemy_Test.unity
-    guid: ed1ddf045ae152741b05a5c4248d02e8
+  - enabled: 1
+    path: Assets/Hirama/Scene/GamePlayScene.unity
+    guid: ed09f30da327f794bb0bedac6a9fd745
   - enabled: 1
     path: Assets/takahashi/Scenes/BattleScene.unity
     guid: 17531faa058b76242ae99cb2c6035c90
+  - enabled: 1
+    path: Assets/Hirama/Scene/GameClearScene.unity
+    guid: 747f660ac612b4a419ad159dbd791904
   - enabled: 1
     path: Assets/takahashi/Scenes/GameOverScene.unity
     guid: 7b48765353f35dc46a39db820a199798

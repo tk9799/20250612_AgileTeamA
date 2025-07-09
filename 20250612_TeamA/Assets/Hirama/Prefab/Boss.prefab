@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 200
+  gameClearSceneName: GameClearScene
 --- !u!114 &5755056308947164369
 MonoBehaviour:
   m_ObjectHideFlags: 0

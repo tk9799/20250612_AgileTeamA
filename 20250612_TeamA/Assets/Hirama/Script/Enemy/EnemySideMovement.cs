@@ -14,7 +14,7 @@ public class EnemySideMovement : MonoBehaviour
     [Header("進行方向(trueなら右→左、falseなら左→右)")]
     public bool fromRightToLeft = true;
 
-    private Enemy enemy;
+    private EnemyHP enemy;
 
     private bool isMoving = false;
 
@@ -38,7 +38,7 @@ public class EnemySideMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        enemy = GetComponent<Enemy>();
+        enemy = GetComponent<EnemyHP>();
         isMoving = false;
     }
 
