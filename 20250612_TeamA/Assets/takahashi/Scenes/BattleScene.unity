@@ -1802,7 +1802,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1036620773
 Transform:
   m_ObjectHideFlags: 0
@@ -3389,7 +3389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c31ccd77655b43f42a62ce48b036a937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lives: 300
+  lives: 3
   respawnDelay: 1
   invincibleTime: 1
   respawnPosition: {x: 0, y: -4.45}
