@@ -55,7 +55,7 @@ public class EnemyWaveManager : MonoBehaviour
     public EnemyPoolManager enemyPoolManager;
 
     //現在出現中の敵リスト（倒されたらリストから外す）
-    private List<Enemy> currentWaveEnemies = new List<Enemy>();
+    private List<EnemyHP> currentWaveEnemies = new List<EnemyHP>();
 
     void Start()
     {
@@ -99,7 +99,7 @@ public class EnemyWaveManager : MonoBehaviour
                         continue;
                     }
 
-                    Enemy enemy = enemyObj.GetComponent<Enemy>();
+                    EnemyHP enemy = enemyObj.GetComponent<EnemyHP>();
                     if (enemy != null)
                     {
                         currentWaveEnemies.Add(enemy);
@@ -156,7 +156,7 @@ public class EnemyWaveManager : MonoBehaviour
         }
     }
 
-    void HandleEnemyDestroyed(Enemy enemy)
+    void HandleEnemyDestroyed(EnemyHP enemy)
     {
         if (currentWaveEnemies.Contains(enemy))
         {

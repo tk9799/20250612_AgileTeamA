@@ -65,7 +65,7 @@ public class EnemyPool : MonoBehaviour
         newEnemy.SetActive(false);
 
         //Enemy‚É‚±‚Ìƒv[ƒ‹‚ğ“n‚·
-        newEnemy.GetComponent<Enemy>().SetPool(this);
+        newEnemy.GetComponent<EnemyHP>().SetPool(this);
 
         pool.Enqueue(newEnemy);
         return newEnemy;

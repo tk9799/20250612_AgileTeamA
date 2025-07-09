@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0014563578d783440b2b551d2ff4bf0d, type: 3}
   m_Name: OmnidirectionalBarrage
   m_EditorClassIdentifier: 
+  sprite: {fileID: 2014813586636312240, guid: 437e835ddd53bc2419c936effdbebe9e, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
   scale: {x: 0.2, y: 0.2}
   damage: 1
@@ -27,5 +28,3 @@ MonoBehaviour:
   deathEffect: {fileID: 0}
   shotSE: {fileID: 0}
   hitSE: {fileID: 0}
-  bulletId: 
-  type: 0
