@@ -51,35 +51,50 @@ public class GuardController2 : MonoBehaviour
         float distances3 = Mathf.Abs(notePos3-justRadius);//判定ラインからの距離
         float distances4 = Mathf.Abs(notePos4-justRadius);//判定ラインからの距離
         float distances5 = Mathf.Abs(notePos5-justRadius);//判定ラインからの距離
-        if (distances <= justRange)
+        if (distances <= justGuardDistanceRadius)
         {
             Debug.Log(distances);
             Debug.Log("justGuard");
             enemyBarrageObject.SetActive(false);
+            StartCoroutine(playerJudgement.InvincibleTime());
+            judgementEnd = true;
+            Debug.Log("InvincibleTime" + judgementEnd);
         }
-        else if (distances2 <= justRange)
+        else if (distances2 <= justGuardDistanceRadius)
         {
             Debug.Log(distances2);
             Debug.Log("justGuard");
             enemyBarrageObject2.SetActive(false);
+            StartCoroutine(playerJudgement.InvincibleTime());
+            judgementEnd = true;
+            Debug.Log("InvincibleTime" + judgementEnd);
         }
-        else if (distances3 <= justRange)
+        else if (distances3 <= justGuardDistanceRadius)
         {
             Debug.Log(distances3);
             Debug.Log("justGuard");
             enemyBarrageObject3.SetActive(false);
+            StartCoroutine(playerJudgement.InvincibleTime());
+            judgementEnd = true;
+            Debug.Log("InvincibleTime" + judgementEnd);
         }
-        else if (distances4 <= justRange)
+        else if (distances4 <= justGuardDistanceRadius)
         {
             Debug.Log(distances4);
             Debug.Log("justGuard");
             enemyBarrageObject4.SetActive(false);
+            StartCoroutine(playerJudgement.InvincibleTime());
+            judgementEnd = true;
+            Debug.Log("InvincibleTime" + judgementEnd);
         }
-        else if (distances5 <= justRange)
+        else if (distances5 <= justGuardDistanceRadius)
         {
             Debug.Log(distances5);
             Debug.Log("justGuard");
             enemyBarrageObject5.SetActive(false);
+            StartCoroutine(playerJudgement.InvincibleTime());
+            judgementEnd = true;
+            Debug.Log("InvincibleTime" + judgementEnd);
         }
 
         //Vector2 enemyBarragePosition = enemyBarrage.position;//敵弾幕のトランスフォームポジション
@@ -162,7 +177,7 @@ public class GuardController2 : MonoBehaviour
         if (justGuardTransform != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(justGuardTransform.position, justGuardDistanceRadius-0.05f);
+            Gizmos.DrawWireSphere(justGuardTransform.position, justGuardDistanceRadius);
         }
 
     }
