@@ -11,33 +11,36 @@ public class GuardController2 : MonoBehaviour
     //[Header("プレイヤーオブジェクト")]
     //[SerializeField] GameObject playerJudgeObject;
     [SerializeField] Transform enemyBarrage;//敵弾幕のトランスフォーム
-    private float enemyBarrageRadius = 1f;
+    private float enemyBarrageRadius = 1f;//オブジェクトの範囲
     [SerializeField] Transform enemyBarrage2;//敵弾幕のトランスフォーム
-    private float enemyBarrage2Radius = 1f;
+    private float enemyBarrage2Radius = 1f;//オブジェクトの範囲
     [SerializeField] Transform enemyBarrage3;//敵弾幕のトランスフォーム
-    private float enemyBarrage3Radius = 1f;
+    private float enemyBarrage3Radius = 1f;//オブジェクトの範囲
     [SerializeField] Transform enemyBarrage4;//敵弾幕のトランスフォーム
-    private float enemyBarrage4Radius = 1f;
+    private float enemyBarrage4Radius = 1f;//オブジェクトの範囲
     [SerializeField] Transform enemyBarrage5;//敵弾幕のトランスフォーム
-    private float enemyBarrage5Radius = 1f;
+    private float enemyBarrage5Radius = 1f;//オブジェクトの範囲
     [SerializeField] Transform justGuardTransform;//プレイヤー判定オブジェクトのトランスフォーム
-    [SerializeField] private int justGuardDistance = 0;//ジャストガードの距離
-    private float justGuardDistanceRadius = 1f;
-    [SerializeField] PlayerJudgement playerJudgement;
-    [SerializeField] public SpriteRenderer spriteRenderer;
+    [SerializeField] private float justGuardDistanceRadius = 1f;//オブジェクトの範囲
+    [SerializeField] PlayerJudgement playerJudgement;//プレイヤー判定のスクリプト
+    [SerializeField] public SpriteRenderer spriteRenderer;//シールドの画像
     [SerializeField] public CircleCollider2D circeCollider;
     public bool judgementEnd = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-       
-        
+        spriteRenderer.enabled = true;
+        circeCollider.enabled = true;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector2 enemyBarragePosition = enemyBarrage.position;
+        //float notePos=transform.position;
+        float distances = 0f;
+
+        Vector2 enemyBarragePosition = enemyBarrage.position;//敵弾幕のトランスフォームポジション
         Vector2 enemyBarragePosition2 = enemyBarrage2.position;
         Vector2 enemyBarragePosition3 = enemyBarrage3.position;
         Vector2 enemyBarragePosition4 = enemyBarrage4.position;
@@ -45,11 +48,11 @@ public class GuardController2 : MonoBehaviour
 
         Vector2 guardPosition = justGuardTransform.position;//ガードの中心座標を取得
 
-        Vector2 distance = guardPosition - enemyBarragePosition;
-        Vector2 distance2 = guardPosition - enemyBarragePosition;
-        Vector2 distance3 = guardPosition - enemyBarragePosition;
-        Vector2 distance4 = guardPosition - enemyBarragePosition;
-        Vector2 distance5 = guardPosition - enemyBarragePosition;
+        Vector2 distance = guardPosition - enemyBarragePosition;//弾幕からプレイヤーへの距離
+        Vector2 distance2 = guardPosition - enemyBarragePosition2;
+        Vector2 distance3 = guardPosition - enemyBarragePosition3;
+        Vector2 distance4 = guardPosition - enemyBarragePosition4;
+        Vector2 distance5 = guardPosition - enemyBarragePosition5;
 
         float distanceVector = distance.sqrMagnitude;//ベクトルの距離の2乗
         float distanceVector2 = distance.sqrMagnitude;//ベクトルの距離の2乗
@@ -69,30 +72,56 @@ public class GuardController2 : MonoBehaviour
         float sprSumRadius4 = sumRadius4 * sumRadius4;//半径の和の2乗
         float sprSumRadius5 = sumRadius5 * sumRadius5;//半径の和の2乗
 
-        if (distanceVector <= sprSumRadius)
+        if (distanceVector <= sprSumRadius)//距離の2乗が半径の和の2乗以下なら
         {
             Debug.Log("hit");
-            enemyBarrageObject.SetActive(false);
+            gameObject.SetActive(false);
+            StartCoroutine(playerJudgement.InvincibleTime());
+            judgementEnd = true;
+            Debug.Log("InvincibleTime" + judgementEnd);
         }
-        else if (distanceVector <= sprSumRadius)
+        else if (distanceVector2 <= sprSumRadius2)
         {
             Debug.Log("hit");
-            enemyBarrageObject2.SetActive(false);
+            gameObject.SetActive(false);
+            StartCoroutine(playerJudgement.InvincibleTime());
+            judgementEnd = true;
+            Debug.Log("InvincibleTime" + judgementEnd);
         }
-        else if (distanceVector <= sprSumRadius)
+        else if (distanceVector3 <= sprSumRadius3)
         {
             Debug.Log("hit");
-            enemyBarrageObject3.SetActive(false);
+            gameObject.SetActive(false);
+            StartCoroutine(playerJudgement.InvincibleTime());
+            judgementEnd = true;
+            Debug.Log("InvincibleTime" + judgementEnd);
         }
-        else if (distanceVector <= sprSumRadius)
+        else if (distanceVector4 <= sprSumRadius4)
         {
             Debug.Log("hit");
-            enemyBarrageObject4.SetActive(false);
+            gameObject.SetActive(false);
+            StartCoroutine(playerJudgement.InvincibleTime());
+            judgementEnd = true;
+            Debug.Log("InvincibleTime" + judgementEnd);
         }
-        else if (distanceVector <= sprSumRadius)
+        else if (distanceVector5 <= sprSumRadius5)
         {
             Debug.Log("hit");
-            enemyBarrageObject5.SetActive(false);
+            gameObject.SetActive(false);
+            StartCoroutine(playerJudgement.InvincibleTime());
+            judgementEnd = true;
+            Debug.Log("InvincibleTime" + judgementEnd);
         }
+
+
+    }
+    void OnDrawGizmosSelected()
+    {
+        if (justGuardTransform != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(justGuardTransform.position, justGuardDistanceRadius-0.05f);
+        }
+
     }
 }

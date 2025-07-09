@@ -177,7 +177,7 @@ public class PlayerJudgement : MonoBehaviour
         guradObject.SetActive(true);
         guardController.spriteRenderer.enabled = true;
         guardController.circeCollider.enabled = true;
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(1.05f);
         Debug.Log("ガード非表示");
 
         //シールドを消す

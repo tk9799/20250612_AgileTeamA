@@ -1352,7 +1352,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 4
   m_Sprite: {fileID: -8329221031702300398, guid: 1a4139599b0b0214fbb51fb638920cbd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1794,7 +1794,6 @@ GameObject:
   - component: {fileID: 1036620773}
   - component: {fileID: 1036620775}
   - component: {fileID: 1036620777}
-  - component: {fileID: 1036620778}
   - component: {fileID: 1036620776}
   m_Layer: 0
   m_Name: CircleGuard
@@ -1802,7 +1801,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1036620773
 Transform:
   m_ObjectHideFlags: 0
@@ -1863,7 +1862,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1932,30 +1931,10 @@ MonoBehaviour:
   enemyBarrage4: {fileID: 5650357669739149903, guid: d7ec37aaf07140148bdab1872e909101, type: 3}
   enemyBarrage5: {fileID: 6496740650755183980, guid: d8e0b7dbd72be0e4e9b6d09f38763cff, type: 3}
   justGuardTransform: {fileID: 1036620773}
-  justGuardDistance: 0
+  justGuardDistanceRadius: 0.55
   playerJudgement: {fileID: 2023091440}
   spriteRenderer: {fileID: 1036620775}
   circeCollider: {fileID: 1036620776}
-  judgementEnd: 0
---- !u!114 &1036620778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1036620772}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97597ef32a6a90343a96dcda1764ef37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerJudgement: {fileID: 2023091440}
-  playerTransform: {fileID: 374175903}
-  myTransform: {fileID: 2023091435}
-  enemyBarrage: {fileID: 5577450479770595606, guid: d8e0b7dbd72be0e4e9b6d09f38763cff, type: 3}
-  spriteRenderer: {fileID: 1036620775}
-  circeCollider: {fileID: 1036620776}
-  isHit: 0
   judgementEnd: 0
 --- !u!1 &1047474702
 GameObject:
@@ -3389,7 +3368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c31ccd77655b43f42a62ce48b036a937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lives: 3
+  lives: 300
   respawnDelay: 1
   invincibleTime: 1
   respawnPosition: {x: 0, y: -4.45}
@@ -3520,7 +3499,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 10
   m_Sprite: {fileID: -1128452826150660884, guid: 38383944826633548b243228c2d42dc6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
