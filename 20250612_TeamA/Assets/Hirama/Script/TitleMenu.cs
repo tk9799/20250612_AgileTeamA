@@ -17,30 +17,107 @@ public class TitleMenu : MonoBehaviour
     public Color normalColor = Color.white;
     public Color selectedColor = Color.yellow;
 
+    //コントローラー
+    private Gamepad gamepad;
+    //入力間隔をあけるための時間
+    private float inputCooldown = 0.2f;
+    private float lastInputTime = 0f;
+    private Vector2 prevDpad = Vector2.zero;
+
     void Start()
     {
         UpdateMenuDisplay();
     }
 
+    void MoveSelection(int direction)
+    {
+        selectedIndex = (selectedIndex + direction + menuItems.Length) % menuItems.Length;
+        UpdateMenuDisplay();
+    }
+
     void Update()
     {
+        ////現在接続されているGamepadを取得
+        //gamepad = Gamepad.current;
+        //if (gamepad == null)
+        //{
+        //    return;
+        //}
 
-        //上下キー or W/Sキーで選択
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        ////上下キー or W/Sキーで選択
+        //if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        //{
+        //    selectedIndex = (selectedIndex - 1 + menuItems.Length) % menuItems.Length;
+        //    UpdateMenuDisplay();
+        //}
+        //else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        //{
+        //    selectedIndex = (selectedIndex + 1) % menuItems.Length;
+        //    UpdateMenuDisplay();
+        //}
+
+        ////決定キー（ZキーやEnterなど）
+        //if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Z)|| Input.GetKey(KeyCode.JoystickButton0))
+        //{
+        //    ExecuteSelection();
+        //}
+
+        //現在の接続中ゲームパッドを取得
+        Gamepad gamepad = Gamepad.current;
+
+        //キーボード操作
+        if (Keyboard.current != null)
         {
-            selectedIndex = (selectedIndex - 1 + menuItems.Length) % menuItems.Length;
-            UpdateMenuDisplay();
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-        {
-            selectedIndex = (selectedIndex + 1) % menuItems.Length;
-            UpdateMenuDisplay();
+            //上下キー（またはW/S）で選択
+            //上矢印キーまたはWキーを押した瞬間 → MoveSelection(-1);
+            if (Keyboard.current.upArrowKey.wasPressedThisFrame || Keyboard.current.wKey.wasPressedThisFrame)
+            {
+                MoveSelection(-1);
+            }
+            //下矢印キーまたは S キーを押した瞬間 → MoveSelection(1);
+            else if (Keyboard.current.downArrowKey.wasPressedThisFrame || Keyboard.current.sKey.wasPressedThisFrame)
+            {
+                MoveSelection(1);
+            }
+
+            //EnterまたはZキーで決定
+            //どちらかのキーを押した瞬間 → ExecuteSelection();
+            if (Keyboard.current.enterKey.wasPressedThisFrame || Keyboard.current.zKey.wasPressedThisFrame)
+            {
+                ExecuteSelection();
+            }
         }
 
-        //決定キー（ZキーやEnterなど）
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Z))
+        //ゲームパッド操作
+        if (gamepad != null)
         {
-            ExecuteSelection();
+            //D-Pad(十字キー)の上下を検出
+            Vector2 dpad = gamepad.dpad.ReadValue();
+            float now = Time.time;
+
+            if (now - lastInputTime >= inputCooldown)
+            {
+                if (dpad.y > 0.5f)
+                {
+                    //上へ移動
+                    MoveSelection(-1);
+                    lastInputTime = now;
+                }
+                else if (dpad.y < -0.5f)
+                {
+                    ////下へ移動
+                    MoveSelection(1);
+                    lastInputTime = now;
+                }
+            }
+
+            //Aボタンを押したら決定
+            //buttonSouth は「Aボタン」に対応
+            //.wasPressedThisFrame を使って「このフレームで押された瞬間だけ反応」します。
+            if (gamepad.buttonSouth.wasPressedThisFrame)
+            {
+                ExecuteSelection();
+            }
         }
     }
 
@@ -48,7 +125,8 @@ public class TitleMenu : MonoBehaviour
     {
         //選択中のメニュー項目の位置にカーソルを合わせる（X座標は少し左にずらす）
         Vector3 targetPos = menuItems[selectedIndex].position;
-        targetPos.x -= 250f; //左にずらす
+        //左にずらす
+        targetPos.x -= 250f;
         cursor.position = targetPos;
     }
 
