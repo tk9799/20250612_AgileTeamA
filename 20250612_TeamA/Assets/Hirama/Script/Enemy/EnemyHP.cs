@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// G‹›“G‚ÌŠî–{ƒNƒ‰ƒX
 /// </summary>
-public class EnemyHP : MonoBehaviour,IDamageable
+public class EnemyHP : MonoBehaviour, IDamageable
 {
     [Header("Å‘åHP")]
     public int maxHP = 10;

@@ -1,9 +1,17 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class BossHP : MonoBehaviour, IDamageable
 {
     [Header("最大HP")]
     public int maxHP = 100;
+
+    [Header("クリアシーンへ移動するまでの待機時間")]
+    [SerializeField] private float SceneDelay = 1.0f;
+
+    [Header("遷移先シーン名")]
+    [SerializeField] private string ClearSceneName = "GameClearScene";
 
     private int currentHP;
 
@@ -32,11 +40,12 @@ public class BossHP : MonoBehaviour, IDamageable
 
         if (currentHP <= 0)
         {
-            Die();
+            //Die();
+            StartCoroutine(Die());
         }
     }
 
-    void Die()
+    private IEnumerator Die()
     {
         Debug.Log("[BossHP] ボス撃破！");
 
@@ -51,6 +60,16 @@ public class BossHP : MonoBehaviour, IDamageable
             }
         }
 
+        //ボスの表示を消して見えなくする
+        //gameObject.SetActive(false);
+
+        Debug.Log("シーン移動");
+        //ーン遷移をヘルパーに任せる
+        SceneTransitionHelper.DelaySceneLoad(ClearSceneName, 2f);
+
+        yield return null;
+
+        //ボス削除
         Destroy(gameObject);
     }
 }
