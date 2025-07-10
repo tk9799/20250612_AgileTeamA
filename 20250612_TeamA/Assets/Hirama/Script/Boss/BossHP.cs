@@ -60,9 +60,6 @@ public class BossHP : MonoBehaviour, IDamageable
             }
         }
 
-        //ボスの表示を消して見えなくする
-        //gameObject.SetActive(false);
-
         Debug.Log("シーン移動");
         //ーン遷移をヘルパーに任せる
         SceneTransitionHelper.DelaySceneLoad(ClearSceneName, 2f);
