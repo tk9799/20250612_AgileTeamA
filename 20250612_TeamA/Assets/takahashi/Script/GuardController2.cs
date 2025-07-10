@@ -60,7 +60,7 @@ public class GuardController2 : MonoBehaviour
             judgementEnd = true;
             Debug.Log("InvincibleTime" + judgementEnd);
         }
-        else if (distances2 <= justGuardDistanceRadius)
+        if (distances2 <= justGuardDistanceRadius)
         {
             Debug.Log(distances2);
             Debug.Log("justGuard");
@@ -69,7 +69,7 @@ public class GuardController2 : MonoBehaviour
             judgementEnd = true;
             Debug.Log("InvincibleTime" + judgementEnd);
         }
-        else if (distances3 <= justGuardDistanceRadius)
+        if (distances3 <= justGuardDistanceRadius)
         {
             Debug.Log(distances3);
             Debug.Log("justGuard");
@@ -78,7 +78,7 @@ public class GuardController2 : MonoBehaviour
             judgementEnd = true;
             Debug.Log("InvincibleTime" + judgementEnd);
         }
-        else if (distances4 <= justGuardDistanceRadius)
+        if (distances4 <= justGuardDistanceRadius)
         {
             Debug.Log(distances4);
             Debug.Log("justGuard");
@@ -87,7 +87,7 @@ public class GuardController2 : MonoBehaviour
             judgementEnd = true;
             Debug.Log("InvincibleTime" + judgementEnd);
         }
-        else if (distances5 <= justGuardDistanceRadius)
+        if (distances5 <= justGuardDistanceRadius)
         {
             Debug.Log(distances5);
             Debug.Log("justGuard");
