@@ -597,6 +597,8 @@ MonoBehaviour:
     bulletPool: {fileID: 779897145}
   - bulletBase: {fileID: 11400000, guid: 19973bf6dfdb4b94d8bf82538b90cce3, type: 2}
     bulletPool: {fileID: 1851104259}
+  activeBulletList: []
+  playerJudgement: {fileID: 0}
 --- !u!4 &159063669
 Transform:
   m_ObjectHideFlags: 0
@@ -730,6 +732,7 @@ MonoBehaviour:
   maxHP: 200
   SceneDelay: 1
   ClearSceneName: GameClearScene
+  bulletPoolManager: {fileID: 0}
 --- !u!114 &187057834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1001,6 +1004,52 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &265932425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 265932427}
+  - component: {fileID: 265932426}
+  m_Layer: 0
+  m_Name: EnemyBarrageList
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &265932426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265932425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5992f4e2e62dd2446beac2e7f57c3d08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 0}
+  enemyList: []
+--- !u!4 &265932427
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265932425}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.77135444, y: 0.29987025, z: -0.043667406}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1557,6 +1606,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5577450479770595606, guid: d8e0b7dbd72be0e4e9b6d09f38763cff, type: 3}
   initialPoolSize: 300
+  bulletPoolManager: {fileID: 0}
 --- !u!4 &779897146
 Transform:
   m_ObjectHideFlags: 0
@@ -1939,6 +1989,7 @@ MonoBehaviour:
   playerJudgement: {fileID: 2023091440}
   spriteRenderer: {fileID: 1036620775}
   circeCollider: {fileID: 1036620776}
+  bulletPoolManager: {fileID: 1536423689}
   judgementEnd: 0
 --- !u!1 &1047474702
 GameObject:
@@ -1971,6 +2022,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 775210963931758553, guid: d7ec37aaf07140148bdab1872e909101, type: 3}
   initialPoolSize: 10
+  bulletPoolManager: {fileID: 1536423689}
 --- !u!4 &1047474704
 Transform:
   m_ObjectHideFlags: 0
@@ -2381,6 +2433,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5577450479770595606, guid: d8e0b7dbd72be0e4e9b6d09f38763cff, type: 3}
   initialPoolSize: 300
+  bulletPoolManager: {fileID: 1536423689}
 --- !u!4 &1301442228
 Transform:
   m_ObjectHideFlags: 0
@@ -2427,6 +2480,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5577450479770595606, guid: 3ebae39ac93171844a19d150fc7d573d, type: 3}
   initialPoolSize: 50
+  bulletPoolManager: {fileID: 1536423689}
 --- !u!4 &1329859738
 Transform:
   m_ObjectHideFlags: 0
@@ -2811,6 +2865,8 @@ MonoBehaviour:
     bulletPool: {fileID: 1329859737}
   - bulletBase: {fileID: 11400000, guid: 86a8af90d0f7a444aa50286590ead890, type: 2}
     bulletPool: {fileID: 1576627662}
+  activeBulletList: []
+  playerJudgement: {fileID: 2023091440}
 --- !u!4 &1536423690
 Transform:
   m_ObjectHideFlags: 0
@@ -2936,6 +2992,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5577450479770595606, guid: d76dea2361220c7449be89b3ae1f7fd1, type: 3}
   initialPoolSize: 50
+  bulletPoolManager: {fileID: 1536423689}
 --- !u!4 &1576627663
 Transform:
   m_ObjectHideFlags: 0
@@ -3264,6 +3321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 775210963931758553, guid: d7ec37aaf07140148bdab1872e909101, type: 3}
   initialPoolSize: 10
+  bulletPoolManager: {fileID: 0}
 --- !u!4 &1851104260
 Transform:
   m_ObjectHideFlags: 0
@@ -3310,6 +3368,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5577450479770595606, guid: d8e0b7dbd72be0e4e9b6d09f38763cff, type: 3}
   initialPoolSize: 200
+  bulletPoolManager: {fileID: 0}
 --- !u!4 &1947459384
 Transform:
   m_ObjectHideFlags: 0
@@ -3551,6 +3610,7 @@ MonoBehaviour:
   maxHP: 100
   SceneDelay: 1
   ClearSceneName: GameClearScene
+  bulletPoolManager: {fileID: 0}
 --- !u!114 &2031136488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3913,3 +3973,4 @@ SceneRoots:
   - {fileID: 1719443206}
   - {fileID: 1576627663}
   - {fileID: 1423986840}
+  - {fileID: 265932427}

@@ -55,6 +55,8 @@ public class PlayerController:MonoBehaviour
     [SerializeField] GameObject judgementObject;
     [SerializeField] SpriteRenderer judgementObjectSpriteRenderer;
 
+    
+
     //private PlayerControls controls;
 
     //private void Awake()
@@ -86,6 +88,8 @@ public class PlayerController:MonoBehaviour
         var inputMove = context.ReadValue<Vector2>();
 
         //移動処理など
+
+        //bulletPoolManager.activeBulletList[0];
 
     }
 

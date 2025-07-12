@@ -25,6 +25,7 @@ public class GuardController2 : MonoBehaviour
     [SerializeField] PlayerJudgement playerJudgement;//プレイヤー判定のスクリプト
     [SerializeField] public SpriteRenderer spriteRenderer;//シールドの画像
     [SerializeField] public CircleCollider2D circeCollider;
+    [SerializeField] public BulletPoolManager bulletPoolManager;
     public bool judgementEnd = false;
 
     private float justRadius = 1f;
@@ -41,6 +42,15 @@ public class GuardController2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        foreach (GameObject enemyBulletName in bulletPoolManager.activeBulletList)
+        {
+            Debug.Log(enemyBulletName.name);
+            enemyBulletName.transform.position=enemyBarrage.transform.position;
+            //if (enemyBulletName == EnemyBarrage)
+            //{
+
+            //}
+        }
         float notePos=Vector2.Distance(justGuardTransform.position,enemyBarrage.position);
         float notePos2=Vector2.Distance(justGuardTransform.position,enemyBarrage2.position);
         float notePos3=Vector2.Distance(justGuardTransform.position,enemyBarrage3.position);

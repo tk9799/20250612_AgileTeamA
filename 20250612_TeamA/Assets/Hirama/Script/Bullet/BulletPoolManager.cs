@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -23,6 +24,11 @@ public class BulletPoolManager : MonoBehaviour
     private Dictionary<BulletBase, BulletPool> lookup = new Dictionary<BulletBase, BulletPool>();
 
     public static BulletPoolManager Instance { get; private set; }
+
+    //敵弾幕が発射されたときに追加されるリスト
+    //public List<Bullet> activeBulletList = new List<Bullet>();
+    public List<GameObject> activeBulletList = new List<GameObject>();
+    [SerializeField] public PlayerJudgement playerJudgement;
 
     void Awake()
     {
@@ -87,6 +93,16 @@ public class BulletPoolManager : MonoBehaviour
         Bullet bullet = pool.GetBullet();
         Vector2 velocity = direction.normalized * baseData.speed;
         bullet.Init(baseData, position, velocity);
+
+        //activeBulletList.Add(gameObject);//リストに追加
+        activeBulletList.Add(bullet.gameObject);//リストに追加
+        //Debug.Log(activeBulletList.Count);
+        foreach (GameObject activeBullet in activeBulletList)
+        {
+            //int num = activeBulletList.Count;
+            Debug.Log(activeBullet.name);
+        }
+
         return bullet;
     }
 

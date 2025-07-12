@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class EnemyBarrageList : MonoBehaviour
 {
     public GameObject enemyPrefab;
-    List<int> enemyList = new List<int>();
+    public List<GameObject> enemyList = new ();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
