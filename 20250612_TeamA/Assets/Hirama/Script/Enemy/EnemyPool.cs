@@ -16,6 +16,8 @@ public class EnemyPool : MonoBehaviour
 
     private Queue<GameObject> pool = new Queue<GameObject>();
 
+    List<GameObject> bullets = new List<GameObject>();//List‚Å’e–‹‚ğŠÇ—
+
     private void Start()
     {
         //‰Šú¶¬
@@ -63,6 +65,7 @@ public class EnemyPool : MonoBehaviour
     {
         GameObject newEnemy = Instantiate(enemyPrefab);
         newEnemy.SetActive(false);
+        bullets.Add(newEnemy);
 
         //Enemy‚É‚±‚Ìƒv[ƒ‹‚ğ“n‚·
         newEnemy.GetComponent<EnemyHP>().SetPool(this);

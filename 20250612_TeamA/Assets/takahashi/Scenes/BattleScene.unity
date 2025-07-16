@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 102019121}
   m_Layer: 0
   m_Name: EnemyPool.1
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -597,6 +597,7 @@ MonoBehaviour:
     bulletPool: {fileID: 779897145}
   - bulletBase: {fileID: 11400000, guid: 19973bf6dfdb4b94d8bf82538b90cce3, type: 2}
     bulletPool: {fileID: 1851104259}
+  activeBulletList: []
 --- !u!4 &159063669
 Transform:
   m_ObjectHideFlags: 0
@@ -728,6 +729,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 200
+  SceneDelay: 1
+  ClearSceneName: GameClearScene
 --- !u!114 &187057834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -924,7 +927,7 @@ GameObject:
   - component: {fileID: 220291803}
   m_Layer: 0
   m_Name: EnemyPool
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -970,7 +973,7 @@ GameObject:
   - component: {fileID: 231359931}
   m_Layer: 0
   m_Name: EnemyPool.4
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -999,6 +1002,52 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &265932425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 265932427}
+  - component: {fileID: 265932426}
+  m_Layer: 0
+  m_Name: EnemyBarrageList
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &265932426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265932425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5992f4e2e62dd2446beac2e7f57c3d08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 0}
+  enemyList: []
+--- !u!4 &265932427
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265932425}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.77135444, y: 0.29987025, z: -0.043667406}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1309,6 +1358,8 @@ MonoBehaviour:
   isDead: 0
   isDeath: 0
   blinking: 0
+  judgementObject: {fileID: 2023091434}
+  judgementObjectSpriteRenderer: {fileID: 2023091443}
 --- !u!212 &374175902
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1553,6 +1604,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5577450479770595606, guid: d8e0b7dbd72be0e4e9b6d09f38763cff, type: 3}
   initialPoolSize: 300
+  bulletPoolManager: {fileID: 0}
 --- !u!4 &779897146
 Transform:
   m_ObjectHideFlags: 0
@@ -1694,6 +1746,7 @@ MonoBehaviour:
   isDead: 0
   isInput: 0
   isInvincible: 0
+  isGuardJudgement: 0
 --- !u!65 &853224247
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1795,14 +1848,13 @@ GameObject:
   - component: {fileID: 1036620775}
   - component: {fileID: 1036620777}
   - component: {fileID: 1036620776}
-  - component: {fileID: 1036620778}
   m_Layer: 0
   m_Name: CircleGuard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1036620773
 Transform:
   m_ObjectHideFlags: 0
@@ -1815,7 +1867,8 @@ Transform:
   m_LocalPosition: {x: 0, y: -0.09, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2050101984}
   m_Father: {fileID: 374175903}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1036620775
@@ -1862,8 +1915,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: -6970133699421543156, guid: cab9f7dfa50692f4083b37eb02ba109a, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1916,7 +1969,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1036620772}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b47434f61bda6f14facb3b70c012a6fd, type: 3}
   m_Name: 
@@ -1932,30 +1985,12 @@ MonoBehaviour:
   enemyBarrage4: {fileID: 5650357669739149903, guid: d7ec37aaf07140148bdab1872e909101, type: 3}
   enemyBarrage5: {fileID: 6496740650755183980, guid: d8e0b7dbd72be0e4e9b6d09f38763cff, type: 3}
   justGuardTransform: {fileID: 1036620773}
-  justGuardDistanceRadius: 0.55
+  justGuardDistanceRadius: 0.45
   playerJudgement: {fileID: 2023091440}
   spriteRenderer: {fileID: 1036620775}
   circeCollider: {fileID: 1036620776}
-  judgementEnd: 0
---- !u!114 &1036620778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1036620772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97597ef32a6a90343a96dcda1764ef37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerJudgement: {fileID: 2023091440}
-  playerTransform: {fileID: 374175903}
-  myTransform: {fileID: 2023091435}
-  enemyBarrage: {fileID: 5577450479770595606, guid: d8e0b7dbd72be0e4e9b6d09f38763cff, type: 3}
-  spriteRenderer: {fileID: 1036620775}
-  circeCollider: {fileID: 1036620776}
-  isHit: 0
+  bulletPoolManager: {fileID: 1536423689}
+  successShield: {fileID: 2050101983}
   judgementEnd: 0
 --- !u!1 &1047474702
 GameObject:
@@ -1969,7 +2004,7 @@ GameObject:
   - component: {fileID: 1047474703}
   m_Layer: 0
   m_Name: Fan
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1988,6 +2023,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 775210963931758553, guid: d7ec37aaf07140148bdab1872e909101, type: 3}
   initialPoolSize: 10
+  bulletPoolManager: {fileID: 1536423689}
 --- !u!4 &1047474704
 Transform:
   m_ObjectHideFlags: 0
@@ -2333,7 +2369,7 @@ GameObject:
   - component: {fileID: 1227210786}
   m_Layer: 0
   m_Name: EnemyPool.2
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2379,7 +2415,7 @@ GameObject:
   - component: {fileID: 1301442227}
   m_Layer: 0
   m_Name: Omnidirectional
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2398,6 +2434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5577450479770595606, guid: d8e0b7dbd72be0e4e9b6d09f38763cff, type: 3}
   initialPoolSize: 300
+  bulletPoolManager: {fileID: 1536423689}
 --- !u!4 &1301442228
 Transform:
   m_ObjectHideFlags: 0
@@ -2425,7 +2462,7 @@ GameObject:
   - component: {fileID: 1329859737}
   m_Layer: 0
   m_Name: EnemyBarrage
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2444,6 +2481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5577450479770595606, guid: 3ebae39ac93171844a19d150fc7d573d, type: 3}
   initialPoolSize: 50
+  bulletPoolManager: {fileID: 1536423689}
 --- !u!4 &1329859738
 Transform:
   m_ObjectHideFlags: 0
@@ -2471,7 +2509,7 @@ GameObject:
   - component: {fileID: 1335119036}
   m_Layer: 0
   m_Name: EnemyPool.3
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2548,7 +2586,7 @@ GameObject:
   - component: {fileID: 1400069456}
   m_Layer: 0
   m_Name: EnemyWaveManager
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2697,7 +2735,7 @@ GameObject:
   - component: {fileID: 1423986839}
   m_Layer: 0
   m_Name: EnemyPool.6
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2743,7 +2781,7 @@ GameObject:
   - component: {fileID: 1504495915}
   m_Layer: 0
   m_Name: EnemyPoolManager
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2802,7 +2840,7 @@ GameObject:
   - component: {fileID: 1536423689}
   m_Layer: 0
   m_Name: BulletPoolManager (1)
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2828,6 +2866,7 @@ MonoBehaviour:
     bulletPool: {fileID: 1329859737}
   - bulletBase: {fileID: 11400000, guid: 86a8af90d0f7a444aa50286590ead890, type: 2}
     bulletPool: {fileID: 1576627662}
+  activeBulletList: []
 --- !u!4 &1536423690
 Transform:
   m_ObjectHideFlags: 0
@@ -2934,7 +2973,7 @@ GameObject:
   - component: {fileID: 1576627662}
   m_Layer: 0
   m_Name: EnemyBarrage.1
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2953,6 +2992,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5577450479770595606, guid: d76dea2361220c7449be89b3ae1f7fd1, type: 3}
   initialPoolSize: 50
+  bulletPoolManager: {fileID: 1536423689}
 --- !u!4 &1576627663
 Transform:
   m_ObjectHideFlags: 0
@@ -3026,7 +3066,7 @@ GameObject:
   - component: {fileID: 1719443205}
   m_Layer: 0
   m_Name: EnemyPool.5
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3281,6 +3321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 775210963931758553, guid: d7ec37aaf07140148bdab1872e909101, type: 3}
   initialPoolSize: 10
+  bulletPoolManager: {fileID: 0}
 --- !u!4 &1851104260
 Transform:
   m_ObjectHideFlags: 0
@@ -3327,6 +3368,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5577450479770595606, guid: d8e0b7dbd72be0e4e9b6d09f38763cff, type: 3}
   initialPoolSize: 200
+  bulletPoolManager: {fileID: 0}
 --- !u!4 &1947459384
 Transform:
   m_ObjectHideFlags: 0
@@ -3389,7 +3431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c31ccd77655b43f42a62ce48b036a937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lives: 3
+  lives: 300
   respawnDelay: 1
   invincibleTime: 1
   respawnPosition: {x: 0, y: -4.45}
@@ -3404,6 +3446,7 @@ MonoBehaviour:
   isDead: 0
   isInput: 0
   isInvincible: 0
+  isGuardJudgement: 0
 --- !u!61 &2023091441
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3566,6 +3609,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
+  SceneDelay: 1
+  ClearSceneName: GameClearScene
 --- !u!114 &2031136488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3803,6 +3848,93 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2050101983
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2050101984}
+  - component: {fileID: 2050101985}
+  m_Layer: 0
+  m_Name: SuccessShield
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2050101984
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050101983}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.095, y: 0.095, z: 0.095}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1036620773}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &2050101985
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050101983}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 11
+  m_Sprite: {fileID: -813552097892474095, guid: f6402503ec267984383f1001ba6ff53a, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 70, y: 50.004883}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &2140560715
 GameObject:
   m_ObjectHideFlags: 0
@@ -3928,3 +4060,4 @@ SceneRoots:
   - {fileID: 1719443206}
   - {fileID: 1576627663}
   - {fileID: 1423986840}
+  - {fileID: 265932427}

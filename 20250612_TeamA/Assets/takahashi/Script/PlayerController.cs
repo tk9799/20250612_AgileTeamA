@@ -52,6 +52,9 @@ public class PlayerController:MonoBehaviour
 
     bool isDeadJudge = false;
 
+    [SerializeField] GameObject judgementObject;
+    [SerializeField] SpriteRenderer judgementObjectSpriteRenderer;
+
     //private PlayerControls controls;
 
     //private void Awake()
@@ -84,6 +87,8 @@ public class PlayerController:MonoBehaviour
 
         //移動処理など
 
+        //bulletPoolManager.activeBulletList[0];
+
     }
 
     private void BossDestroy()
@@ -93,11 +98,13 @@ public class PlayerController:MonoBehaviour
 
     private void Start()
     {
+        judgementObjectSpriteRenderer.enabled = false;
         generate = true;
         this.animator = GetComponent<Animator>();
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         hitCollider = GetComponent<Collider2D>();
+        //judgementObjectSpriteRenderer.enabled = false;
     }
 
     void Update()
@@ -131,10 +138,12 @@ public class PlayerController:MonoBehaviour
         if (Input.GetKey(KeyCode.Joystick1Button2))
         {
             moveSpeed = 2f;
+            judgementObjectSpriteRenderer.enabled = true;
         }
         if (Input.GetKeyUp(KeyCode.Joystick1Button2))
         {
             moveSpeed = 5f;
+            judgementObjectSpriteRenderer.enabled = false;
         }
 
         Vector3 move = new Vector3(moveX, moveY,0f) * moveSpeed * Time.deltaTime;

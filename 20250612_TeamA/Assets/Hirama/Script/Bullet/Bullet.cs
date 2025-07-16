@@ -26,6 +26,10 @@ public class Bullet : MonoBehaviour
     //ìÒèdï‘ãpñhé~
     private bool isReturned = false;
 
+    [SerializeField] public EnemyPool enemyPool;
+
+    public BulletPoolManager bulletPoolManager;
+
     public void SetOwnerPool(BulletPool pool)
     {
         bulletPool = pool;
@@ -97,6 +101,8 @@ public class Bullet : MonoBehaviour
         if (bulletPool != null)
         {
             bulletPool.ReturnBullet(this);
+            //bulletPoolManager.activeBulletList.Remove(bulletPool.gameObject);
+            //enemyPool.RemoveAT()
         }
         else
         {

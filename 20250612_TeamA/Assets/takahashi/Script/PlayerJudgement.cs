@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -20,9 +21,10 @@ public class PlayerJudgement : MonoBehaviour
     [SerializeField] private Transform myTransform;
     [SerializeField] private Transform playerTransfom;
     [SerializeField] public PlayerController playerController;
-    [SerializeField] private GuardController2 guardController;
+    [SerializeField] public GuardController2 guardController;
     [SerializeField] private GameObject guradObject;
     [SerializeField] public float invincible = 1.0f;//ジャストガード時の無敵時間
+    
 
     public event Action<int> OnLifeChanged;
     public event Action OnPlayerDied;
@@ -34,6 +36,7 @@ public class PlayerJudgement : MonoBehaviour
     public bool isDead = false;
     public bool isInput = false;
     public bool isInvincible = false;//無敵判定
+    public bool isGuardJudgement = false;//ジャストガード判定
     private Text lifeText;
 
     private bool oneProcess = false;
@@ -44,7 +47,7 @@ public class PlayerJudgement : MonoBehaviour
         lifeText = GameObject.Find("LifeText").GetComponent<Text>();
         lifeText.text = "" + lives;
 
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        //spriteRenderer = GetComponent<SpriteRenderer>();
         //hitCollider = GetComponent<BoxCollider2D>();
     }
 
@@ -53,22 +56,32 @@ public class PlayerJudgement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Joystick1Button5)&& !isInvincible&&!isInput)
         {
             isInput = true;
+            isGuardJudgement = true;
             StartCoroutine(GeneratorGuard());
         }
-        if (isGenerateGuard=false && hitCollider.enabled == true)
-        {
-            guardController.spriteRenderer.enabled = false;
-            guardController.circeCollider.enabled = false;
-            //guradObject.SetActive(false);
-            if (!isInvincible)
-            {
-                guradObject.SetActive(false);
-            }
-        }
+        //if (isGenerateGuard=false && hitCollider.enabled == true)
+        //{
+        //    guardController.spriteRenderer.enabled = false;
+        //    guardController.circeCollider.enabled = false;
+        //    //guradObject.SetActive(false);
+        //    if (!isInvincible)
+        //    {
+        //        guradObject.SetActive(false);
+        //    }
+        //}
         if(hitCollider.enabled == true&&spriteRenderer.color==Color.red)
         {
             spriteRenderer.color=Color.white;
         }
+
+        //if (guradObject.activeSelf==false)
+        //{
+        //    guardController.enabled = false;
+        //}
+        //else if(guradObject.activeSelf == true)
+        //{
+        //    guardController.enabled = true;
+        //}
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -130,6 +143,12 @@ public class PlayerJudgement : MonoBehaviour
         spriteRenderer.enabled = true;
         hitCollider.enabled = true;
         isDead = false;
+        if (guradObject != null && guradObject.activeSelf)
+        {
+            guardController.spriteRenderer.enabled = true;
+            guardController.circeCollider.enabled = true;
+            //guradObject.SetActive(false);
+        }
 
         //無敵時間スタート
         StartCoroutine(InvincibilityCoroutine(invincibleTime));
@@ -160,12 +179,12 @@ public class PlayerJudgement : MonoBehaviour
         //    guradObject.SetActive(false);
         //}
         isInput = false;//シールド表示できるようになる
-        if(guradObject != null&& guradObject.activeSelf)
-        {
-            guardController.spriteRenderer.enabled = true;
-            guardController.circeCollider.enabled = true;
-            guradObject.SetActive(false );
-        } 
+        //if(guradObject != null&& guradObject.activeSelf)
+        //{
+        //    guardController.spriteRenderer.enabled = true;
+        //    guardController.circeCollider.enabled = true;
+        //    guradObject.SetActive(false );
+        //} 
         //isInvincible = false;
     }
 
@@ -174,7 +193,7 @@ public class PlayerJudgement : MonoBehaviour
         Debug.Log("ガード");
         isGenerateGuard = true;
         //一定時間シールドを出現する
-        guradObject.SetActive(true);
+        //guradObject.SetActive(true);
         guardController.spriteRenderer.enabled = true;
         guardController.circeCollider.enabled = true;
         yield return new WaitForSeconds(0.05f);
@@ -182,14 +201,14 @@ public class PlayerJudgement : MonoBehaviour
 
         //シールドを消す
         isInput = false;
-        guardController.spriteRenderer.enabled = false;
-        guardController.circeCollider.enabled = false;
-        if (!isInvincible && guardController != null && guardController.judgementEnd == false)
-        {
-            guardController.spriteRenderer.enabled = true;
-            guardController.circeCollider.enabled = true;
-            guradObject.SetActive(false);
-        }
+        //guardController.spriteRenderer.enabled = false;
+        //guardController.circeCollider.enabled = false;
+        //if (!isInvincible && guardController != null && guardController.judgementEnd == false)
+        //{
+        //    guardController.spriteRenderer.enabled = true;
+        //    guardController.circeCollider.enabled = true;
+        //    guradObject.SetActive(false);
+        //}
         isGenerateGuard = false;
         //yield break;
 
@@ -207,25 +226,25 @@ public class PlayerJudgement : MonoBehaviour
         hitCollider.enabled = false;
         isInvincible = true;
         spriteRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(1.05f);
 
         Debug.Log("無敵時間終了");
         spriteRenderer.color = Color.white;
         hitCollider.enabled = true;
         oneProcess = false;
         
-        if (!isInvincible && guardController != null && guardController.judgementEnd)
-        {
-            guardController.spriteRenderer.enabled = true;
-            guardController.circeCollider.enabled = true;
-            guradObject.SetActive(false);
-        }
-        else
-        {
-            //guardController.spriteRenderer.enabled = true;
-            //guardController.circeCollider.enabled = true;
-            guradObject.SetActive(false);
-        }
+        //if (!isInvincible && guardController != null && guardController.judgementEnd)
+        //{
+        //    guardController.spriteRenderer.enabled = true;
+        //    guardController.circeCollider.enabled = true;
+        //    guradObject.SetActive(false);
+        //}
+        //else
+        //{
+        //    //guardController.spriteRenderer.enabled = true;
+        //    //guardController.circeCollider.enabled = true;
+        //    guradObject.SetActive(false);
+        //}
         isInvincible = false;
         //guradObject.SetActive(false);
         //yield break;

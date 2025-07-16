@@ -13,6 +13,8 @@ public class BossHP : MonoBehaviour, IDamageable
     [Header("ëJà⁄êÊÉVÅ[Éìñº")]
     [SerializeField] private string ClearSceneName = "GameClearScene";
 
+    //[SerializeField] public BulletPoolManager bulletPoolManager;
+
     private int currentHP;
 
     private bool isInvincible = false;
@@ -57,6 +59,7 @@ public class BossHP : MonoBehaviour, IDamageable
             if (bullet.CompareTag("EnemyBullet"))
             {
                 bullet.gameObject.SetActive(false);
+                //bulletPoolManager.activeBulletList.Remove(bullet.gameObject);
             }
         }
 
