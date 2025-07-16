@@ -28,7 +28,7 @@ public class BulletPoolManager : MonoBehaviour
     //敵弾幕が発射されたときに追加されるリスト
     //public List<Bullet> activeBulletList = new List<Bullet>();
     public List<GameObject> activeBulletList = new List<GameObject>();
-    [SerializeField] public PlayerJudgement playerJudgement;
+    //[SerializeField] public PlayerJudgement playerJudgement;
 
     void Awake()
     {
@@ -94,14 +94,18 @@ public class BulletPoolManager : MonoBehaviour
         Vector2 velocity = direction.normalized * baseData.speed;
         bullet.Init(baseData, position, velocity);
 
-        //activeBulletList.Add(gameObject);//リストに追加
-        activeBulletList.Add(bullet.gameObject);//リストに追加
+        activeBulletList.Add(gameObject);//リストに追加
+        
         //Debug.Log(activeBulletList.Count);
-        foreach (GameObject activeBullet in activeBulletList)
-        {
-            //int num = activeBulletList.Count;
-            Debug.Log(activeBullet.name);
-        }
+        //foreach (GameObject activeBullet in activeBulletList)
+        //{
+        //    if(activeBullet != null)
+        //    {
+        //        activeBulletList.Add(bullet.gameObject);//リストに追加
+        //    }
+        //    //int num = activeBulletList.Count;
+        //    //Debug.Log(activeBullet.name);
+        //}
 
         return bullet;
     }

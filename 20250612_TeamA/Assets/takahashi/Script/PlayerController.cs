@@ -55,8 +55,6 @@ public class PlayerController:MonoBehaviour
     [SerializeField] GameObject judgementObject;
     [SerializeField] SpriteRenderer judgementObjectSpriteRenderer;
 
-    
-
     //private PlayerControls controls;
 
     //private void Awake()
@@ -100,6 +98,7 @@ public class PlayerController:MonoBehaviour
 
     private void Start()
     {
+        judgementObjectSpriteRenderer.enabled = false;
         generate = true;
         this.animator = GetComponent<Animator>();
 
@@ -139,12 +138,12 @@ public class PlayerController:MonoBehaviour
         if (Input.GetKey(KeyCode.Joystick1Button2))
         {
             moveSpeed = 2f;
-            //judgementObjectSpriteRenderer.enabled = true;
+            judgementObjectSpriteRenderer.enabled = true;
         }
         if (Input.GetKeyUp(KeyCode.Joystick1Button2))
         {
             moveSpeed = 5f;
-            //judgementObjectSpriteRenderer.enabled = false;
+            judgementObjectSpriteRenderer.enabled = false;
         }
 
         Vector3 move = new Vector3(moveX, moveY,0f) * moveSpeed * Time.deltaTime;
