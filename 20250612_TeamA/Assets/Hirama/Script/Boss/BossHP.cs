@@ -64,7 +64,7 @@ public class BossHP : MonoBehaviour, IDamageable
         }
 
         Debug.Log("シーン移動");
-        //ーン遷移をヘルパーに任せる
+        //シーン遷移をヘルパーに任せる
         SceneTransitionHelper.DelaySceneLoad(ClearSceneName, 2f);
 
         yield return null;

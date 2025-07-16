@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c86f68558eb22a4bb1118f630070b3c, type: 3}
+  m_Name: Enemy.A
+  m_EditorClassIdentifier: 
+  enemySprite: {fileID: 9136945881748350054, guid: 5916f20bd8825cd4f94430b2be186c30, type: 3}
+  EnemydisplayName: A
+  EnemyPrefab: {fileID: 2155544422141498881, guid: feceea250025a4046beb745bfa1e20d1, type: 3}
+  bulletBase: {fileID: 11400000, guid: e1c98e15d5a412a48a0c1d53a669b17a, type: 2}
+  scale: {x: 0.5, y: 0.5}
+  enemyColor: {r: 1, g: 1, b: 1, a: 1}
+  maxHP: 100
+  moveSpeed: 2
+  spawnPosition: {x: 0, y: 0}
+  attackPattern: {fileID: 11400000, guid: 68ae9b6554184bb4a9d170471de80f84, type: 2}
+  movementPattern: {fileID: 11400000, guid: 6866125ae4f2c2c47a56fad42735fd42, type: 2}
+  score: 0

@@ -5,6 +5,11 @@
 public enum BulletType
 {
     /// <summary>
+    /// ‰½‚à‚È‚µ
+    /// </summary>
+    None,
+
+    /// <summary>
     /// ƒvƒŒƒCƒ„[‚Ì’e
     /// </summary>
     Player,

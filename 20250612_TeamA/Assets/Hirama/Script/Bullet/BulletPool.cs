@@ -10,7 +10,7 @@ public class BulletPool : MonoBehaviour
     public GameObject bulletPrefab;
 
     [Header("初期生成数")]
-    public int initialPoolSize = 300;
+    public int initialPoolSize = 100;
 
     //実際のオブジェクトプール
     private Queue<Bullet> pool = new Queue<Bullet>();

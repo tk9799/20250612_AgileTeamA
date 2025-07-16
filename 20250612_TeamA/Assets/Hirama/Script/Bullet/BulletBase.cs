@@ -4,12 +4,12 @@ using UnityEngine;
 /// 弾の見た目・性能・挙動などを設定する ScriptableObject
 /// プレイヤー弾、雑魚弾、ボス弾すべて共通で使用可能
 /// </summary>
-[CreateAssetMenu(fileName = "BulletBase", menuName = "Danmaku/BulletBase")]
+[CreateAssetMenu(fileName = "BulletBase", menuName = "Barrage/BulletBase")]
 
 public class BulletBase : ScriptableObject
 {
     [Header("弾の見た目となるスプライト画像")]
-    public Sprite sprite;
+    public Sprite bulletsprite;
 
     [Header("弾の色")]
     public Color color = Color.white;
@@ -27,7 +27,7 @@ public class BulletBase : ScriptableObject
     public float lifetime = 10f;
 
     [Header("当たり判定の半径。小さくするほど避けやすくなる")]
-    public float hitboxRadius = 0.1f;
+    public float hitboxRadius = 0.5f;
 
     [Header("弾が自動回転する速度(度/秒)")]
     public float rotationSpeed = 0f;
@@ -56,9 +56,9 @@ public class BulletBase : ScriptableObject
     [Header("命中時に鳴らす効果音")]
     public AudioClip hitSE;
 
-   // [Header("弾のID。識別用にスクリプト側で参照する文字列")]
-    //public string bulletId;
+    [Header("弾のID。識別用にスクリプト側で参照する文字列")]
+    public string bulletId;
 
-    //[Header("この弾の属性：プレイヤー／敵／ボスなど")]
-    //public BulletType type;
+    [Header("この弾の属性：プレイヤー／敵／ボスなど")]
+    public BulletType type;
 }

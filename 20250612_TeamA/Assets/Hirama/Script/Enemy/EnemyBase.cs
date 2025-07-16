@@ -1,93 +1,141 @@
-//using UnityEngine;
+using UnityEngine;
 
-///// <summary>
-///// 雑魚敵の共通処理
-///// </summary>
-//public class EnemyBase : MonoBehaviour
-//{
-//    [Header("設定データ")]
-//    public EnemyData enemyData;
+/// <summary>
+/// 雑魚敵の共通処理
+/// </summary>
+public class EnemyBase : MonoBehaviour
+{
+    [Header("雑魚敵設定データ")]
+    public EnemyData enemyData;
 
-//    protected int currentHP;
-//    protected bool isDead = false;
-//    private bool Appeared = false;
+    //現在HP
+    private int currentHP;
 
-//    //ールやWaveManagerに通知する
-//    public event System.Action<EnemyBase> OnEnemyDestroyed;
+    //所属プール
+    private EnemyPool enemyPool;
 
-//    protected virtual void OnEnable()
-//    {
-//        if (enemyData == null)
-//        {
-//            Debug.LogWarning("[EnemyBase] EnemyDataが設定されていません！");
-//            return;
-//        }
+    //二重返却防止
+    private bool isReturned = false;
 
-//        currentHP = enemyData.maxHP;
-//        isDead = false;
-//    }
+    //一度でもカメラに映ったか
+    private bool hasEnteredScreen = false;
 
-//    /// <summary>
-//    /// ダメージ処理
-//    /// </summary>
-//    public virtual void TakeDamage(int amount)
-//    {
-//        if (isDead)
-//        {
-//            return;
-//        }
+    public void SetOwnerPool(EnemyPool pool)
+    {
+        enemyPool = pool;
+    }
 
-//        currentHP -= amount;
-//        Debug.Log($"[EnemyBase] ダメージ: -{amount} → 残HP: {currentHP}");
+    void OnEnable()
+    {
+        //フラグ初期化
+        isReturned = false;
+        hasEnteredScreen = false;
 
-//        if (currentHP <= 0)
-//        {
-//            Die();
-//        }
-//    }
+        // 初期化処理
+        if (enemyData != null)
+        {
+            currentHP = enemyData.maxHP;
+        }
+    }
 
-//    /// <summary>
-//    /// 死亡処理
-//    /// </summary>
-//    protected virtual void Die()
-//    {
-//        isDead = true;
+    /// <summary>
+    /// 敵の初期化処理
+    /// </summary>
+    public void Init(EnemyData data, Vector3 position)
+    {
+        enemyData = data;
+        transform.position = position;
+        currentHP = data.maxHP;
+        isReturned = false;
 
-//        //スコア加算
-//        if (enemyData != null && enemyData.score > 0)
-//        {
-//            //ここにスコアの処理
-//        }
+        //見た目の設定
+        var spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            //スプライト設定
+            if (enemyData.enemySprite != null)
+            {
+                spriteRenderer.sprite = enemyData.enemySprite;
+            }
 
-//        //ここに死亡エフェクト処理(あれば)
+            //色の反映
+            spriteRenderer.color = enemyData.enemyColor;
+        }
 
-//        OnEnemyDestroyed?.Invoke(this);
-//        gameObject.SetActive(false);
-//    }
+        //スケールの反映
+        transform.localScale = enemyData.scale;
 
-//    //画面に初めて表示されたとき
-//    private void OnBecameVisible()
-//    {
-//        Appeared = true;
-//    }
+        //当たり判定の半径をスケールに応じて調整（CircleCollider2D前提）
+        var circleCollider = GetComponent<CircleCollider2D>();
+        if (circleCollider != null)
+        {
+            // スケールの大きい方を基準にradiusを調整
+            float baseRadius = 1f;
+            float scaleFactor = Mathf.Max(enemyData.scale.x, enemyData.scale.y);
+            circleCollider.radius = baseRadius * scaleFactor;
+        }
+    }
 
-//    //画面外に行ったとき
-//    private void OnBecameInvisible()
-//    {
-//        if (!isDead && Appeared)
-//        {
-//            Debug.Log("[EnemyBase] 画面外に出たためプールへ戻す");
-//            OnEnemyDestroyed?.Invoke(this);
-//            gameObject.SetActive(false);
-//            Appeared = false;
-//        }
-//    }
+    /// <summary>
+    /// ダメージ処理
+    /// </summary>
+    public void TakeDamage(int damage)
+    {
+        if (isReturned)
+        {
+            return;
+        }
 
-//    public void ReturnToPoolFromOffScreen()
-//    {
-//        Debug.Log("[EnemyBase] 外部からのリクエストでプールへ戻す");
-//        OnEnemyDestroyed?.Invoke(this);
-//        gameObject.SetActive(false);
-//        Appeared = false;
-//    }
-//}
+        currentHP -= damage;
+        if (currentHP <= 0)
+        {
+            Die();
+        }
+    }
+
+    /// <summary>
+    /// 死亡処理
+    /// </summary>
+    private void Die()
+    {
+        //ここで死亡演出やエフェクトがあれば再生
+        ReturnToPool();
+    }
+
+    /// <summary>
+    /// 最初の1回カメラに映ったとき
+    /// </summary>
+    void OnBecameVisible()
+    {
+        hasEnteredScreen = true;
+    }
+
+    /// <summary>
+    /// カメラから完全に見えなくなったとき
+    /// </summary>
+    void OnBecameInvisible()
+    {
+        if (hasEnteredScreen)
+        {
+            ReturnToPool();
+        }
+    }
+
+    /// <summary>
+    /// プールに返却
+    /// </summary>
+    private void ReturnToPool()
+    {
+        if (isReturned) return;
+        isReturned = true;
+
+        if (enemyPool != null)
+        {
+            enemyPool.ReturnEnemy(this);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
+    }
+}

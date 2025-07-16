@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc9a7dea95b577c41870280b55881bec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 500
+  maxHP: 1000
   SceneDelay: 1
   ClearSceneName: GameClearScene
 --- !u!114 &5755056308947164369
