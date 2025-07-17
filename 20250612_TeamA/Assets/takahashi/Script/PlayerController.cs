@@ -216,6 +216,7 @@ public class PlayerController:MonoBehaviour
         //isInvincible = true;
         float timer = 0f;
         hitCollider.enabled = false;
+        judgementObjectSpriteRenderer.enabled = false;
 
         while (timer < duration)//無敵時間と同じ時間になるまで
         {

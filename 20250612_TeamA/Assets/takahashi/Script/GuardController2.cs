@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GuardController2 : MonoBehaviour
@@ -32,6 +34,7 @@ public class GuardController2 : MonoBehaviour
 
     private float justRadius = 0f;
     private float justRange = 0.45f;
+    public GameObject bullet;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -45,14 +48,20 @@ public class GuardController2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerJudgement != null && playerJudgement.isGuardJudgement)
+        if (playerJudgement != null && playerJudgement.isDead==true)
+        {
+            spriteRenderer.enabled = false;
+        }
+        else
+        {
+            spriteRenderer.enabled = true;
+        }
+
+        if (playerJudgement != null && playerJudgement.isGuardJudgement==true)
         {
             for (int listNum = bulletPoolManager.activeBulletList.Count - 1; listNum >= 0; listNum--)
             {
-                GameObject bullet = bulletPoolManager.activeBulletList[listNum];
-                //Debug.Log(enemyBulletName.name);
-                //enemyBarrageObject = bulletPoolManager.activeBulletList[listNum];
-                //enemyBarrage = enemyBulletName.transform;
+                bullet = bulletPoolManager.activeBulletList[listNum];
 
                 float notePos = Vector2.Distance(justGuardTransform.position, bullet.transform.position);//2‚Â‚Ìposition‚Ì‹——£‚ð•Ô‚·
 
@@ -67,6 +76,7 @@ public class GuardController2 : MonoBehaviour
                     bulletPoolManager.activeBulletList.RemoveAt(listNum);
                     //Debug.Log(enemyBarrageObject);
                     StartCoroutine(playerJudgement.InvincibleTime());
+                    StartCoroutine(SuccessJustGuad());
                     judgementEnd = true;
                     successShield.SetActive(true);
                     isBarrier = true;
@@ -74,14 +84,46 @@ public class GuardController2 : MonoBehaviour
                     //Debug.Log("InvincibleTime" + judgementEnd);
                 }
             }
-            if (playerJudgement != null && playerJudgement.isInvincible == false && isBarrier)
-            {
-                isBarrier = false;
-                successShield.SetActive(false);
-            }
-            judgementEnd = false;
         }
+        if (playerJudgement != null && playerJudgement.isInvincible == false && isBarrier)
+        {
+            isBarrier = false;
+            successShield.SetActive(false);
+        }
+        judgementEnd = false;
     }
+
+    private IEnumerator SuccessJustGuad()
+    {
+        for (int listNum = bulletPoolManager.activeBulletList.Count - 1; listNum >= 0; listNum--)
+        {
+            bullet = bulletPoolManager.activeBulletList[listNum];
+
+            float notePos = Vector2.Distance(justGuardTransform.position, bullet.transform.position);//2‚Â‚Ìposition‚Ì‹——£‚ð•Ô‚·
+
+            float distances = Mathf.Abs(notePos - justRadius);//”»’èƒ‰ƒCƒ“‚©‚ç‚Ì‹——£
+
+            //Debug.Log(notePos);
+            if (distances <= justGuardDistanceRadius)
+            {
+                //Debug.Log(distances);
+                //Debug.Log("justGuard");
+                bullet.SetActive(false);
+                //bulletPoolManager.activeBulletList.RemoveAt(listNum);
+                //Debug.Log(enemyBarrageObject);
+                judgementEnd = true;
+                //successShield.SetActive(true);
+                isBarrier = true;
+                break;
+                //Debug.Log("InvincibleTime" + judgementEnd);
+            }
+        }
+
+        yield return new WaitForSeconds(playerJudgement.justGuardInvincibleTime);
+
+        yield break;
+    }
+
     void OnDrawGizmosSelected()
     {
         if (justGuardTransform != null)
