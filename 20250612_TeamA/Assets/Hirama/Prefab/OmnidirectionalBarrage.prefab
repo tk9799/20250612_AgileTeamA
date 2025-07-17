@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6496740650755183980
 Transform:
   m_ObjectHideFlags: 0
@@ -106,6 +106,8 @@ MonoBehaviour:
   velocity: {x: 0, y: 0}
   lifeTime: 10
   isStopped: 0
+  enemyPool: {fileID: 0}
+  bulletPoolManager: {fileID: 0}
 --- !u!50 &6982453153500059529
 Rigidbody2D:
   serializedVersion: 5

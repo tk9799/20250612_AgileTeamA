@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7376786270674562082}
   - component: {fileID: 1105029203595910893}
   - component: {fileID: 2369265133789610516}
+  - component: {fileID: -7926708604698969215}
   - component: {fileID: 390401014272878140}
   - component: {fileID: 803069835450584006}
   m_Layer: 0
@@ -136,6 +137,24 @@ MonoBehaviour:
   stopDuration: 1
   stopSwayAmplitude: 0.1
   stopSwayFrequency: 3
+--- !u!114 &-7926708604698969215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8211706486488176680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d52cabc365d1814197952c79a0d754b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletbase: {fileID: 11400000, guid: d4380dd6bb2abef4795c377f3decaced, type: 2}
+  fireMode: 0
+  shotsPerSet: 3
+  intervalBetweenShots: 0.2
+  intervalBetweenSets: 5
+  delayBeforeOneShot: 0
 --- !u!50 &390401014272878140
 Rigidbody2D:
   serializedVersion: 5

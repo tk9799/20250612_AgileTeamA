@@ -15,6 +15,9 @@ public class PlayerJudgement : MonoBehaviour
     [Header("復活時の無敵時間")]
     [SerializeField] public float invincibleTime = 2f;
 
+    [Header("ジャストガード時の無敵時間")]
+    [SerializeField] public float justGuardInvincibleTime = 0f;
+
     [Header("リスポーン位置")]
     [SerializeField] public Vector2 respawnPosition = new Vector2(0f, 0f);
 
@@ -58,6 +61,10 @@ public class PlayerJudgement : MonoBehaviour
             isInput = true;
             isGuardJudgement = true;
             StartCoroutine(GeneratorGuard());
+        }
+        else
+        {
+            isGuardJudgement = false;
         }
         //if (isGenerateGuard=false && hitCollider.enabled == true)
         //{
@@ -142,7 +149,7 @@ public class PlayerJudgement : MonoBehaviour
         //playerTransfom.position = respawnPosition;
         spriteRenderer.enabled = true;
         hitCollider.enabled = true;
-        isDead = false;
+        isDead = true;
         if (guradObject != null && guradObject.activeSelf)
         {
             guardController.spriteRenderer.enabled = true;
@@ -172,6 +179,7 @@ public class PlayerJudgement : MonoBehaviour
         //無敵終了
         spriteRenderer.enabled = true;
         hitCollider.enabled = true;
+        isDead = false;
         //if (!isInvincible && guardController != null && guardController.judgementEnd == false)
         //{
         //    guardController.spriteRenderer.enabled = true;
@@ -226,13 +234,14 @@ public class PlayerJudgement : MonoBehaviour
         hitCollider.enabled = false;
         isInvincible = true;
         spriteRenderer.color = Color.red;
-        yield return new WaitForSeconds(1.05f);
+        yield return new WaitForSeconds(justGuardInvincibleTime);
 
         Debug.Log("無敵時間終了");
         spriteRenderer.color = Color.white;
         hitCollider.enabled = true;
         oneProcess = false;
-        
+        isInvincible = false;
+
         //if (!isInvincible && guardController != null && guardController.judgementEnd)
         //{
         //    guardController.spriteRenderer.enabled = true;
@@ -245,7 +254,7 @@ public class PlayerJudgement : MonoBehaviour
         //    //guardController.circeCollider.enabled = true;
         //    guradObject.SetActive(false);
         //}
-        isInvincible = false;
+
         //guradObject.SetActive(false);
         //yield break;
     }
