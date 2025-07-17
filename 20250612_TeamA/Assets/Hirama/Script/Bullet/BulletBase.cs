@@ -11,6 +11,9 @@ public class BulletBase : ScriptableObject
     [Header("弾の見た目となるスプライト画像")]
     public Sprite bulletsprite;
 
+    [Header("この弾の属性：プレイヤー／敵／ボスなど")]
+    public BulletType type;
+
     [Header("弾の色")]
     public Color color = Color.white;
 
@@ -58,7 +61,4 @@ public class BulletBase : ScriptableObject
 
     [Header("弾のID。識別用にスクリプト側で参照する文字列")]
     public string bulletId;
-
-    [Header("この弾の属性：プレイヤー／敵／ボスなど")]
-    public BulletType type;
 }

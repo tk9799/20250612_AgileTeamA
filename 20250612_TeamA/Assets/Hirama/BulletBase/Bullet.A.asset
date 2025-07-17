@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: Bullet.A
   m_EditorClassIdentifier: 
   bulletsprite: {fileID: 0}
+  type: 2
   color: {r: 1, g: 1, b: 1, a: 1}
   scale: {x: 0.3, y: 0.3}
   damage: 1
   speed: 5
   lifetime: 10
-  hitboxRadius: 0.1
+  hitboxRadius: 0.5
   rotationSpeed: 0
   acceleration: 0
   homing: 0
@@ -29,4 +30,3 @@ MonoBehaviour:
   shotSE: {fileID: 0}
   hitSE: {fileID: 0}
   bulletId: 
-  type: 2

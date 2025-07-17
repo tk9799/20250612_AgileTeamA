@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5591124293237281843}
   m_Layer: 0
   m_Name: PlayerBullet
-  m_TagString: Untagged
+  m_TagString: PlayerBarrage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105,7 +105,7 @@ MonoBehaviour:
   bulletBase: {fileID: 11400000, guid: 7cd9c568dc54b684fa2d1317fa1014eb, type: 2}
   velocity: {x: 0, y: 0}
   lifeTime: 10
-  isStopped: 0
+  isStopped: 1
 --- !u!50 &810472144319430333
 Rigidbody2D:
   serializedVersion: 5

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1015959177288d488b6aa5b620586c8, type: 3}
   m_Name: PlayerAimShotPattern.A
   m_EditorClassIdentifier: 
-  shotMode: 1
+  shotMode: 0
   bulletBase: {fileID: 11400000, guid: e1c98e15d5a412a48a0c1d53a669b17a, type: 2}
   bulletsPerSet: 5
   intervalBetweenShots: 0.2

@@ -16,6 +16,9 @@ public class EnemyWaveManager : MonoBehaviour
     [Header("Wave開始時に自動実行するか")]
     public bool autoStart = true;
 
+    private bool isWaveRunning = false;
+    private bool skipToBoss = false;
+
     private void Start()
     {
         if (autoStart)
@@ -24,13 +27,27 @@ public class EnemyWaveManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            //Waveスキップ
+            SkipToBoss();
+        }
+    }
+
     /// <summary>
     /// すべてのWaveを順に実行する
     /// </summary>
     private IEnumerator SpawnAllWaves()
     {
+        isWaveRunning = true;
+        skipToBoss = false;
+
         foreach (var wave in waveList)
         {
+            if (skipToBoss) yield break;
+
             yield return StartCoroutine(SpawnWave(wave));
         }
 
@@ -42,6 +59,9 @@ public class EnemyWaveManager : MonoBehaviour
 
         // ボス戦開始
         StartBossBattle();
+
+        isWaveRunning = false;
+
     }
 
     /// <summary>
@@ -49,11 +69,15 @@ public class EnemyWaveManager : MonoBehaviour
     /// </summary>
     private IEnumerator SpawnWave(EnemyWave wave)
     {
+        if (skipToBoss) yield break;
+
         // Wave開始前の待機時間
         yield return new WaitForSeconds(wave.delayBeforeStart);
 
         //Wave開始前に前Waveの敵が全滅するまで待つ
         yield return StartCoroutine(WaitUntilAllEnemiesCleared());
+
+        if (skipToBoss) yield break;
 
         //敵出現処理
         if (wave.spawnSimultaneously)
@@ -85,6 +109,8 @@ public class EnemyWaveManager : MonoBehaviour
             //順番に敵群を出現させる
             foreach (var spawnInfo in wave.spawnInfos)
             {
+                if (skipToBoss) yield break;
+
                 yield return StartCoroutine(SpawnEnemyGroup(spawnInfo));
             }
         }
@@ -95,6 +121,11 @@ public class EnemyWaveManager : MonoBehaviour
     /// </summary>
     private IEnumerator SpawnEnemyGroup(EnemySpawnInfo info)
     {
+        if (skipToBoss)
+        {
+            yield break;
+        }
+
         yield return new WaitForSeconds(info.delayBeforeSpawn);
 
         if (info.useGridLayout)
@@ -165,7 +196,33 @@ public class EnemyWaveManager : MonoBehaviour
     /// </summary>
     public void StartWaves()
     {
+        if (isWaveRunning)
+        {
+            Debug.LogWarning("Wave処理はすでに実行中です");
+            return;
+        }
+
         StartCoroutine(SpawnAllWaves());
+    }
+
+    //Waveスキップ処理
+    public void SkipToBoss()
+    {
+        if (!isWaveRunning)
+        {
+            Debug.Log("Wave進行中でないため、スキップ処理は行われません");
+            return;
+        }
+
+        Debug.Log("Waveをスキップしてボス戦へ移行します");
+        skipToBoss = true;
+
+        //現在生存中の敵をすべてPoolに返す
+        foreach (var enemy in EnemyPoolManager.Instance.GetAllActiveEnemies())
+        {
+            //EnemyBaseなどにある戻す処理を呼ぶ
+            enemy.ReturnToPool();
+        }
     }
 
     /// <summary>

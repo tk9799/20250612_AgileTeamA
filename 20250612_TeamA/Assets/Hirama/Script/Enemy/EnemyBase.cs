@@ -99,6 +99,7 @@ public class EnemyBase : MonoBehaviour
     private void Die()
     {
         //ここで死亡演出やエフェクトがあれば再生
+        Debug.Log("Enemyは死んだ");
         ReturnToPool();
     }
 
@@ -124,7 +125,7 @@ public class EnemyBase : MonoBehaviour
     /// <summary>
     /// プールに返却
     /// </summary>
-    private void ReturnToPool()
+    public void ReturnToPool()
     {
         if (isReturned) return;
         isReturned = true;

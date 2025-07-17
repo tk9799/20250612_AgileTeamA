@@ -26,9 +26,8 @@ public class Bullet : MonoBehaviour
     //二重返却防止
     private bool isReturned = false;
 
-    [SerializeField] public EnemyPool enemyPool;
-
-    public BulletPoolManager bulletPoolManager;
+    //一度でもカメラに映ったか
+    private bool hasEnteredScreen = false;
 
     public void SetOwnerPool(BulletPool pool)
     {
@@ -41,6 +40,7 @@ public class Bullet : MonoBehaviour
         timer = 0f;
         isStopped = false;
         isReturned = false;
+        hasEnteredScreen = false;
     }
 
     void Update()
@@ -52,8 +52,6 @@ public class Bullet : MonoBehaviour
             Move();
             //寿命チェック
             UpdateLifetime();
-            //画面外チェック
-            CheckOutOfBounds();
         }
     }
 
@@ -75,14 +73,69 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    //画面外に出たら自動で消す処理
-    private void CheckOutOfBounds()
+    //最初にカメラに映ったとき
+    private void OnBecameVisible()
     {
-        //画面外に出たかを判定
-        Vector3 screenPos = Camera.main.WorldToViewportPoint(transform.position);
+        hasEnteredScreen = true;
+    }
 
-        if (screenPos.x < -0.1f || screenPos.x > 1.1f ||
-            screenPos.y < -0.1f || screenPos.y > 1.1f)
+    //カメラから完全に見えなくなったとき
+    private void OnBecameInvisible()
+    {
+        if (hasEnteredScreen)
+        {
+            ReturnToPool();
+        }
+    }
+
+    /// <summary>
+    /// 弾が何かに当たったとき
+    /// </summary>
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        //弾の所属に応じた当たり判定処理
+        if (bulletBase.type == BulletType.Player && (other.CompareTag("Enemy") || other.CompareTag("Boss")))
+        {
+            //敵に当たった処理
+            OnHit(other.gameObject);
+        }
+        else if ((bulletBase.type == BulletType.Enemy || bulletBase.type == BulletType.Boss) && other.CompareTag("Player"))
+        {
+            //プレイヤーに当たった処理
+            OnHit(other.gameObject);
+        }
+    }
+
+    private void OnHit(GameObject target)
+    {
+        //プレイヤーにダメージを与える
+        var player = target.GetComponent<PlayerHP>();
+        if (player != null)
+        {
+            player.TakeDamage();
+        }
+
+        //敵にダメージを与える
+        var enemy = target.GetComponent<EnemyBase>();
+        if (enemy != null)
+        {
+            enemy.TakeDamage(bulletBase.damage);
+        }
+
+        //ヒットエフェクト
+        if (bulletBase.hitEffect != null)
+        {
+            Instantiate(bulletBase.hitEffect, transform.position, Quaternion.identity);
+        }
+
+        //ヒット効果音
+        if (bulletBase.hitSE != null)
+        {
+            AudioSource.PlayClipAtPoint(bulletBase.hitSE, transform.position);
+        }
+
+        //貫通弾でなければ消滅
+        if (!bulletBase.piercing)
         {
             ReturnToPool();
         }
@@ -101,8 +154,6 @@ public class Bullet : MonoBehaviour
         if (bulletPool != null)
         {
             bulletPool.ReturnBullet(this);
-            //bulletPoolManager.activeBulletList.Remove(bulletPool.gameObject);
-            //enemyPool.RemoveAT()
         }
         else
         {
@@ -121,14 +172,28 @@ public class Bullet : MonoBehaviour
         this.lifeTime = baseData.lifetime;
         isStopped = false;
 
-        //見た目の設定
+        // 見た目の設定
         var sr = GetComponent<SpriteRenderer>();
         if (sr != null)
         {
-            //弾の見た目となるスプライト画像
-            sr.sprite = baseData.sprite;
+            //スプライトが設定されていれば差し替え
+            if (baseData.bulletsprite != null)
+            {
+                sr.sprite = baseData.bulletsprite;
+            }
+
+            //色の適用
             sr.color = baseData.color;
+
+            //スケールの適用
             transform.localScale = baseData.scale;
+        }
+
+        //当たり判定（CircleCollider2D）がある場合、hitboxRadiusに応じてサイズ調整
+        var circleCollider = GetComponent<CircleCollider2D>();
+        if (circleCollider != null)
+        {
+            circleCollider.radius = baseData.hitboxRadius * Mathf.Max(baseData.scale.x, baseData.scale.y);
         }
     }
 }

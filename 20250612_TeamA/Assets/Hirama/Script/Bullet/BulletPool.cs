@@ -16,7 +16,6 @@ public class BulletPool : MonoBehaviour
     private Queue<Bullet> pool = new Queue<Bullet>();
 
     private List<Bullet> activeBullets = new List<Bullet>();
-    [SerializeField] public BulletPoolManager bulletPoolManager;
 
     void Awake()
     {
@@ -50,7 +49,6 @@ public class BulletPool : MonoBehaviour
         bullet.SetOwnerPool(this);
         bullet.gameObject.SetActive(true);
         activeBullets.Add(bullet);
-        bulletPoolManager.activeBulletList.Add(bullet.gameObject);
         //Debug.Log($"[BulletPool] 発射: {bullet.name} を使用 (残り: {pool.Count})");
         return bullet;
     }
@@ -62,8 +60,6 @@ public class BulletPool : MonoBehaviour
         bullet.gameObject.SetActive(false);
         pool.Enqueue(bullet);
         activeBullets.Remove(bullet);
-
-        bulletPoolManager.activeBulletList.Remove(bullet.gameObject);
         //Debug.Log($"[BulletPool] 回収: {bullet.name} をプールに戻した (合計: {pool.Count})");
     }
 

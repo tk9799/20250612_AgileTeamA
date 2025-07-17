@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0014563578d783440b2b551d2ff4bf0d, type: 3}
-  m_Name: Player
+  m_Name: PlayerBullet
   m_EditorClassIdentifier: 
-  bulletsprite: {fileID: 0}
+  bulletsprite: {fileID: 2523825098004598820, guid: f493c09e84175b44ab5b3ef6e6e34d03, type: 3}
+  type: 1
   color: {r: 1, g: 1, b: 1, a: 1}
-  scale: {x: 0.5, y: 0.5}
+  scale: {x: 0.3, y: 0.4}
   damage: 10
-  speed: 5
+  speed: 10
   lifetime: 10
-  hitboxRadius: 0.5
+  hitboxRadius: 1
   rotationSpeed: 0
   acceleration: 0
   homing: 0
@@ -29,4 +30,3 @@ MonoBehaviour:
   shotSE: {fileID: 0}
   hitSE: {fileID: 0}
   bulletId: 
-  type: 1
