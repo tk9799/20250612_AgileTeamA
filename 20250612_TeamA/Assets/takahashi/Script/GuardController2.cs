@@ -29,6 +29,7 @@ public class GuardController2 : MonoBehaviour
     [SerializeField] public CircleCollider2D circeCollider;
     [SerializeField] public BulletPoolManager bulletPoolManager;
     [SerializeField] private GameObject successShield;
+    //[SerializeField] private GuardStamina guardStamina;
     public bool judgementEnd = false;
     private bool isBarrier = false;
 

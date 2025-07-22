@@ -27,7 +27,8 @@ public class PlayerJudgement : MonoBehaviour
     [SerializeField] public GuardController2 guardController;
     [SerializeField] private GameObject guradObject;
     [SerializeField] public float invincible = 1.0f;//ジャストガード時の無敵時間
-    
+    [SerializeField] private GuardStamina guardStamina;
+
 
     public event Action<int> OnLifeChanged;
     public event Action OnPlayerDied;
@@ -41,6 +42,7 @@ public class PlayerJudgement : MonoBehaviour
     public bool isInvincible = false;//無敵判定
     public bool isGuardJudgement = false;//ジャストガード判定
     private Text lifeText;
+    //private float chargeTime = 0f;
 
     private bool oneProcess = false;
     private bool isGenerateGuard = false;//シールドを表示非表示判定
@@ -58,14 +60,28 @@ public class PlayerJudgement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Joystick1Button5)&& !isInvincible&&!isInput)
         {
-            isInput = true;
             isGuardJudgement = true;
-            StartCoroutine(GeneratorGuard());
+            if (guardStamina != null && guardStamina.canStamina == true)
+            {
+                isInput = true;
+                
+                StartCoroutine(GeneratorGuard());
+            }
         }
-        else
+        else if(guardStamina!=null&&guardStamina.canStamina == false)
         {
             isGuardJudgement = false;
         }
+        //if (guardStamina != null && guardStamina.currentStamina <= guardStamina.maxStaminaGauge)
+        //{
+        //    Debug.Log("チャージ開始");
+        //    chargeTime += Time.deltaTime;
+        //    if (chargeTime == 3.0f)
+        //    {
+        //        guardStamina.currentStamina += 1;
+        //        Debug.Log(guardStamina.currentStamina);
+        //    }
+        //}
         //if (isGenerateGuard=false && hitCollider.enabled == true)
         //{
         //    guardController.spriteRenderer.enabled = false;
@@ -76,7 +92,7 @@ public class PlayerJudgement : MonoBehaviour
         //        guradObject.SetActive(false);
         //    }
         //}
-        if(hitCollider.enabled == true&&spriteRenderer.color==Color.red)
+        if (hitCollider.enabled == true&&spriteRenderer.color==Color.red)
         {
             spriteRenderer.color=Color.white;
         }
@@ -148,7 +164,7 @@ public class PlayerJudgement : MonoBehaviour
         //myTransform.position = respawnPosition;
         //playerTransfom.position = respawnPosition;
         spriteRenderer.enabled = true;
-        hitCollider.enabled = true;
+        //hitCollider.enabled = true;
         isDead = true;
         if (guradObject != null && guradObject.activeSelf)
         {
