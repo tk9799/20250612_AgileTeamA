@@ -456,7 +456,7 @@ MonoBehaviour:
   lifeCount: 100
   respawnPosition: {x: 0, y: -3, z: 0}
   respawnDelay: 1
-  invincibleTime: 1
+  invincibleTime: 2
 --- !u!212 &310367041
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -810,7 +810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 436d9cbd4a15fb141ac6dc9c80e49625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 5936056130938081689, guid: d010376af4bda4943867ec88a45937a2, type: 3}
+  enemyPrefab: {fileID: 4150953292242175023, guid: 74963cf0bb942a349a4caf9b6cfa6a56, type: 3}
   initialPoolSize: 10
 --- !u!1 &1448090917
 GameObject:
@@ -884,7 +884,7 @@ MonoBehaviour:
       useGridLayout: 0
       gridColumns: 1
       gridRows: 1
-    spawnSimultaneously: 1
+    spawnSimultaneously: 0
     delayBeforeStart: 1
   bossPrefab: {fileID: 6853529735696316538, guid: dcbbb72fd2598e1459f7b0f4c79eb5ec, type: 3}
   autoStart: 1
@@ -947,7 +947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87d8a0118ed1d9c4ab34ed3c669263f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 8938647821111555376, guid: 1264c49bbe14165498827943dba38431, type: 3}
+  bulletPrefab: {fileID: 5577450479770595606, guid: 1264c49bbe14165498827943dba38431, type: 3}
   initialPoolSize: 100
 --- !u!1 &1834976945
 GameObject:

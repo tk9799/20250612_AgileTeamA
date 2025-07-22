@@ -59,7 +59,6 @@ public class BossHP : MonoBehaviour, IDamageable
             if (bullet.CompareTag("EnemyBullet"))
             {
                 bullet.gameObject.SetActive(false);
-                //bulletPoolManager.activeBulletList.Remove(bullet.gameObject);
             }
         }
 
