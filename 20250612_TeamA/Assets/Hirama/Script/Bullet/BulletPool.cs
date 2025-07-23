@@ -12,6 +12,11 @@ public class BulletPool : MonoBehaviour
     [Header("初期生成数")]
     public int initialPoolSize = 100;
 
+    [Header("最大生成数(0以下で無制限)")]
+    public int maxPoolSize = 0;
+
+    private int totalBulletCount = 0;
+
     //実際のオブジェクトプール
     private Queue<Bullet> pool = new Queue<Bullet>();
 
@@ -29,12 +34,19 @@ public class BulletPool : MonoBehaviour
     // プールに弾を追加
     private void AddBulletToPool()
     {
+        if (maxPoolSize > 0 && totalBulletCount >= maxPoolSize)
+        {
+            Debug.LogWarning("[BulletPool] 弾の最大数に達したため、生成できません");
+            return;
+        }
+
         //プレハブから弾を生成し、非アクティブ状態でプールへ
         var obj = Instantiate(bulletPrefab);
         var bullet = obj.GetComponent<Bullet>();
         bullet.SetOwnerPool(this);
         obj.SetActive(false);
         pool.Enqueue(bullet);
+        totalBulletCount++;
     }
 
     // 使用可能な弾を取得
@@ -44,6 +56,13 @@ public class BulletPool : MonoBehaviour
         if (pool.Count == 0)
         {
             AddBulletToPool();
+
+            //上限で追加できなかった場合
+            if (pool.Count == 0)
+            {
+                Debug.LogWarning("[BulletPool] 弾を取得できません（上限に達している可能性）");
+                return null;
+            }
         }
         var bullet = pool.Dequeue();
         bullet.SetOwnerPool(this);

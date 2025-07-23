@@ -8,7 +8,7 @@ public class BarrageController : MonoBehaviour
     [SerializeField] public int damage = 1;
     BalletPoolPlayer poolPlayer;
     [SerializeField] private float speed = 4f;
-    BossHP bossHP;
+    BossBase bossBase;
     private Text scoreText;
     private float countTime = 0f;
     private Vector3 startPosition;

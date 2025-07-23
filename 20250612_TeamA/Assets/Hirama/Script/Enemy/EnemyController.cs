@@ -14,9 +14,9 @@ public class EnemyController : MonoBehaviour
     private EnemyBase enemyBase;
 
     //インスタンス化された移動パターン
-    private EnemyMovementPattern movementPatternInstance;
+    private MovementPattern movementPatternInstance;
     //インスタンス化された攻撃パターン
-    private EnemyAttackPattern attackPatternInstance;
+    private AttackPattern attackPatternInstance;
 
     /// <summary>
     /// 初期化処理。EnemyBaseを取得しておく

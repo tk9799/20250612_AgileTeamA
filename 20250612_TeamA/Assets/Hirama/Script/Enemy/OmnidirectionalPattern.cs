@@ -3,8 +3,8 @@ using UnityEngine;
 /// <summary>
 /// “G‚ª‘S•ûˆÊ’e‚ğ”­Ë‚·‚éUŒ‚ƒpƒ^[ƒ“
 /// </summary>
-[CreateAssetMenu(fileName = "OmnidirectionalPattern", menuName = "Barrage/EnemyAttackPattern/Omnidirectional")]
-public class OmnidirectionalPattern : EnemyAttackPattern
+[CreateAssetMenu(fileName = "OmnidirectionalPattern", menuName = "Barrage/AttackPattern/Omnidirectional")]
+public class OmnidirectionalPattern : AttackPattern
 {
     public enum ShotMode
     {

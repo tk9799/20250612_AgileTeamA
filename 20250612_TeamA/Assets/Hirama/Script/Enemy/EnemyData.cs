@@ -30,14 +30,11 @@ public class EnemyData : ScriptableObject
     [Header("移動速度")]
     public float moveSpeed = 2.0f;
 
-    [Header("基本出現位置")]
-    public Vector2 spawnPosition = Vector2.zero;
-
     [Header("攻撃パターン")]
-    public EnemyAttackPattern attackPattern;
+    public AttackPattern attackPattern;
 
     [Header("移動パターン")]
-    public EnemyMovementPattern movementPattern;
+    public MovementPattern movementPattern;
 
     [Header("撃破時に加算するスコア")]
     public int score = 0;

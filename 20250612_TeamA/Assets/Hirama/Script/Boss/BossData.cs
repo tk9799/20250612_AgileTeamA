@@ -4,11 +4,14 @@ using UnityEngine;
 /// <summary>
 /// ボスの基本設定データ
 /// </summary>
-[CreateAssetMenu(fileName = "BossData", menuName = "Barrage/BossData")]
+[CreateAssetMenu(fileName = "BossData", menuName = "Barrage/Boss/BossData")]
 public class BossData : ScriptableObject
 {
+    [Header("ボスの種類")]
+    public BossType bossType = BossType.Boss;
+
     [Header("ボス表示名")]
-    public string bossDisplayName;
+    public string BossDisplayName;
 
     [Header("ボスの見た目の画像")]
     public Sprite bossSprite;

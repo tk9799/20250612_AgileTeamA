@@ -3,8 +3,8 @@ using UnityEngine;
 /// <summary>
 /// “G‚ªã‚©‚ç‰º‚ÉˆÚ“®‚·‚éˆÚ“®ƒpƒ^[ƒ“
 /// </summary>
-[CreateAssetMenu(fileName = "SimpleMoveDownPattern", menuName = "Barrage/EnemyMovementPattern/SimpleMoveDown")]
-public class SimpleMoveDownPattern : EnemyMovementPattern
+[CreateAssetMenu(fileName = "SimpleMoveDownPattern", menuName = "Barrage/MovementPattern/SimpleMoveDown")]
+public class SimpleMoveDownPattern : MovementPattern
 {
     private EnemyController controller;
     private float speed;

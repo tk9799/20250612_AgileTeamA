@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 6982453153500059529}
   - component: {fileID: 7270542686400760958}
   m_Layer: 0
-  m_Name: EnemyBarrage
-  m_TagString: EnemyBullet
+  m_Name: Bullet.A
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,8 +106,6 @@ MonoBehaviour:
   velocity: {x: 0, y: 0}
   lifeTime: 10
   isStopped: 0
-  enemyPool: {fileID: 0}
-  bulletPoolManager: {fileID: 0}
 --- !u!50 &6982453153500059529
 Rigidbody2D:
   serializedVersion: 5

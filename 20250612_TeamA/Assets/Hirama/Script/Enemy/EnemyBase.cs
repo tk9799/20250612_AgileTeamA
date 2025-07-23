@@ -3,38 +3,26 @@ using UnityEngine;
 /// <summary>
 /// 雑魚敵の共通処理
 /// </summary>
-public class EnemyBase : MonoBehaviour
+public class EnemyBase : MonoBehaviour, IDanmakuEnemy
 {
     [Header("雑魚敵設定データ")]
     public EnemyData enemyData;
 
-    //現在HP
-    private int currentHP;
+    public int CurrentHP { get; private set; }
+    public bool IsDead { get; private set; } = false;
 
-    //所属プール
     private EnemyPool enemyPool;
-
-    //二重返却防止
     private bool isReturned = false;
-
-    //一度でもカメラに映ったか
     private bool hasEnteredScreen = false;
-
-    public void SetOwnerPool(EnemyPool pool)
-    {
-        enemyPool = pool;
-    }
 
     void OnEnable()
     {
-        //フラグ初期化
         isReturned = false;
         hasEnteredScreen = false;
 
-        // 初期化処理
         if (enemyData != null)
         {
-            currentHP = enemyData.maxHP;
+            CurrentHP = enemyData.maxHP;
         }
     }
 
@@ -45,35 +33,48 @@ public class EnemyBase : MonoBehaviour
     {
         enemyData = data;
         transform.position = position;
-        currentHP = data.maxHP;
+        CurrentHP = data.maxHP;
         isReturned = false;
+        IsDead = false;
 
-        //見た目の設定
         var spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
         {
-            //スプライト設定
             if (enemyData.enemySprite != null)
             {
                 spriteRenderer.sprite = enemyData.enemySprite;
             }
 
-            //色の反映
             spriteRenderer.color = enemyData.enemyColor;
         }
 
-        //スケールの反映
         transform.localScale = enemyData.scale;
 
-        //当たり判定の半径をスケールに応じて調整（CircleCollider2D前提）
         var circleCollider = GetComponent<CircleCollider2D>();
         if (circleCollider != null)
         {
-            // スケールの大きい方を基準にradiusを調整
             float baseRadius = 1f;
             float scaleFactor = Mathf.Max(enemyData.scale.x, enemyData.scale.y);
             circleCollider.radius = baseRadius * scaleFactor;
         }
+    }
+
+    /// <summary>
+    /// 最大HPを返す
+    /// </summary>
+    public int GetMaxHP()
+    {
+        return enemyData != null ? enemyData.maxHP : 0;
+    }
+
+    public Vector3 GetPosition()
+    {
+        return transform.position;
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        transform.position = position;
     }
 
     /// <summary>
@@ -86,8 +87,8 @@ public class EnemyBase : MonoBehaviour
             return;
         }
 
-        currentHP -= damage;
-        if (currentHP <= 0)
+        CurrentHP -= damage;
+        if (CurrentHP <= 0)
         {
             Die();
         }
@@ -98,9 +99,37 @@ public class EnemyBase : MonoBehaviour
     /// </summary>
     private void Die()
     {
-        //ここで死亡演出やエフェクトがあれば再生
-        Debug.Log("Enemyは死んだ");
+        IsDead = true;
+
+        Debug.Log($"雑魚敵「{enemyData.EnemydisplayName}」を撃破");
+
         ReturnToPool();
+    }
+
+    public void SetOwnerPool(EnemyPool pool)
+    {
+        enemyPool = pool;
+    }
+
+    /// <summary>
+    /// プールに返却
+    /// </summary>
+    public void ReturnToPool()
+    {
+        if (isReturned)
+        {
+            return;
+        }
+        isReturned = true;
+
+        if (enemyPool != null)
+        {
+            enemyPool.ReturnEnemy(this);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -119,24 +148,6 @@ public class EnemyBase : MonoBehaviour
         if (hasEnteredScreen)
         {
             ReturnToPool();
-        }
-    }
-
-    /// <summary>
-    /// プールに返却
-    /// </summary>
-    public void ReturnToPool()
-    {
-        if (isReturned) return;
-        isReturned = true;
-
-        if (enemyPool != null)
-        {
-            enemyPool.ReturnEnemy(this);
-        }
-        else
-        {
-            gameObject.SetActive(false);
         }
     }
 }

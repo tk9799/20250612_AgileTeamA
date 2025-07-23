@@ -2,8 +2,8 @@ using UnityEngine;
 /// <summary>
 /// プレイヤー狙いの弾を発射する攻撃パターン
 /// </summary>
-[CreateAssetMenu(fileName = "PlayerAimShotPattern", menuName = "Barrage/EnemyAttackPattern/PlayerAimShot")]
-public class PlayerAimShotPattern : EnemyAttackPattern
+[CreateAssetMenu(fileName = "PlayerAimShotPattern", menuName = "Barrage/AttackPattern/PlayerAimShot")]
+public class PlayerAimShotPattern : AttackPattern
 {
     public enum ShotMode
     {

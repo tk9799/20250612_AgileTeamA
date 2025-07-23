@@ -3,26 +3,14 @@ using UnityEngine;
 /// <summary>
 /// ボスの1フェーズを表すデータ
 /// </summary>
-[CreateAssetMenu(fileName = "BossPhase", menuName = "Barrage/BossPhase")]
+[CreateAssetMenu(fileName = "BossPhase", menuName = "Barrage/Boss/BossPhase")]
 public class BossPhase : ScriptableObject
 {
-    public enum PhaseEndCondition
-    {
-        //終了条件なし
-        None,
-        //HPが指定値以下でフェーズ終了
-        HP,
-        //指定秒数経過でフェーズ終了
-        TimeElapsed,
-        //キー入力で次のフェーズへ
-        KeyInput
-    }
-
     [Header("このフェーズの攻撃パターン")]
-    public EnemyAttackPattern attackPattern;
+    public AttackPattern attackPattern;
 
     [Header("このフェーズの移動パターン")]
-    public EnemyMovementPattern movementPattern;
+    public MovementPattern movementPattern;
 
     [Header("フェーズ終了条件")]
     public PhaseEndCondition endCondition = PhaseEndCondition.None;

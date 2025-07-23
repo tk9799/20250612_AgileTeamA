@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class EnemyMovementPattern : ScriptableObject
+public abstract class MovementPattern : ScriptableObject
 {
     /// <summary>
     /// ‰Šú‰»(EnemyController‚ÌQÆ)

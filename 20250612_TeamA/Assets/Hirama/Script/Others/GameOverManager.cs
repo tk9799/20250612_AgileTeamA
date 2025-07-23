@@ -15,11 +15,11 @@ public class GameOverManager : MonoBehaviour
 
     public void StopAllEnemies()
     {
-        //ƒ{ƒX‚ÌˆÚ“®’âŽ~
-        foreach (var mover in FindObjectsByType<BossMovement>(FindObjectsSortMode.None))
-        {
-            mover.enabled = false;
-        }
+        ////ƒ{ƒX‚ÌˆÚ“®’âŽ~
+        //foreach (var mover in FindObjectsByType<BossMovement>(FindObjectsSortMode.None))
+        //{
+        //    mover.enabled = false;
+        //}
 
         ////EnemyMovement‚Ì’âŽ~
         //foreach (var enemyMove in FindObjectsByType<EnemyMovement>(FindObjectsSortMode.None))
@@ -63,14 +63,14 @@ public class GameOverManager : MonoBehaviour
             }
         }
 
-        //ƒ{ƒX‚Ì’e–‹’âŽ~
-        foreach (var barrage in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
-        {
-            if (barrage is BossOmnidirectionalBarrage || barrage is BossFanBarrage || barrage is PatternManager)
-            {
-                ((MonoBehaviour)barrage).enabled = false;
-            }
-        }
+        ////ƒ{ƒX‚Ì’e–‹’âŽ~
+        //foreach (var barrage in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
+        //{
+        //    if (barrage is BossOmnidirectionalBarrage || barrage is BossFanBarrage || barrage is PatternManager)
+        //    {
+        //        ((MonoBehaviour)barrage).enabled = false;
+        //    }
+        //}
 
         ////ŽG‹›“G‚ÌŽ©‹@‘_‚¢‚Ì’âŽ~
         //foreach (var aimsBarrage in FindObjectsByType<EnemyAimsBarrage>(FindObjectsSortMode.None))

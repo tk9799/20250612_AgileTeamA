@@ -74,18 +74,18 @@ public class Bullet : MonoBehaviour
     }
 
     //最初にカメラに映ったとき
-    private void OnBecameVisible()
-    {
-        hasEnteredScreen = true;
-    }
+    //private void OnBecameVisible()
+    //{
+    //    hasEnteredScreen = true;
+    //}
 
     //カメラから完全に見えなくなったとき
     private void OnBecameInvisible()
     {
-        if (hasEnteredScreen)
-        {
+        //if (hasEnteredScreen)
+        //{
             ReturnToPool();
-        }
+        //}
     }
 
     /// <summary>
@@ -120,6 +120,13 @@ public class Bullet : MonoBehaviour
         if (enemy != null)
         {
             enemy.TakeDamage(bulletBase.damage);
+        }
+
+        //ボスにダメージを与える
+        var boss = target.GetComponent<BossBase>();
+        if (boss != null)
+        {
+            boss.TakeDamage(bulletBase.damage);
         }
 
         //ヒットエフェクト
