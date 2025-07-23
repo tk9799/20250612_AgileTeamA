@@ -9,16 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e7640653c8d3db4785e7ef0047b2052, type: 3}
-  m_Name: BossData
+  m_Script: {fileID: 11500000, guid: da0e78fe07e377f43aefdfcabfd18b78, type: 3}
+  m_Name: Enemy
   m_EditorClassIdentifier: 
-  bossDisplayName: 
-  bossSprite: {fileID: 0}
-  bossPrefab: {fileID: 0}
-  maxHP: 100
   moveSpeed: 2
-  startPosition: {x: 0, y: 0}
-  attackPhases: []
-  movementPhases: []
-  bossBGM: {fileID: 0}
-  score: 0
+  spawnPosition: {x: 0, y: 0}
+  centerPosition: {x: -2.5, y: 3}
+  finalMoveDirection: {x: 0, y: 1}
+  stopDuration: 99999
+  stopSwayAmplitude: 0.1
+  stopSwayFrequency: 3
