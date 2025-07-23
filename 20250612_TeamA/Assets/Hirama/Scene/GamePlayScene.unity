@@ -949,6 +949,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5577450479770595606, guid: 1264c49bbe14165498827943dba38431, type: 3}
   initialPoolSize: 100
+  maxPoolSize: 0
 --- !u!1 &1834976945
 GameObject:
   m_ObjectHideFlags: 0
@@ -1048,6 +1049,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 8737118659127152903, guid: 0b657e14bb831774498bca23168e6f1c, type: 3}
   initialPoolSize: 100
+  maxPoolSize: 0
 --- !u!1 &1931291585
 GameObject:
   m_ObjectHideFlags: 0
