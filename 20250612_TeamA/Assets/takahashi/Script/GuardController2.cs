@@ -1,6 +1,5 @@
 using System.Collections;
 using Unity.VisualScripting;
-using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class GuardController2 : MonoBehaviour
@@ -36,7 +35,6 @@ public class GuardController2 : MonoBehaviour
 
     private float justRadius = 0f;
     private float justRange = 0.45f;
-    public int successCount = 0;//ジャストガードが成功した数
     public GameObject bullet;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -83,10 +81,6 @@ public class GuardController2 : MonoBehaviour
                     judgementEnd = true;
                     successShield.SetActive(true);
                     isBarrier = true;
-                    if (SceneManager.GetActiveScene().name == "TutorialScene")
-                    {
-                        successCount++;
-                    }
                     break;
                     //Debug.Log("InvincibleTime" + judgementEnd);
                 }

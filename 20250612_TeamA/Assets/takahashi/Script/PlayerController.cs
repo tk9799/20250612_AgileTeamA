@@ -48,14 +48,12 @@ public class PlayerController:MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private Collider2D hitCollider;
-    private BoxCollider2D boxCollider2D;
     public bool blinking = false;
 
     bool isDeadJudge = false;
 
     [SerializeField] GameObject judgementObject;
     [SerializeField] SpriteRenderer judgementObjectSpriteRenderer;
-    [SerializeField] private GameObject tutorialGreenObject;
 
     //private PlayerControls controls;
 
@@ -106,7 +104,6 @@ public class PlayerController:MonoBehaviour
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         hitCollider = GetComponent<Collider2D>();
-        boxCollider2D = GetComponent<BoxCollider2D>();
         //judgementObjectSpriteRenderer.enabled = false;
     }
 
@@ -194,16 +191,6 @@ public class PlayerController:MonoBehaviour
             //    generate = false;
             //}
         }
-
-        //if (SceneManager.GetActiveScene().name == "TutorialScene")
-        //{
-        //    boxCollider2D.enabled = true;
-        //}
-        //else if(SceneManager.GetActiveScene().name == "TutorialScene" && tutorialGreenObject == null)
-        //{
-        //    Debug.Log("nosing");
-        //    boxCollider2D.enabled = false;
-        //}
     }
 
     IEnumerator RespawnAfterDelay()

@@ -40,7 +40,7 @@ public class GuardStamina : MonoBehaviour
         }
 
         chargeTime += Time.deltaTime;
-        //Debug.Log(chargeTime);
+        Debug.Log(chargeTime);
         
         if (chargeTime >= 3.0f)
         {

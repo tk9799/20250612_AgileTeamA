@@ -3,165 +3,242 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 雑魚敵のウェーブ出現管理
+/// 複数のWaveを順に実行して雑魚敵を出現させる
 /// </summary>
 public class EnemyWaveManager : MonoBehaviour
 {
-    [System.Serializable]
-    public class EnemySpawnInfo
-    {
-        [Header("出現させる敵の種類(EnemyPoolManagerの識別名)")]
-        public string enemyType = "";
+    [Header("全Waveの設定リスト")]
+    public List<EnemyWave> waveList = new List<EnemyWave>();
 
-        [Header("出現位置")]
-        public Vector3 spawnPosition = new Vector3(0f, 0f);
-
-        [Header("連続出現数（1以上）")]
-        public int spawnCount = 1;
-
-        [Header("この敵を出すまでの待機時間(秒)")]
-        public float spawnDelay = 0f;
-
-        [Header("連続出現時の間隔（秒）")]
-        public float spawnInterval = 0.2f;
-
-        [Header("連続出現時のX/Yずらし量")]
-        public Vector2 spawnOffsetPerUnit = Vector2.zero;
-
-        [Header("この敵の移動パターン（ScriptableObject）")]
-        public EnemyMovementSettings movementSettings;
-    }
-
-    [System.Serializable]
-    public class EnemyWave
-    {
-        [Header("このウェーブで出現させる敵リスト")]
-        public List<EnemySpawnInfo> enemies = new List<EnemySpawnInfo>();
-
-        [Header("ウェーブ開始前の待機時間(秒)")]
-        public float delayBeforeStart = 1f;
-    }
-
-    [Header("ウェーブ定義リスト")]
-    public List<EnemyWave> waves = new List<EnemyWave>();
-
-    [Header("ボスプレハブ")]
+    [Header("ボスのプレハブ")]
     public GameObject bossPrefab;
 
-    [Header("ボスの出現位置")]
-    public Vector3 bossSpawnPosition = new Vector3(7f, 10f, 0f);
+    [Header("Wave開始時に自動実行するか")]
+    public bool autoStart = true;
 
-    [Header("敵の出現に使うEnemyPoolManager")]
-    public EnemyPoolManager enemyPoolManager;
+    private bool isWaveRunning = false;
+    private bool skipToBoss = false;
 
-    //現在出現中の敵リスト（倒されたらリストから外す）
-    private List<EnemyHP> currentWaveEnemies = new List<EnemyHP>();
-
-    void Start()
+    private void Start()
     {
-        StartCoroutine(HandleWaves());
+        if (autoStart)
+        {
+            StartCoroutine(SpawnAllWaves());
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            //Waveスキップ
+            SkipToBoss();
+        }
     }
 
     /// <summary>
-    /// ウェーブの出現を順に処理
+    /// すべてのWaveを順に実行する
     /// </summary>
-    public IEnumerator HandleWaves()
+    private IEnumerator SpawnAllWaves()
     {
-        for (int i = 0; i < waves.Count; i++)
+        isWaveRunning = true;
+        skipToBoss = false;
+
+        foreach (var wave in waveList)
         {
-            var wave = waves[i];
-            currentWaveEnemies.Clear();
+            if (skipToBoss) yield break;
 
-            yield return new WaitForSeconds(wave.delayBeforeStart);
-            Debug.Log($"[WaveManager] Wave {i + 1} 開始");
-
-            foreach (var spawnInfo in wave.enemies)
-            {
-                yield return new WaitForSeconds(spawnInfo.spawnDelay);
-
-                for (int j = 0; j < spawnInfo.spawnCount; j++)
-                {
-                    Vector3 offset = new Vector3(
-                        spawnInfo.spawnOffsetPerUnit.x * j,
-                        spawnInfo.spawnOffsetPerUnit.y * j,
-                        0f);
-
-                    Vector3 actualSpawnPos = spawnInfo.spawnPosition + offset;
-
-                    //目標位置の横ずれ
-                    Vector2 centerPosOffset = new Vector2(spawnInfo.spawnOffsetPerUnit.x * j,
-                        spawnInfo.spawnOffsetPerUnit.y * j);
-
-                    GameObject enemyObj = enemyPoolManager.GetEnemy(spawnInfo.enemyType, actualSpawnPos);
-                    if (enemyObj == null)
-                    {
-                        Debug.LogError($"[WaveManager] 敵 {spawnInfo.enemyType} の出現に失敗");
-                        continue;
-                    }
-
-                    EnemyHP enemy = enemyObj.GetComponent<EnemyHP>();
-                    if (enemy != null)
-                    {
-                        currentWaveEnemies.Add(enemy);
-                        enemy.OnEnemyDestroyed += HandleEnemyDestroyed;
-
-                        //移動設定の適用
-                        var movement = enemy.GetComponent<EnemyMovement>();
-                        if (movement != null && spawnInfo.movementSettings != null)
-                        {
-                            movement.Initialize(spawnInfo.movementSettings, actualSpawnPos, centerPosOffset);
-                        }
-                    }
-
-                    if (j < spawnInfo.spawnCount - 1)
-                    {
-                        yield return new WaitForSeconds(spawnInfo.spawnInterval);
-                    }
-                }
-            }
-
-            //このWaveの敵が全滅するまで待つ
-            yield return new WaitUntil(() => currentWaveEnemies.Count == 0);
-            Debug.Log($"[WaveManager] Wave {i + 1} 終了（全滅検知）");
+            yield return StartCoroutine(SpawnWave(wave));
         }
 
-        Debug.Log("[WaveManager] 全Wave終了 → 次の処理へ");
+        // 全Wave終了後に敵全滅を待つ
+        yield return StartCoroutine(WaitUntilAllEnemiesCleared());
 
-        if (bossPrefab != null)
+        // ボス戦前に少し待機（例：3秒）
+        yield return new WaitForSeconds(3f);
+
+        // ボス戦開始
+        StartBossBattle();
+
+        isWaveRunning = false;
+
+    }
+
+    /// <summary>
+    /// 1つのWaveを処理する（同時出現 or 順番出現を切り替え）
+    /// </summary>
+    private IEnumerator SpawnWave(EnemyWave wave)
+    {
+        if (skipToBoss) yield break;
+
+        // Wave開始前の待機時間
+        yield return new WaitForSeconds(wave.delayBeforeStart);
+
+        //Wave開始前に前Waveの敵が全滅するまで待つ
+        yield return StartCoroutine(WaitUntilAllEnemiesCleared());
+
+        if (skipToBoss) yield break;
+
+        //敵出現処理
+        if (wave.spawnSimultaneously)
         {
-            GameObject bossObj = Instantiate(bossPrefab, bossSpawnPosition, Quaternion.identity);
-            Transform player = GameObject.FindWithTag("Player")?.transform;
-            BulletPoolManager bulletPool = FindAnyObjectByType<BulletPoolManager>();
-
-            // BossFanBarrage
-            var fan = bossObj.GetComponentInChildren<BossFanBarrage>();
-            if (fan != null)
+            foreach (var spawnInfo in wave.spawnInfos)
             {
-                fan.target = player;
-                fan.poolManager = bulletPool;
+                StartCoroutine(SpawnEnemyGroup(spawnInfo));
             }
 
-            // BossOmnidirectionalBarrage
-            var omni = bossObj.GetComponentInChildren<BossOmnidirectionalBarrage>();
-            if (omni != null)
+            //同時出現の場合、敵の最大出現時間だけ待つ
+            float maxWaitTime = 0f;
+            foreach (var spawnInfo in wave.spawnInfos)
             {
-                omni.poolManager = bulletPool;
+                float time = spawnInfo.delayBeforeSpawn;
+                if (spawnInfo.useGridLayout)
+                {
+                    time += (spawnInfo.gridColumns * spawnInfo.gridRows - 1) * spawnInfo.interval;
+                }
+                else
+                {
+                    time += (spawnInfo.spawnCount - 1) * spawnInfo.interval;
+                }
+                if (time > maxWaitTime) maxWaitTime = time;
             }
-
-            Debug.Log("[WaveManager] ボスを出現させました");
+            yield return new WaitForSeconds(maxWaitTime);
         }
         else
         {
-            Debug.Log("[WaveManager] ボスプレハブが未設定です");
+            //順番に敵群を出現させる
+            foreach (var spawnInfo in wave.spawnInfos)
+            {
+                if (skipToBoss) yield break;
+
+                yield return StartCoroutine(SpawnEnemyGroup(spawnInfo));
+            }
         }
     }
 
-    void HandleEnemyDestroyed(EnemyHP enemy)
+    /// <summary>
+    /// 敵のグループを出現させる
+    /// </summary>
+    private IEnumerator SpawnEnemyGroup(EnemySpawnInfo info)
     {
-        if (currentWaveEnemies.Contains(enemy))
+        if (skipToBoss)
         {
-            currentWaveEnemies.Remove(enemy);
-            enemy.OnEnemyDestroyed -= HandleEnemyDestroyed;
+            yield break;
+        }
+
+        yield return new WaitForSeconds(info.delayBeforeSpawn);
+
+        if (info.useGridLayout)
+        {
+            yield return StartCoroutine(SpawnGridEnemies(info));
+        }
+        else
+        {
+            yield return StartCoroutine(SpawnLinearEnemies(info));
+        }
+    }
+
+    /// <summary>
+    /// 直線状に敵を連続出現させる
+    /// </summary>
+    private IEnumerator SpawnLinearEnemies(EnemySpawnInfo info)
+    {
+        for (int i = 0; i < info.spawnCount; i++)
+        {
+            Vector2 pos = info.spawnCenter + new Vector2(info.offsetX * i, info.offsetY * i);
+            EnemyPoolManager.Instance.SpawnEnemy(info.enemyData, pos);
+            yield return new WaitForSeconds(info.interval);
+        }
+    }
+
+    /// <summary>
+    /// グリッド状に敵を出現させる
+    /// </summary>
+    private IEnumerator SpawnGridEnemies(EnemySpawnInfo info)
+    {
+        int total = info.gridColumns * info.gridRows;
+        int count = 0;
+
+        for (int y = 0; y < info.gridRows; y++)
+        {
+            for (int x = 0; x < info.gridColumns; x++)
+            {
+                Vector2 offset = new Vector2(
+                    (x - (info.gridColumns - 1) / 2f) * info.offsetX,
+                    (-(y - (info.gridRows - 1) / 2f)) * info.offsetY
+                );
+                Vector2 spawnPos = info.spawnCenter + offset;
+
+                EnemyPoolManager.Instance.SpawnEnemy(info.enemyData, spawnPos);
+                count++;
+
+                if (count < total)
+                {
+                    yield return new WaitForSeconds(info.interval);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 生存中の敵がいなくなるまで待機するコルーチン
+    /// </summary>
+    private IEnumerator WaitUntilAllEnemiesCleared()
+    {
+        while (EnemyPoolManager.Instance.GetAllActiveEnemies().Count > 0)
+        {
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// 外部からWave処理を開始したいときに呼ぶ
+    /// </summary>
+    public void StartWaves()
+    {
+        if (isWaveRunning)
+        {
+            Debug.LogWarning("Wave処理はすでに実行中です");
+            return;
+        }
+
+        StartCoroutine(SpawnAllWaves());
+    }
+
+    //Waveスキップ処理
+    public void SkipToBoss()
+    {
+        if (!isWaveRunning)
+        {
+            Debug.Log("Wave進行中でないため、スキップ処理は行われません");
+            return;
+        }
+
+        Debug.Log("Waveをスキップしてボス戦へ移行します");
+        skipToBoss = true;
+
+        //現在生存中の敵をすべてPoolに返す
+        foreach (var enemy in EnemyPoolManager.Instance.GetAllActiveEnemies())
+        {
+            //EnemyBaseなどにある戻す処理を呼ぶ
+            enemy.ReturnToPool();
+        }
+    }
+
+    /// <summary>
+    /// ボス戦の開始処理（任意の処理に置き換え）
+    /// </summary>
+    private void StartBossBattle()
+    {
+        Debug.Log("ボス戦開始！");
+
+        if (bossPrefab != null)
+        {
+            Instantiate(bossPrefab, new Vector3(0, 10f, 0), Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogWarning("ボスのプレハブが設定されていません！");
         }
     }
 }
