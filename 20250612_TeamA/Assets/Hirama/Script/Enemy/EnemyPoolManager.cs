@@ -2,84 +2,122 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 複数種類の敵プールをまとめて管理するマネージャー
+/// 複数種類の敵プールを管理するマネージャー
 /// </summary>
 public class EnemyPoolManager : MonoBehaviour
 {
     [System.Serializable]
-    public class EnemyPoolEntry
+    public class PoolEntry
     {
-        [Header("敵の識別名")]
-        public string enemyType;
+        [Header("この敵のデータ")]
+        public EnemyData enemyData;
 
         [Header("対応するEnemyPool")]
-        public EnemyPool pool;
+        public EnemyPool enemyPool;
     }
 
-    [Header("登録する敵の種類とプール")]
-    public List<EnemyPoolEntry> enemyPools = new List<EnemyPoolEntry>();
+    [Header("敵種ごとのプール")]
+    public List<PoolEntry> poolEntries = new List<PoolEntry>();
 
-    private Dictionary<string, EnemyPool> poolDictionary = new Dictionary<string, EnemyPool>();
+    private Dictionary<EnemyData, EnemyPool> lookup = new Dictionary<EnemyData, EnemyPool>();
 
-    //現在アクティブな敵リスト
-    private List<EnemyHP> activeEnemies = new List<EnemyHP>();
+    public static EnemyPoolManager Instance { get; private set; }
 
     void Awake()
     {
-        // Dictionaryに変換
-        foreach (var entry in enemyPools)
+        if (Instance != null && Instance != this)
         {
-            if (!poolDictionary.ContainsKey(entry.enemyType))
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+
+        foreach (var entry in poolEntries)
+        {
+            if (entry.enemyData != null && entry.enemyPool != null)
             {
-                poolDictionary.Add(entry.enemyType, entry.pool);
+                if (!lookup.ContainsKey(entry.enemyData))
+                {
+                    lookup.Add(entry.enemyData, entry.enemyPool);
+                }
+                else
+                {
+                    //Debug.LogWarning($"EnemyData {entry.enemyData.name} はすでに登録済みです");
+                }
             }
         }
     }
 
     /// <summary>
-    /// 種類を指定して敵を取得する
+    /// 敵をスポーンする(EnemyDataからPrefabとPoolを設定)
     /// </summary>
-    public GameObject GetEnemy(string type, Vector3 position)
+    public EnemyBase SpawnEnemy(EnemyData data, Vector3 position)
     {
-        if (poolDictionary.ContainsKey(type))
+        if (data == null)
         {
-            //return poolDictionary[type].GetEnemy(position);
-            GameObject enemyObj = poolDictionary[type].GetEnemy(position);
+            Debug.LogError("EnemyDataがnullです");
+            return null;
+        }
 
-            //Enemyを登録
-            EnemyHP enemy = enemyObj.GetComponent<EnemyHP>();
-            if (enemy != null)
+        if (lookup.TryGetValue(data, out var pool))
+        {
+            var enemy = pool.GetEnemy();
+            enemy.Init(data, position);
+
+            var controller = enemy.GetComponent<EnemyController>();
+            if (controller != null)
             {
-                RegisterEnemy(enemy);
+                controller.Init(data);
+            }
+            else
+            {
+                Debug.LogWarning("EnemyControllerがアタッチされていません");
             }
 
-            return enemyObj;
+            return enemy;
         }
         else
         {
-            Debug.LogError($"Enemy type '{type}' が登録されていません！");
+            Debug.LogWarning($"EnemyData {data.name} に対応するプールが見つかりません");
             return null;
         }
     }
 
-    //敵の登録・解除
-    public void RegisterEnemy(EnemyHP enemy)
+    /// <summary>
+    /// 全敵の一時停止
+    /// </summary>
+    public void PauseAllEnemies()
     {
-        if (!activeEnemies.Contains(enemy))
+        foreach (var pool in lookup.Values)
         {
-            activeEnemies.Add(enemy);
-            enemy.OnEnemyDestroyed += HandleEnemyDestroyed;
+            foreach (var enemy in pool.GetAllActiveEnemies())
+            {
+                enemy.enabled = false;
+            }
         }
     }
 
-    private void HandleEnemyDestroyed(EnemyHP enemy)
+    /// <summary>
+    /// 全敵の再開
+    /// </summary>
+    public void ResumeAllEnemies()
     {
-        activeEnemies.Remove(enemy);
-        enemy.OnEnemyDestroyed -= HandleEnemyDestroyed;
+        foreach (var pool in lookup.Values)
+        {
+            foreach (var enemy in pool.GetAllActiveEnemies())
+            {
+                enemy.enabled = true;
+            }
+        }
     }
 
-    public bool AreAllEnemiesGone()
+    public List<EnemyBase> GetAllActiveEnemies()
     {
-        return activeEnemies.Count == 0;
+        List<EnemyBase> result = new List<EnemyBase>();
+        foreach (var pool in lookup.Values)
+        {
+            result.AddRange(pool.GetAllActiveEnemies());
+        }
+        return result;
     }
 }

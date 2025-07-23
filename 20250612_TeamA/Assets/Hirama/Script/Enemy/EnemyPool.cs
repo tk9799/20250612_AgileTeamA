@@ -1,76 +1,60 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 /// <summary>
-///　敵のオブジェクトプール
+/// 単一の敵種に対するオブジェクトプール
 /// </summary>
 public class EnemyPool : MonoBehaviour
 {
-    [Header("プールする敵のプレハブ")]
+    [Header("プールする敵のプレハブ(EnemyBase付き)")]
     public GameObject enemyPrefab;
 
     [Header("初期生成数")]
-    public int initialSize = 10;
+    public int initialPoolSize = 10;
 
-    private Queue<GameObject> pool = new Queue<GameObject>();
+    private Queue<EnemyBase> pool = new Queue<EnemyBase>();
+    private List<EnemyBase> activeEnemies = new List<EnemyBase>();
 
-    List<GameObject> bullets = new List<GameObject>();//Listで弾幕を管理
-
-    private void Start()
+    void Awake()
     {
-        //初期生成
-        for (int i = 0; i < initialSize; i++)
+        for (int i = 0; i < initialPoolSize; i++)
         {
-            CreateNewEnemy();
+            AddEnemyToPool();
         }
     }
 
-    /// <summary>
-    ///  敵をプールから取り出す
-    /// </summary>
-    public GameObject GetEnemy(Vector3 position)
+    private void AddEnemyToPool()
     {
-        GameObject enemy;
-
-        if (pool.Count > 0)
-        {
-            enemy = pool.Dequeue();
-        }
-        else
-        {
-            Debug.Log("再生成");
-            enemy = CreateNewEnemy();
-        }
-
-        enemy.transform.position = position;
-        enemy.SetActive(true);
-        return enemy;
-    }
-
-    /// <summary>
-    /// 敵をプールに戻す
-    /// </summary>
-    public void ReturnEnemy(GameObject enemy)
-    {
-        enemy.SetActive(false);
+        var obj = Instantiate(enemyPrefab, transform);
+        var enemy = obj.GetComponent<EnemyBase>();
+        enemy.SetOwnerPool(this);
+        obj.SetActive(false);
         pool.Enqueue(enemy);
     }
 
-    /// <summary>
-    /// 新しい敵を生成してプールに入れる
-    /// </summary>
-    private GameObject CreateNewEnemy()
+    public EnemyBase GetEnemy()
     {
-        GameObject newEnemy = Instantiate(enemyPrefab);
-        newEnemy.SetActive(false);
-        bullets.Add(newEnemy);
+        if (pool.Count == 0)
+        {
+            AddEnemyToPool();
+        }
 
-        //Enemyにこのプールを渡す
-        newEnemy.GetComponent<EnemyHP>().SetPool(this);
+        var enemy = pool.Dequeue();
+        enemy.SetOwnerPool(this);
+        enemy.gameObject.SetActive(true);
+        activeEnemies.Add(enemy);
+        return enemy;
+    }
 
-        pool.Enqueue(newEnemy);
-        return newEnemy;
+    public void ReturnEnemy(EnemyBase enemy)
+    {
+        enemy.gameObject.SetActive(false);
+        activeEnemies.Remove(enemy);
+        pool.Enqueue(enemy);
+    }
+
+    public List<EnemyBase> GetAllActiveEnemies()
+    {
+        return new List<EnemyBase>(activeEnemies);
     }
 }

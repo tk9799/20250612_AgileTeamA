@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -54,7 +53,6 @@ public class BulletPoolManager : MonoBehaviour
                 }
             }
         }
-
     }
 
     /// <summary>
@@ -96,17 +94,6 @@ public class BulletPoolManager : MonoBehaviour
 
         activeBulletList.Add(gameObject);//リストに追加
         
-        //Debug.Log(activeBulletList.Count);
-        //foreach (GameObject activeBullet in activeBulletList)
-        //{
-        //    if(activeBullet != null)
-        //    {
-        //        activeBulletList.Add(bullet.gameObject);//リストに追加
-        //    }
-        //    //int num = activeBulletList.Count;
-        //    //Debug.Log(activeBullet.name);
-        //}
-
         return bullet;
     }
 

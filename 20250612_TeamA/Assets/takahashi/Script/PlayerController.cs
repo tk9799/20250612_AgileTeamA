@@ -22,7 +22,7 @@ public class PlayerController:MonoBehaviour
     [SerializeField] Transform judgementTransform;
     [Header("弾幕のプレハブ")]
     [SerializeField] GameObject barrage;//弾幕のプレハブ
-    [SerializeField] BossHP bossHP;
+    [SerializeField] BossBase bossBase;
     [SerializeField] BalletPoolPlayer poolPlayer;//オブジェクトプール
     private Gamepad gamepad;
     [SerializeField] private Animator animator;
@@ -242,7 +242,7 @@ public class PlayerController:MonoBehaviour
     /// </summary>
     public void AddBullet(Bullet bullet)
     {
-        if (bossHP == null)
+        if (bossBase == null)
         {
             return;
         }

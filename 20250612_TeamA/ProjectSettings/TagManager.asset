@@ -6,9 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Boss
-  - EnemyBarrage
-  - PlayerBarrage
-  - EnemyBullet
+  - Bullet
   layers:
   - Default
   - TransparentFX
