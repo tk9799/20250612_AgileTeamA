@@ -9,12 +9,12 @@ public class LateralMovementPattern : MovementPattern
     [Header("進行方向(trueなら右→左、falseなら左→右)")]
     public bool moveLeft = true;
 
-    private EnemyController controller;
+    //private EnemyController controller;
     private float speed;
 
     public override void Initialize(EnemyController controller)
     {
-        this.controller = controller;
+        //this.controller = controller;
         speed = controller.enemyData.moveSpeed;
     }
 
