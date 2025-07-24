@@ -6,17 +6,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "StopAndGoPattern", menuName = "Barrage/MovementPattern/StopAndGo")]
 public class StopAndGoMovementPattern : MovementPattern
 {
-    [Header("最初に向かう目標位置")]
-    public Vector2 targetPosition;
+    [Header("目標位置")]
+    public Vector2 targetPosition = new Vector2(0, 3);
+
+    [Header("相対移動(スポーン位置から加算)")]
+    public Vector2 relativeOffset = Vector2.zero;
+
+    [Header("相対移動を使用するか(true = スポーン位置基準)")]
+    public bool useRelativeTarget = false;
 
     [Header("停止時間(秒)")]
-    public float stopDuration = 2f;
+    public float stopDuration = 5f;
 
-    [Header("停止後の移動方向(ベクトル)")]
+    [Header("停止後の移動方向")]
     public Vector2 moveAfterStopDirection = Vector2.down;
 
-    private EnemyController controller;
-    private EnemyBase enemyBase;
+    private float speed;
+    private float stopTimer;
+    private Phase currentPhase;
+    private Vector3 actualTargetPosition;
 
     private enum Phase
     {
@@ -28,61 +36,52 @@ public class StopAndGoMovementPattern : MovementPattern
         MovingAfterStop
     }
 
-    private Phase currentPhase = Phase.MovingToTarget;
-    private float stopTimer = 0f;
-
     public override void Initialize(EnemyController controller)
     {
-        this.controller = controller;
-        this.enemyBase = controller.GetComponent<EnemyBase>();
-
+        speed = controller.enemyData.moveSpeed;
         currentPhase = Phase.MovingToTarget;
         stopTimer = 0f;
+
+        Vector3 spawnPosition = controller.transform.position;
+
+        if (useRelativeTarget)
+        {
+            actualTargetPosition = spawnPosition + (Vector3)relativeOffset;
+        }
+        else
+        {
+            actualTargetPosition = (Vector3)targetPosition;
+        }
     }
 
     public override void UpdateMovement(EnemyController controller)
     {
-        if (enemyBase == null || enemyBase.enemyData == null) return;
-
-        float speed = enemyBase.enemyData.moveSpeed;
-        Vector3 currentPos = enemyBase.transform.position;
+        Vector3 currentPos = controller.transform.position;
 
         switch (currentPhase)
         {
             case Phase.MovingToTarget:
-                {
-                    // 目標位置へ移動
-                    Vector3 targetPos3D = new Vector3(targetPosition.x, targetPosition.y, currentPos.z);
-                    Vector3 dir = (targetPos3D - currentPos).normalized;
-                    enemyBase.transform.position += dir * speed * Time.deltaTime;
+                Vector3 dir = (actualTargetPosition - currentPos).normalized;
+                controller.transform.position += dir * speed * Time.deltaTime;
 
-                    // 近づいたら停止フェーズへ
-                    if (Vector3.Distance(currentPos, targetPos3D) < 0.05f)
-                    {
-                        currentPhase = Phase.Stopping;
-                        stopTimer = 0f;
-                    }
-                    break;
+                if (Vector3.Distance(currentPos, actualTargetPosition) < 0.05f)
+                {
+                    currentPhase = Phase.Stopping;
+                    stopTimer = 0f;
                 }
+                break;
 
             case Phase.Stopping:
+                stopTimer += Time.deltaTime;
+                if (stopTimer >= stopDuration)
                 {
-                    // 時間経過をカウント
-                    stopTimer += Time.deltaTime;
-                    if (stopTimer >= stopDuration)
-                    {
-                        currentPhase = Phase.MovingAfterStop;
-                    }
-                    break;
+                    currentPhase = Phase.MovingAfterStop;
                 }
+                break;
 
             case Phase.MovingAfterStop:
-                {
-                    // 停止後の方向に直線移動
-                    Vector3 moveDir = moveAfterStopDirection.normalized;
-                    enemyBase.transform.position += moveDir * speed * Time.deltaTime;
-                    break;
-                }
+                controller.transform.position += (Vector3)(moveAfterStopDirection.normalized) * speed * Time.deltaTime;
+                break;
         }
     }
 }

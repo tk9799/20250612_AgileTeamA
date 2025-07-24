@@ -1,131 +1,98 @@
-//using System.Collections;
-//using UnityEngine;
+using UnityEngine;
 
-///// <summary>
-///// ボスの動作を制御するクラス
-///// </summary>
-//public class BossController : BossBase, IDanmakuEnemy
-//{
-//    private BossPhase currentPhase;
-//    private int currentPhaseIndex = 0;
-//    private float phaseTimer = 0f;
+public class BossController : MonoBehaviour
+{
+    [Header("ボス設定データ")]
+    public BossData bossData;
 
-//    private AttackPattern currentAttackPattern;
-//    private MovementPattern currentMovementPattern;
+    private BossBase bossBase;
+    private BossPhase currentPhase;
+    private int currentPhaseIndex = 0;
 
-//    private bool isPhaseRunning = false;
+    private BossAttackPattern currentAttackPattern;
+    private BossMovementPattern currentMovementPattern;
 
-//    Transform IDanmakuEnemy.transform => base.transform;
-//    int IDanmakuEnemy.CurrentHP => this.CurrentHP;
+    private float phaseTimer = 0f;
 
-//    void IDanmakuEnemy.TakeDamage(int damage)
-//    {
-//        base.TakeDamage(damage);
-//    }
+    private void Awake()
+    {
+        bossBase = GetComponent<BossBase>();
+        if (bossBase == null)
+        {
+            Debug.LogError("BossBase コンポーネントが見つかりません");
+        }
+    }
 
-//    protected override void OnEnable()
-//    {
-//        base.OnEnable();
-//        StartPhase(currentPhaseIndex);
-//    }
+    private void OnEnable()
+    {
+        if (bossData != null)
+        {
+            bossBase.Init(bossData);
+            StartPhase(0);
+        }
+    }
 
-//    private void Update()
-//    {
-//        if (isDead || bossData == null || !isPhaseRunning)
-//            return;
+    private void Update()
+    {
+        if (bossBase == null || bossBase.IsDead) return;
 
-//        //時間経過更新
-//        phaseTimer += Time.deltaTime;
+        phaseTimer += Time.deltaTime;
 
-//        //移動・攻撃更新
-//        currentAttackPattern?.UpdateAttack(this);
-//        currentMovementPattern?.UpdateMovement(this);
+        currentAttackPattern?.UpdateAttack(this);
+        currentMovementPattern?.UpdateMovement(this);
 
-//        //フェーズ終了条件チェック
-//        CheckPhaseEndCondition();
-//    }
+        if (CheckPhaseEndCondition(currentPhase))
+        {
+            GoToNextPhase();
+        }
+    }
 
-//    /// <summary>
-//    /// フェーズを開始する
-//    /// </summary>
-//    private void StartPhase(int index)
-//    {
-//        if (index >= bossData.attackPhases.Count)
-//        {
-//            Debug.Log("すべてのフェーズが終了しました。ボス撃破扱い。");
-//            Die();
-//            return;
-//        }
+    private void StartPhase(int index)
+    {
+        if (index < 0 || index >= bossData.phases.Count)
+        {
+            Debug.Log("すべてのフェーズが終了しました");
+            bossBase.TakeDamage(bossBase.CurrentHP);
+            return;
+        }
 
-//        currentPhase = bossData.attackPhases[index];
-//        currentAttackPattern = currentPhase.attackPattern;
-//        currentMovementPattern = currentPhase.movementPattern;
+        currentPhaseIndex = index;
+        currentPhase = bossData.phases[index];
+        phaseTimer = 0f;
 
-//        //タイマーリセット
-//        phaseTimer = 0f;
+        currentAttackPattern = currentPhase.attackPattern as BossAttackPattern;
+        currentAttackPattern?.Initialize(this);
 
-//        //攻撃・移動パターン初期化
-//        currentAttackPattern?.Initialize(this);
-//        currentMovementPattern?.Initialize(this);
+        currentMovementPattern = currentPhase.movementPattern as BossMovementPattern;
+        currentMovementPattern?.Initialize(this);
 
-//        Debug.Log($"フェーズ {index + 1} 開始：終了条件 {currentPhase.endCondition}");
+        Debug.Log($"ボスフェーズ {index + 1} 開始");
+    }
 
-//        isPhaseRunning = true;
-//    }
+    private void GoToNextPhase()
+    {
+        currentAttackPattern?.OnExit(this);
+        currentPhaseIndex++;
+        StartPhase(currentPhaseIndex);
+    }
 
-//    /// <summary>
-//    /// フェーズ終了条件をチェック
-//    /// </summary>
-//    private void CheckPhaseEndCondition()
-//    {
-//        switch (currentPhase.endCondition)
-//        {
-//            case PhaseEndCondition.HP:
-//                if (CurrentHP <= currentPhase.hpThreshold)
-//                {
-//                    NextPhase();
-//                }
-//                break;
+    private bool CheckPhaseEndCondition(BossPhase phase)
+    {
+        switch (phase.endCondition)
+        {
+            case BossPhaseEndCondition.HP:
+                return bossBase.CurrentHP <= phase.hpThreshold;
+            case BossPhaseEndCondition.TimeElapsed:
+                return phaseTimer >= phase.timeLimit;
+            case BossPhaseEndCondition.KeyInput:
+                return Input.GetKeyDown(KeyCode.Space);
+            case BossPhaseEndCondition.None:
+            default:
+                return false;
+        }
+    }
 
-//            case PhaseEndCondition.TimeElapsed:
-//                if (phaseTimer >= currentPhase.timeLimit)
-//                {
-//                    NextPhase();
-//                }
-//                break;
-
-//            case PhaseEndCondition.KeyInput:
-//                if (Input.GetKeyDown(KeyCode.X))
-//                {
-//                    NextPhase();
-//                }
-//                break;
-
-//            case PhaseEndCondition.None:
-//                //常に継続。外部から強制で切り替える必要あり。
-//                break;
-//        }
-//    }
-
-//    /// <summary>
-//    /// 次のフェーズに進む
-//    /// </summary>
-//    private void NextPhase()
-//    {
-//        isPhaseRunning = false;
-//        currentPhaseIndex++;
-//        StartPhase(currentPhaseIndex);
-//    }
-
-//    /// <summary>
-//    /// 撃破処理（基底クラスのDieをオーバーライド可能）
-//    /// </summary>
-//    protected override void Die()
-//    {
-//        base.Die();
-
-//        //撃破演出、スコア加算、BGM停止など
-//        //ScoreManager.Instance.AddScore(bossData.score);
-//        //AudioManager.Instance.StopBGM();
-//    }
-//}
+    public Vector3 GetBossPosition() => transform.position;
+    public void SetBossPosition(Vector3 pos) => transform.position = pos;
+    public BossBase GetBossBase() => bossBase;
+}

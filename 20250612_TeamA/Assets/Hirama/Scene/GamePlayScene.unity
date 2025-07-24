@@ -878,9 +878,9 @@ MonoBehaviour:
       spawnCenter: {x: 5, y: 7}
       delayBeforeSpawn: 0
       spawnCount: 1
-      offsetX: 0.2
-      offsetY: 0.5
-      interval: 0.3
+      offsetX: 1
+      offsetY: 0
+      interval: 0.2
       useGridLayout: 0
       gridColumns: 1
       gridRows: 1
@@ -949,6 +949,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5577450479770595606, guid: 1264c49bbe14165498827943dba38431, type: 3}
   initialPoolSize: 100
+  maxPoolSize: 0
 --- !u!1 &1834976945
 GameObject:
   m_ObjectHideFlags: 0
@@ -1048,6 +1049,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 8737118659127152903, guid: 0b657e14bb831774498bca23168e6f1c, type: 3}
   initialPoolSize: 100
+  maxPoolSize: 0
 --- !u!1 &1931291585
 GameObject:
   m_ObjectHideFlags: 0
