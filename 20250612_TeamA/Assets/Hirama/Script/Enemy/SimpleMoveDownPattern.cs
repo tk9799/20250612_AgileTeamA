@@ -6,12 +6,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SimpleMoveDownPattern", menuName = "Barrage/MovementPattern/SimpleMoveDown")]
 public class SimpleMoveDownPattern : MovementPattern
 {
-    //private EnemyController controller;
     private float speed;
 
     public override void Initialize(EnemyController controller)
     {
-        //this.controller = controller;
         //EnemyData‚©‚ç‘¬“x‚ðŽæ“¾
         speed = controller.enemyData.moveSpeed;
     }

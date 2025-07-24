@@ -28,11 +28,8 @@ public class BossData : ScriptableObject
     [Header("開始時の出現位置")]
     public Vector2 startPosition = Vector2.zero;
 
-    [Header("攻撃パターンのフェーズリスト")]
-    public List<BossPhase> attackPhases = new List<BossPhase>();
-
-    [Header("移動パターンのフェーズリスト")]
-    public List<BossPhase> movementPhases = new List<BossPhase>();
+    [Header("フェーズリスト")]
+    public List<BossPhase> phases = new List<BossPhase>();
 
     [Header("専用BGM")]
     public AudioClip bossBGM;

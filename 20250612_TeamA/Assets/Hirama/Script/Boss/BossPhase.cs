@@ -7,13 +7,13 @@ using UnityEngine;
 public class BossPhase : ScriptableObject
 {
     [Header("このフェーズの攻撃パターン")]
-    public AttackPattern attackPattern;
+    public BossAttackPattern attackPattern;
 
     [Header("このフェーズの移動パターン")]
-    public MovementPattern movementPattern;
+    public BossMovementPattern movementPattern;
 
     [Header("フェーズ終了条件")]
-    public PhaseEndCondition endCondition = PhaseEndCondition.None;
+    public BossPhaseEndCondition endCondition = BossPhaseEndCondition.None;
 
     [Header("終了条件のHP値")]
     public int hpThreshold = 0;

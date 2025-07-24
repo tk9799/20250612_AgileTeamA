@@ -6,21 +6,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "StopAndGoPattern", menuName = "Barrage/MovementPattern/StopAndGo")]
 public class StopAndGoMovementPattern : MovementPattern
 {
-    [Header("最初に向かう目標位置")]
-    public Vector2 targetPosition;
+    [Header("目標位置")]
+    public Vector2 targetPosition = new Vector2(0, 3);
+
+    [Header("相対移動(スポーン位置から加算)")]
+    public Vector2 relativeOffset = Vector2.zero;
+
+    [Header("相対移動を使用するか(true = スポーン位置基準)")]
+    public bool useRelativeTarget = false;
 
     [Header("停止時間(秒)")]
-    public float stopDuration = 2f;
+    public float stopDuration = 5f;
 
-    [Header("停止後の移動方向(ベクトル)")]
+    [Header("停止後の移動方向")]
     public Vector2 moveAfterStopDirection = Vector2.down;
-
-    //private EnemyController controller;
-    //private EnemyBase enemyBase;
 
     private float speed;
     private float stopTimer;
     private Phase currentPhase;
+    private Vector3 actualTargetPosition;
 
     private enum Phase
     {
@@ -32,17 +36,22 @@ public class StopAndGoMovementPattern : MovementPattern
         MovingAfterStop
     }
 
-    //private Phase currentPhase = Phase.MovingToTarget;
-    //private float stopTimer = 0f;
-
     public override void Initialize(EnemyController controller)
     {
-        //this.controller = controller;
-        //this.enemyBase = controller.GetComponent<EnemyBase>();
-
         speed = controller.enemyData.moveSpeed;
         currentPhase = Phase.MovingToTarget;
         stopTimer = 0f;
+
+        Vector3 spawnPosition = controller.transform.position;
+
+        if (useRelativeTarget)
+        {
+            actualTargetPosition = spawnPosition + (Vector3)relativeOffset;
+        }
+        else
+        {
+            actualTargetPosition = (Vector3)targetPosition;
+        }
     }
 
     public override void UpdateMovement(EnemyController controller)
@@ -52,11 +61,10 @@ public class StopAndGoMovementPattern : MovementPattern
         switch (currentPhase)
         {
             case Phase.MovingToTarget:
-                Vector3 target3D = new Vector3(targetPosition.x, targetPosition.y, currentPos.z);
-                Vector3 dir = (target3D - currentPos).normalized;
+                Vector3 dir = (actualTargetPosition - currentPos).normalized;
                 controller.transform.position += dir * speed * Time.deltaTime;
 
-                if (Vector3.Distance(currentPos, target3D) < 0.05f)
+                if (Vector3.Distance(currentPos, actualTargetPosition) < 0.05f)
                 {
                     currentPhase = Phase.Stopping;
                     stopTimer = 0f;

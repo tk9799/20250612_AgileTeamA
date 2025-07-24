@@ -4,8 +4,13 @@
 /// </summary>
 public enum BossType
 {
-    //ステージ最後に登場するボス
+    /// <summary>
+    /// ステージ最後に登場するボス
+    /// </summary>
     Boss,
-    //中盤に登場する中ボス
+
+    /// <summary>
+    /// 中盤に登場する中ボス
+    /// </summary>
     MidBoss
 }
