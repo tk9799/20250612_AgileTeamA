@@ -21,5 +21,5 @@ MonoBehaviour:
   maxHP: 10
   moveSpeed: 2
   attackPattern: {fileID: 11400000, guid: 3b25ce30334b459478d610be48db614d, type: 2}
-  movementPattern: {fileID: 11400000, guid: 44dedc8e1ac2cb24fbaa6861b975d48b, type: 2}
+  movementPattern: {fileID: 11400000, guid: e96ea0df2b8a37c469a2222d19fa0aa8, type: 2}
   score: 0
