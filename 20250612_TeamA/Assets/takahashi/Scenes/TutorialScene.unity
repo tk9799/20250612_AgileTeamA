@@ -3646,7 +3646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87d8a0118ed1d9c4ab34ed3c669263f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 4150953292242175023, guid: f2bdfe0238656fd4f9fa0970b5340485, type: 3}
+  bulletPrefab: {fileID: 8127566181387848455, guid: ef1fb49bd6d89c540828257978d8ad45, type: 3}
   initialPoolSize: 100
   maxPoolSize: 0
 --- !u!4 &2080779053

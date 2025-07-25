@@ -20,6 +20,6 @@ MonoBehaviour:
   enemyColor: {r: 1, g: 1, b: 1, a: 1}
   maxHP: 10
   moveSpeed: 2
-  attackPattern: {fileID: 11400000, guid: 3b25ce30334b459478d610be48db614d, type: 2}
+  attackPattern: {fileID: 11400000, guid: d438f3503cb6a15478495a93f01c55dd, type: 2}
   movementPattern: {fileID: 11400000, guid: e96ea0df2b8a37c469a2222d19fa0aa8, type: 2}
   score: 0
