@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// 目標位置まで移動→停止→一定時間後に別方向へ移動するパターン
 /// </summary>
-[CreateAssetMenu(fileName = "StopAndGoPattern", menuName = "Barrage/MovementPattern/StopAndGo")]
+[CreateAssetMenu(fileName = "StopAndGoPattern", menuName = "Barrage/Enemy/MovementPattern/StopAndGo")]
 public class StopAndGoMovementPattern : MovementPattern
 {
     [Header("目標位置")]

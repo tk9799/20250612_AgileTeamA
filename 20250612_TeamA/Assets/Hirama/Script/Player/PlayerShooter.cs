@@ -7,7 +7,7 @@ using System.Collections;
 public class PlayerShooter : MonoBehaviour
 {
     [Header("連射間隔（秒）")]
-    public float fireInterval = 0.1f;
+    public float fireInterval = 0.05f;
 
     [Header("使用する弾のデータ")]
     public BulletBase playerBulletData;

@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// G‹›“G‚ÌŠî–{İ’è
 /// </summary>
-[CreateAssetMenu(fileName = "EnemyData", menuName = "Barrage/EnemyData")]
+[CreateAssetMenu(fileName = "EnemyData", menuName = "Barrage/Enemy/EnemyData")]
 public class EnemyData : ScriptableObject
 {
     [Header("Œ©‚½–Ú‚Ì‰æ‘œ")]

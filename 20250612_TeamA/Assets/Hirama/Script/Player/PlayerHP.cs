@@ -14,10 +14,10 @@ public class PlayerHP : MonoBehaviour
     public Vector3 respawnPosition = new Vector3(0, -3, 0);
 
     [Header("死亡後の待機時間（秒）")]
-    public float respawnDelay = 1f;
+    public float respawnDelay = 0.5f;
 
     [Header("復活後の無敵時間（秒）")]
-    public float invincibleTime = 1f;
+    public float invincibleTime = 2f;
 
     //残機が変わったとき通知
     public event Action<int> OnLifeChanged;
@@ -74,7 +74,7 @@ public class PlayerHP : MonoBehaviour
         {
             Debug.Log("プレイヤーがやられた！残機なし → ゲームオーバー");
             OnPlayerDied?.Invoke();
-            GameOverManager.Instance?.StopAllEnemies();
+            GameManager.Instance?.GameOver();
             //必要なら敵停止などもここで呼び出す
             gameObject.SetActive(false);
         }

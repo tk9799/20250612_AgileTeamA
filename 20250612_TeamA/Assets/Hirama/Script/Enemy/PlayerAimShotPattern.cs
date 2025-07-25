@@ -2,19 +2,9 @@ using UnityEngine;
 /// <summary>
 /// プレイヤー狙いの弾を発射する攻撃パターン
 /// </summary>
-[CreateAssetMenu(fileName = "PlayerAimShotPattern", menuName = "Barrage/AttackPattern/PlayerAimShot")]
+[CreateAssetMenu(fileName = "PlayerAimShotPattern", menuName = "Barrage/Enemy/AttackPattern/PlayerAimShot")]
 public class PlayerAimShotPattern : AttackPattern
 {
-    public enum ShotMode
-    {
-        //通常ループ発射
-        Loop,
-        //1回限りの1セット発射
-        OneShotSet,
-        //発射しない
-        None,
-    }
-
     [Header("発射モード")]
     public ShotMode shotMode = ShotMode.Loop;
 

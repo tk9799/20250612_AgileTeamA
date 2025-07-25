@@ -46,7 +46,10 @@ public class EnemyWaveManager : MonoBehaviour
 
         foreach (var wave in waveList)
         {
-            if (skipToBoss) yield break;
+            if (skipToBoss)
+            {
+                yield break;
+            }
 
             yield return StartCoroutine(SpawnWave(wave));
         }
@@ -69,7 +72,10 @@ public class EnemyWaveManager : MonoBehaviour
     /// </summary>
     private IEnumerator SpawnWave(EnemyWave wave)
     {
-        if (skipToBoss) yield break;
+        if (skipToBoss)
+        {
+            yield break;
+        }
 
         // Wave開始前の待機時間
         yield return new WaitForSeconds(wave.delayBeforeStart);
@@ -77,7 +83,10 @@ public class EnemyWaveManager : MonoBehaviour
         //Wave開始前に前Waveの敵が全滅するまで待つ
         yield return StartCoroutine(WaitUntilAllEnemiesCleared());
 
-        if (skipToBoss) yield break;
+        if (skipToBoss)
+        {
+            yield break;
+        }
 
         //敵出現処理
         if (wave.spawnSimultaneously)

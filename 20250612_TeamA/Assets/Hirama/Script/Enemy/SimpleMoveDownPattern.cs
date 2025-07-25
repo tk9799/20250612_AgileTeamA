@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// “G‚ªã‚©‚ç‰º‚ÉˆÚ“®‚·‚éˆÚ“®ƒpƒ^[ƒ“
 /// </summary>
-[CreateAssetMenu(fileName = "SimpleMoveDownPattern", menuName = "Barrage/MovementPattern/SimpleMoveDown")]
+[CreateAssetMenu(fileName = "SimpleMoveDownPattern", menuName = "Barrage/Enemy/MovementPattern/SimpleMoveDown")]
 public class SimpleMoveDownPattern : MovementPattern
 {
     private float speed;

@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// 敵が横方向に直線移動するパターン
 /// </summary>
-[CreateAssetMenu(fileName = "LateralMovementPattern", menuName = "Barrage/MovementPattern/LateralMovement")]
+[CreateAssetMenu(fileName = "LateralMovementPattern", menuName = "Barrage/Enemy/MovementPattern/LateralMovement")]
 public class LateralMovementPattern : MovementPattern
 {
     [Header("進行方向(trueなら右→左、falseなら左→右)")]
