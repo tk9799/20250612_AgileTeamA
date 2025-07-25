@@ -1,27 +1,28 @@
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class GuardController2 : MonoBehaviour
 {
     [Header("敵弾幕オブジェクト")]
-    [SerializeField] GameObject enemyBarrageObject;
-    [SerializeField] GameObject enemyBarrageObject2;
-    [SerializeField] GameObject enemyBarrageObject3;
-    [SerializeField] GameObject enemyBarrageObject4;
-    [SerializeField] GameObject enemyBarrageObject5;
-    //[Header("プレイヤーオブジェクト")]
-    //[SerializeField] GameObject playerJudgeObject;
-    [SerializeField] Transform enemyBarrage;//敵弾幕のトランスフォーム
-    private float enemyBarrageRadius = 1f;//オブジェクトの範囲
-    [SerializeField] Transform enemyBarrage2;//敵弾幕のトランスフォーム
-    private float enemyBarrage2Radius = 1f;//オブジェクトの範囲
-    [SerializeField] Transform enemyBarrage3;//敵弾幕のトランスフォーム
-    private float enemyBarrage3Radius = 1f;//オブジェクトの範囲
-    [SerializeField] Transform enemyBarrage4;//敵弾幕のトランスフォーム
-    private float enemyBarrage4Radius = 1f;//オブジェクトの範囲
-    [SerializeField] Transform enemyBarrage5;//敵弾幕のトランスフォーム
-    private float enemyBarrage5Radius = 1f;//オブジェクトの範囲
+    //[SerializeField] GameObject enemyBarrageObject;
+    //[SerializeField] GameObject enemyBarrageObject2;
+    //[SerializeField] GameObject enemyBarrageObject3;
+    //[SerializeField] GameObject enemyBarrageObject4;
+    //[SerializeField] GameObject enemyBarrageObject5;
+    ////[Header("プレイヤーオブジェクト")]
+    ////[SerializeField] GameObject playerJudgeObject;
+    //[SerializeField] Transform enemyBarrage;//敵弾幕のトランスフォーム
+    //private float enemyBarrageRadius = 1f;//オブジェクトの範囲
+    //[SerializeField] Transform enemyBarrage2;//敵弾幕のトランスフォーム
+    //private float enemyBarrage2Radius = 1f;//オブジェクトの範囲
+    //[SerializeField] Transform enemyBarrage3;//敵弾幕のトランスフォーム
+    //private float enemyBarrage3Radius = 1f;//オブジェクトの範囲
+    //[SerializeField] Transform enemyBarrage4;//敵弾幕のトランスフォーム
+    //private float enemyBarrage4Radius = 1f;//オブジェクトの範囲
+    //[SerializeField] Transform enemyBarrage5;//敵弾幕のトランスフォーム
+    //private float enemyBarrage5Radius = 1f;//オブジェクトの範囲
     [SerializeField] Transform justGuardTransform;//プレイヤー判定オブジェクトのトランスフォーム
     [SerializeField] private float justGuardDistanceRadius = 0f;//オブジェクトの範囲
     [SerializeField] PlayerJudgement playerJudgement;//プレイヤー判定のスクリプト
@@ -32,6 +33,7 @@ public class GuardController2 : MonoBehaviour
     //[SerializeField] private GuardStamina guardStamina;
     public bool judgementEnd = false;
     private bool isBarrier = false;
+    public int justGuardCount = 0;
 
     private float justRadius = 0f;
     private float justRange = 0.45f;
@@ -81,6 +83,10 @@ public class GuardController2 : MonoBehaviour
                     judgementEnd = true;
                     successShield.SetActive(true);
                     isBarrier = true;
+                    if (SceneManager.GetActiveScene().name == "TutorialScene")
+                    {
+                        justGuardCount++;
+                    }
                     break;
                     //Debug.Log("InvincibleTime" + judgementEnd);
                 }

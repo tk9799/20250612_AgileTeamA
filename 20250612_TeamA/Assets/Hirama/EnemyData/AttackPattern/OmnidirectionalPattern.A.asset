@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e31a3293351b26244a3e4f454d19604b, type: 3}
   m_Name: OmnidirectionalPattern.A
   m_EditorClassIdentifier: 
-  shotMode: 0
+  shotMode: 2
   bulletBase: {fileID: 11400000, guid: e1c98e15d5a412a48a0c1d53a669b17a, type: 2}
   bulletsPerCircle: 12
   burstCount: 3

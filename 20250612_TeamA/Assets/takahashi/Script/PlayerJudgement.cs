@@ -110,7 +110,7 @@ public class PlayerJudgement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Debug.Log("hit");
-        if (collision.gameObject.CompareTag("EnemyBullet") || collision.gameObject.CompareTag("Boss"))
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Boss"))
         {
             //敵の弾幕、本体に当たった時ライフを減らす
             Debug.Log("hit");

@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 455715030a2dbaf4793275bf996616aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletBase: {fileID: 11400000, guid: 7669abc5a8861e144835cd20b889700d, type: 2}
+  bulletBase: {fileID: 11400000, guid: e1c98e15d5a412a48a0c1d53a669b17a, type: 2}
   velocity: {x: 0, y: 0}
   lifeTime: 10
   isStopped: 0

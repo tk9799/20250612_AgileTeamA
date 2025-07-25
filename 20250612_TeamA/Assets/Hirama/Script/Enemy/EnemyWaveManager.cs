@@ -18,6 +18,7 @@ public class EnemyWaveManager : MonoBehaviour
 
     private bool isWaveRunning = false;
     private bool skipToBoss = false;
+    public bool isAnnihilation = false;//‘S–Å”»’è
 
     private void Start()
     {
@@ -197,6 +198,10 @@ public class EnemyWaveManager : MonoBehaviour
         while (EnemyPoolManager.Instance.GetAllActiveEnemies().Count > 0)
         {
             yield return null;
+        }
+        if (EnemyPoolManager.Instance.GetAllActiveEnemies().Count == 0)
+        {
+            isAnnihilation = true;
         }
     }
 

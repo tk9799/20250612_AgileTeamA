@@ -9,11 +9,13 @@ public class TMPText : MonoBehaviour
     private Gamepad gamepad;
     [SerializeField] public int tutorial = 0;
     public int greenObujectCount = 0;
-    [SerializeField] GameObject EnemyPool1;
-    [SerializeField] GameObject EnemyPool2;
+    //[SerializeField] GameObject EnemyPool1;
+    //[SerializeField] GameObject EnemyPool2;
     [SerializeField] GameObject EnemyWaveManager;
     [SerializeField] GameObject EnemyPoolManager;
+    [SerializeField] GameObject BulletPoolMaager;
     [SerializeField] EnemyWaveManager enemyWaveManager;
+    [SerializeField] GuardController2 guardController2;
 
     private bool isOneProcess = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -50,6 +52,10 @@ public class TMPText : MonoBehaviour
             //EnemyPool2.SetActive(true);
             EnemyWaveManager.SetActive(true);
             EnemyPoolManager.SetActive(true);
+            if (enemyWaveManager != null && enemyWaveManager.isAnnihilation)
+            {
+                tutorial = 2;
+            }
             if (!isOneProcess)
             {
                 //StartCoroutine(enemyWaveManager.HandleWaves());
@@ -62,6 +68,15 @@ public class TMPText : MonoBehaviour
             Text.text = "ジャストガード\nタイミング良くRBボタンを押すことでジャストガードができる\n敵弾幕がプレイヤー周りの円状の" +
                 "線の上を通過したタイミングがジャストガードの判定になる\nジャストガードが成功するとシールドが現れ、" +
                 "一定時間敵弾幕をはじく";
+
+            if (guardController2 != null && guardController2.justGuardCount == 5)
+            {
+                tutorial = 3;
+            }
+        }
+        else if (tutorial == 3)
+        {
+            Text.text = "これまでの操作方法でボスを倒す";
         }
     }
 }
