@@ -3,19 +3,9 @@ using UnityEngine;
 /// <summary>
 /// 敵が全方位弾を発射する攻撃パターン
 /// </summary>
-[CreateAssetMenu(fileName = "OmnidirectionalPattern", menuName = "Barrage/AttackPattern/Omnidirectional")]
+[CreateAssetMenu(fileName = "OmnidirectionalPattern", menuName = "Barrage/Enemy/AttackPattern/Omnidirectional")]
 public class OmnidirectionalPattern : AttackPattern
 {
-    public enum ShotMode
-    {
-        //通常ループ発射
-        Loop,
-        //1回限りの1セット発射
-        OneShotSet,
-        //発射しない
-        None,
-    }
-
     [Header("発射モード")]
     public ShotMode shotMode = ShotMode.Loop;
 

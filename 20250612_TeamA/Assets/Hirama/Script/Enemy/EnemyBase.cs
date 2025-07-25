@@ -14,6 +14,7 @@ public class EnemyBase : MonoBehaviour, IDanmakuEnemy
     private EnemyPool enemyPool;
     private bool isReturned = false;
     private bool hasEnteredScreen = false;
+    private bool scoreAdded = false;
 
     void OnEnable()
     {
@@ -99,9 +100,18 @@ public class EnemyBase : MonoBehaviour, IDanmakuEnemy
     /// </summary>
     private void Die()
     {
+        if (scoreAdded)
+        {
+            return;
+        }
+
+        scoreAdded = true;
         IsDead = true;
 
         Debug.Log($"G‹›“Gu{enemyData.EnemydisplayName}v‚ğŒ‚”j");
+
+        //ƒXƒRƒA‰ÁZ
+        ScoreManager.Instance?.AddScore(enemyData.score);
 
         ReturnToPool();
     }

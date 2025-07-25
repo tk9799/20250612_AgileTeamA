@@ -18,8 +18,8 @@ MonoBehaviour:
   bulletBase: {fileID: 11400000, guid: e1c98e15d5a412a48a0c1d53a669b17a, type: 2}
   scale: {x: 0.5, y: 0.5}
   enemyColor: {r: 1, g: 1, b: 1, a: 1}
-  maxHP: 100
+  maxHP: 300
   moveSpeed: 2
   attackPattern: {fileID: 11400000, guid: e9fb4f600d0bd284cb49fc1f4e921720, type: 2}
   movementPattern: {fileID: 11400000, guid: e96ea0df2b8a37c469a2222d19fa0aa8, type: 2}
-  score: 0
+  score: 1000

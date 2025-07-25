@@ -16,10 +16,9 @@ MonoBehaviour:
   BossDisplayName: "\u8A66\u4F5C\u7528\u30DC\u30B9"
   bossSprite: {fileID: 7898605090196172914, guid: b4745dedad2557947b86705b11ea4cd5, type: 3}
   bossPrefab: {fileID: 6853529735696316538, guid: dcbbb72fd2598e1459f7b0f4c79eb5ec, type: 3}
-  maxHP: 100
+  maxHP: 1000
   moveSpeed: 2
   startPosition: {x: 0, y: 3}
-  phases:
-  - {fileID: 0}
+  phases: []
   bossBGM: {fileID: 0}
-  score: 0
+  score: 53000000

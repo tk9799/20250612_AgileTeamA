@@ -15,7 +15,7 @@ MonoBehaviour:
   bulletsprite: {fileID: 2523825098004598820, guid: f493c09e84175b44ab5b3ef6e6e34d03, type: 3}
   type: 1
   color: {r: 1, g: 1, b: 1, a: 1}
-  scale: {x: 0.3, y: 0.4}
+  scale: {x: 0.1, y: 0.2}
   damage: 10
   speed: 10
   lifetime: 10

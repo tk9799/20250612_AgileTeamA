@@ -74,18 +74,18 @@ public class Bullet : MonoBehaviour
     }
 
     //Å‰‚ÉƒJƒƒ‰‚É‰f‚Á‚½‚Æ‚«
-    //private void OnBecameVisible()
-    //{
-    //    hasEnteredScreen = true;
-    //}
+    private void OnBecameVisible()
+    {
+        hasEnteredScreen = true;
+    }
 
     //ƒJƒƒ‰‚©‚çŠ®‘S‚ÉŒ©‚¦‚È‚­‚È‚Á‚½‚Æ‚«
     private void OnBecameInvisible()
     {
-        //if (hasEnteredScreen)
-        //{
+        if (hasEnteredScreen)
+        {
             ReturnToPool();
-        //}
+        }
     }
 
     /// <summary>
