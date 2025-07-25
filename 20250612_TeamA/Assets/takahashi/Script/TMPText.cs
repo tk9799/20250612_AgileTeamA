@@ -1,6 +1,8 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class TMPText : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class TMPText : MonoBehaviour
     private Gamepad gamepad;
     [SerializeField] public int tutorial = 0;
     public int greenObujectCount = 0;
+    private bool isSelect = false;
     //[SerializeField] GameObject EnemyPool1;
     //[SerializeField] GameObject EnemyPool2;
     [SerializeField] GameObject EnemyWaveManager;
@@ -16,6 +19,9 @@ public class TMPText : MonoBehaviour
     [SerializeField] GameObject BulletPoolMaager;
     [SerializeField] EnemyWaveManager enemyWaveManager;
     [SerializeField] GuardController2 guardController2;
+    [SerializeField] TutorialText tutorialText;
+    [SerializeField] GameObject imageObject;
+    [SerializeField] GameObject selectButton;
 
     private bool isOneProcess = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,10 +29,13 @@ public class TMPText : MonoBehaviour
     {
         //playerController.enabled = false;
         greenObujectCount = 4;
+        imageObject.SetActive(false);
+        selectButton.SetActive(false);
         //EnemyPool1.SetActive(false);
         //EnemyPool2.SetActive(false);
         EnemyWaveManager.SetActive(false);
         EnemyPoolManager.SetActive(false);
+        //BulletPoolMaager.SetActive(false);
     }
 
     // Update is called once per frame
@@ -52,6 +61,7 @@ public class TMPText : MonoBehaviour
             //EnemyPool2.SetActive(true);
             EnemyWaveManager.SetActive(true);
             EnemyPoolManager.SetActive(true);
+            //BulletPoolMaager.SetActive(true);
             if (enemyWaveManager != null && enemyWaveManager.isAnnihilation)
             {
                 tutorial = 2;
@@ -78,5 +88,22 @@ public class TMPText : MonoBehaviour
         {
             Text.text = "これまでの操作方法でボスを倒す";
         }
+        else if(tutorial == 4)
+        {
+            tutorialText.instructionsText.text = "チュートリアルクリア";
+            imageObject.SetActive(true);
+            StartCoroutine(StargeSelect());
+            if (isSelect && Input.GetKey(KeyCode.JoystickButton0))
+            {
+                SceneManager.LoadScene("GameTitleScene");
+            }
+        }
+    }
+
+    IEnumerator StargeSelect()
+    {
+        yield return new WaitForSeconds(2f);
+        selectButton.SetActive(true);
+        isSelect = true;
     }
 }

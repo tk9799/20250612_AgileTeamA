@@ -4,7 +4,7 @@ using TMPro;
 public class TutorialText : MonoBehaviour
 {
     [SerializeField] private TMPText tmpText;
-    [SerializeField] private TextMeshProUGUI instructionsText;//指示するテキストを書く
+    [SerializeField] public TextMeshProUGUI instructionsText;//指示するテキストを書く
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

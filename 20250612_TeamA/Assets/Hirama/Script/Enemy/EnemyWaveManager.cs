@@ -199,7 +199,7 @@ public class EnemyWaveManager : MonoBehaviour
         {
             yield return null;
         }
-        if (EnemyPoolManager.Instance.GetAllActiveEnemies().Count == 0)
+        if (EnemyPoolManager.Instance.GetAllActiveEnemies().Count > 0)
         {
             isAnnihilation = true;
         }
