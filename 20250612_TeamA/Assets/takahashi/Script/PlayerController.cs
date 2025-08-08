@@ -24,6 +24,15 @@ public class PlayerController:MonoBehaviour
     [SerializeField] GameObject barrage;//弾幕のプレハブ
     [SerializeField] BossBase bossBase;
     [SerializeField] BalletPoolPlayer poolPlayer;//オブジェクトプール
+
+    [Header("連射間隔（秒）")]
+    public float fireInterval = 0.05f;
+
+    [Header("使用する弾のデータ")]
+    public BulletBase playerBulletData;
+
+    [Header("発射位置（複数ショット対応）")]
+    public Transform[] shotPoints;
     private Gamepad gamepad;
     [SerializeField] private Animator animator;
     //[SerializeField] BoxCollider2D boxCollider;
@@ -54,6 +63,9 @@ public class PlayerController:MonoBehaviour
 
     [SerializeField] GameObject judgementObject;
     [SerializeField] SpriteRenderer judgementObjectSpriteRenderer;
+
+    private bool isFiring = false;
+    private SpriteRenderer sr;
 
     //private PlayerControls controls;
 
@@ -98,6 +110,9 @@ public class PlayerController:MonoBehaviour
 
     private void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
+        //StartCoroutine(FireRoutine());
+
         judgementObjectSpriteRenderer.enabled = false;
         generate = true;
         this.animator = GetComponent<Animator>();
@@ -109,23 +124,34 @@ public class PlayerController:MonoBehaviour
 
     void Update()
     {
-        //playerTransform.position = judgementTransform.position;
-        
-        if (Input.GetKey(KeyCode.JoystickButton0))
+        //押しっぱなしで連射
+        if (Input.GetKeyDown(KeyCode.JoystickButton0))
         {
-            if (generate && !isDeadJudge)
-            {
-                //Debug.Log("発射ぁ");
-                //barrage.SetActive(true);
-                //barrage.transform.position = playerTransform.position;
-                //Instantiate(barrage, playerTransform.position, playerTransform.rotation);
-                //barrage = BulletPool.Instance.GetBullet();
-                //barrage.SetActive(true);
-                poolPlayer.Launch(transform.position);
-                Invoke("Generate", 0.1f);//連射速度の調整
-                generate = false;//生成できない
-            }
+            isFiring = true;
+            StartCoroutine(FireRoutine());
         }
+        if (Input.GetKeyUp(KeyCode.JoystickButton0)) // ← 離したら止める
+        {
+            StopShooting();
+        }
+
+        //playerTransform.position = judgementTransform.position;
+
+        //if (Input.GetKey(KeyCode.JoystickButton0))
+        //{
+        //    if (generate && !isDeadJudge)
+        //    {
+        //        //Debug.Log("発射ぁ");
+        //        //barrage.SetActive(true);
+        //        //barrage.transform.position = playerTransform.position;
+        //        //Instantiate(barrage, playerTransform.position, playerTransform.rotation);
+        //        //barrage = BulletPool.Instance.GetBullet();
+        //        //barrage.SetActive(true);
+        //        poolPlayer.Launch(transform.position);
+        //        Invoke("Generate", 0.1f);//連射速度の調整
+        //        generate = false;//生成できない
+        //    }
+        //}
 
         // 現在接続されているGamepadを取得
         gamepad = Gamepad.current;
@@ -168,13 +194,22 @@ public class PlayerController:MonoBehaviour
             isLeft = false;
         }
 
-        playerTransform.position += move;
+        //playerTransform.position += move;
 
-        playerTransform.position = new Vector2(
-            //移動範囲を制限する
-            Mathf.Clamp(transform.position.x , -2.6f, 2.6f),
-            Mathf.Clamp(transform.position.y , -4.8f, 5.0f)
-            );
+        //playerTransform.position = new Vector2(
+        //    //移動範囲を制限する
+        //    Mathf.Clamp(transform.position.x , -2.6f, 2.6f),
+        //    Mathf.Clamp(transform.position.y , -4.8f, 5.0f)
+        //    );
+        // 現在の位置に move を加えたものを一時的に newPosition とする
+        Vector3 newPosition = playerTransform.position + move;
+
+        // 画面内に収めるよう Clamp する
+        newPosition.x = Mathf.Clamp(newPosition.x, -2.6f, 2.6f);
+        newPosition.y = Mathf.Clamp(newPosition.y, -4.8f, 5.0f);
+
+        // 移動後、Clamp された座標を反映する
+        playerTransform.position = newPosition;
 
         //if(bossHP != null && bossHP.destroy)
         //{
@@ -191,6 +226,40 @@ public class PlayerController:MonoBehaviour
             //    generate = false;
             //}
         }
+    }
+
+    private IEnumerator FireRoutine()
+    {
+        if (playerBulletData != null && sr != null && sr.enabled)
+        {
+            Debug.Log("Firing Start"); // ←入ってるかどうか
+        }
+
+            //Debug.Log(isFiring);
+            while (isFiring)
+        {
+            if (isFiring && playerBulletData != null && sr != null && sr.enabled)
+            {
+                Debug.Log(isFiring);
+                foreach (var point in shotPoints)
+                {
+                    Vector2 direction = Vector2.up;
+
+                    //弾発射（BulletPoolManager経由）
+                    BulletPoolManager.Instance.FireBullet(playerBulletData, point.position, direction);
+
+                    //効果音再生
+                    if (playerBulletData.shotSE != null)
+                        AudioSource.PlayClipAtPoint(playerBulletData.shotSE, point.position);
+                }
+            }
+
+            yield return new WaitForSeconds(fireInterval);
+        }
+    }
+    public void StopShooting()
+    {
+        isFiring = false;
     }
 
     IEnumerator RespawnAfterDelay()
