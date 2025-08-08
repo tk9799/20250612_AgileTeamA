@@ -23,7 +23,7 @@ public class PlayerJudgement : MonoBehaviour
 
     [SerializeField] private Transform myTransform;
     [SerializeField] private Transform playerTransfom;
-    [SerializeField] public PlayerController playerController;
+    //[SerializeField] public PlayerController playerController;
     [SerializeField] public GuardController2 guardController;
     [SerializeField] private GameObject guradObject;
     [SerializeField] public float invincible = 1.0f;//ジャストガード時の無敵時間
