@@ -251,7 +251,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1556906279}
+  m_Father: {fileID: 1536423690}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &94798884
 GameObject:
@@ -1753,7 +1753,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 8737118659127152903, guid: 0b657e14bb831774498bca23168e6f1c, type: 3}
   initialPoolSize: 150
-  maxPoolSize: 0
+  maxPoolSize: 150
 --- !u!4 &461112322
 Transform:
   m_ObjectHideFlags: 0
@@ -1767,7 +1767,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1556906279}
+  m_Father: {fileID: 1536423690}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &485070353
 GameObject:
@@ -3664,12 +3664,8 @@ MonoBehaviour:
   poolEntries:
   - bulletBase: {fileID: 11400000, guid: e1c98e15d5a412a48a0c1d53a669b17a, type: 2}
     bulletPool: {fileID: 1301442227}
-  - bulletBase: {fileID: 11400000, guid: 19973bf6dfdb4b94d8bf82538b90cce3, type: 2}
-    bulletPool: {fileID: 1047474703}
-  - bulletBase: {fileID: 11400000, guid: 7669abc5a8861e144835cd20b889700d, type: 2}
-    bulletPool: {fileID: 1329859737}
-  - bulletBase: {fileID: 11400000, guid: 86a8af90d0f7a444aa50286590ead890, type: 2}
-    bulletPool: {fileID: 1576627662}
+  - bulletBase: {fileID: 11400000, guid: 7cd9c568dc54b684fa2d1317fa1014eb, type: 2}
+    bulletPool: {fileID: 461112321}
   activeBulletList: []
 --- !u!4 &1536423690
 Transform:
@@ -3683,7 +3679,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 59332602}
+  - {fileID: 461112322}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1542487408
@@ -3798,7 +3796,7 @@ MonoBehaviour:
   - bulletBase: {fileID: 11400000, guid: e1c98e15d5a412a48a0c1d53a669b17a, type: 2}
     bulletPool: {fileID: 59332601}
   - bulletBase: {fileID: 11400000, guid: 7cd9c568dc54b684fa2d1317fa1014eb, type: 2}
-    bulletPool: {fileID: 461112321}
+    bulletPool: {fileID: 59332601}
   activeBulletList: []
 --- !u!4 &1556906279
 Transform:
@@ -3812,9 +3810,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 59332602}
-  - {fileID: 461112322}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1576627661
