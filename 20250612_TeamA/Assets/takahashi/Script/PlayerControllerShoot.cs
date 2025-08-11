@@ -24,7 +24,7 @@ public class PlayerControllerShoot : MonoBehaviour
     private void Update()
     {
         // ZƒL[‰Ÿ‚µ‚Á‚Ï‚È‚µ‚Å˜AË
-        isFiring = Input.GetKey(KeyCode.Z);
+        isFiring = Input.GetKey(KeyCode.JoystickButton0);
     }
 
     private IEnumerator FireRoutine()

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class TMPText : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI Text;//操作方法のテキストを書く
-    [SerializeField] PlayerController playerController;
+    //[SerializeField] PlayerController playerController;
     private Gamepad gamepad;
     [SerializeField] public int tutorial = 0;
     public int greenObujectCount = 0;
