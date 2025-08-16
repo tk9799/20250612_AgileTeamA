@@ -28,6 +28,7 @@ public class PlayerJudgement : MonoBehaviour
     [SerializeField] private GameObject guradObject;
     [SerializeField] public float invincible = 1.0f;//ジャストガード時の無敵時間
     [SerializeField] private GuardStamina guardStamina;
+    [SerializeField] public PlayerControllerHP playerControllerHP;
 
 
     public event Action<int> OnLifeChanged;
@@ -113,21 +114,22 @@ public class PlayerJudgement : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Boss")||
             collision.gameObject.CompareTag("Bullet"))
         {
-            //敵の弾幕、本体に当たった時ライフを減らす
-            Debug.Log("hit");
+            playerControllerHP.TakeDamage();
+            ////敵の弾幕、本体に当たった時ライフを減らす
+            //Debug.Log("hit");
 
-            if (lives <= 0)
-            {
-                Debug.Log("シーン移行");
-                SceneManager.LoadScene("GameOverScene");
-            }
-            else
-            {
-                lives -= 1;
-                lifeText.text = lives.ToString();
-                HandleDeath();
-                //playerController.HandleDeath();
-            }
+            //if (lives <= 0)
+            //{
+            //    Debug.Log("シーン移行");
+            //    SceneManager.LoadScene("GameOverScene");
+            //}
+            //else
+            //{
+            //    lives -= 1;
+            //    lifeText.text = lives.ToString();
+            //    HandleDeath();
+            //    //playerController.HandleDeath();
+            //}
         }
     }
 
