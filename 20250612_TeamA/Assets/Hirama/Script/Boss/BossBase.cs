@@ -9,8 +9,11 @@ public class BossBase : MonoBehaviour, IDanmakuEnemy
     public BossData bossData;
 
     public int CurrentHP { get; private set; }
+    private int currentMaxHP;
     private bool isDead = false;
     public bool IsDead => isDead;
+
+    public bool IsInvincible { get; set; } = false;
 
     protected virtual void OnEnable()
     {
@@ -27,8 +30,10 @@ public class BossBase : MonoBehaviour, IDanmakuEnemy
     {
         bossData = data;
         transform.position = data.startPosition;
-        CurrentHP = data.maxHP;
         isDead = false;
+
+        //フェーズ未設定のときの仮HP初期化
+        SetPhaseHP(data.maxHP);
 
         var sr = GetComponent<SpriteRenderer>();
         if (sr && data.bossSprite)
@@ -42,7 +47,7 @@ public class BossBase : MonoBehaviour, IDanmakuEnemy
     /// </summary>
     public int GetMaxHP()
     {
-        return bossData != null ? bossData.maxHP : 0;
+        return currentMaxHP;
     }
 
     public Vector3 GetPosition()
@@ -55,12 +60,18 @@ public class BossBase : MonoBehaviour, IDanmakuEnemy
         transform.position = position;
     }
 
+    public void SetPhaseHP(int maxHP)
+    {
+        currentMaxHP = maxHP;
+        CurrentHP = maxHP;
+    }
+
     /// <summary>
     /// ダメージを受ける処理
     /// </summary>
     public virtual void TakeDamage(int damage)
     {
-        if (isDead || bossData == null)
+        if (isDead || bossData == null || IsInvincible)
         {
             return;
         }
@@ -69,6 +80,22 @@ public class BossBase : MonoBehaviour, IDanmakuEnemy
         CurrentHP = Mathf.Max(CurrentHP, 0);
 
         if (CurrentHP <= 0)
+        {
+            var controller = GetComponent<BossController>();
+            if (controller != null)
+            {
+                controller.OnBossHPDepleted();
+            }
+            else
+            {
+                Die();
+            }
+        }
+    }
+
+    public void ForceDie()
+    {
+        if (!isDead)
         {
             Die();
         }

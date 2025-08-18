@@ -17,7 +17,15 @@ public abstract class BossMovementPattern : ScriptableObject
     public abstract void UpdateMovement(BossController controller);
 
     /// <summary>
-    /// この移動パターンが完了したかどうかを返す。次フェーズ遷移用
+    /// 移動パターンの終了処理
+    /// </summary>
+    public virtual void OnExit(BossController bossController)
+    {
+
+    }
+
+    /// <summary>
+    /// この移動パターンが完了したかどうかを返す
     /// </summary>
     public abstract bool IsFinished();
 }

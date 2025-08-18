@@ -93,7 +93,7 @@ public class BulletPoolManager : MonoBehaviour
         bullet.Init(baseData, position, velocity);
 
         activeBulletList.Add(gameObject);//ƒŠƒXƒg‚É’Ç‰Á
-        
+
         return bullet;
     }
 

@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -56,6 +57,5 @@ public class GameManager : MonoBehaviour
         IsGameOver = true;
 
         Debug.Log("ゲームオーバー...");
-        Debug.Log($"最終スコア: {ScoreManager.Instance?.GetScore()}");
     }
 }

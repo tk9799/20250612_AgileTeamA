@@ -11,7 +11,7 @@ public class BossData : ScriptableObject
     public BossType bossType = BossType.Boss;
 
     [Header("ボス表示名")]
-    public string BossDisplayName;
+    public string BossDisplayName = "";
 
     [Header("ボスの見た目の画像")]
     public Sprite bossSprite;

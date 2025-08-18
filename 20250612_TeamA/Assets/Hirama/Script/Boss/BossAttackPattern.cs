@@ -23,4 +23,9 @@ public abstract class BossAttackPattern : ScriptableObject
     {
 
     }
+
+    /// <summary>
+    /// ‚±‚ÌUŒ‚ƒpƒ^[ƒ“‚ªŠ®—¹‚µ‚½‚©‚Ç‚¤‚©
+    /// </summary>
+    public virtual bool IsFinished() => false;
 }

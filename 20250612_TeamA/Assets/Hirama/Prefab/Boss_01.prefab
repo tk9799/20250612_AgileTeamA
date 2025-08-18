@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1043986904071432017}
   - component: {fileID: 7887806499569248580}
   - component: {fileID: 897210816484634694}
+  - component: {fileID: -2487015050769280052}
   - component: {fileID: 2785112142388274134}
   - component: {fileID: 1692618322099725639}
   m_Layer: 0
@@ -103,6 +104,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossData: {fileID: 11400000, guid: c9ade96d76f6af34990c16a3b8753cef, type: 2}
+--- !u!114 &-2487015050769280052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6853529735696316538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e44095171a3329345a59526ffe4b8be5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &2785112142388274134
 Rigidbody2D:
   serializedVersion: 5

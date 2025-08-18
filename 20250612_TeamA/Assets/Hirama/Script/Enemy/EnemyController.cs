@@ -4,7 +4,7 @@ using UnityEngine;
 /// 雑魚敵の行動(移動や攻撃など)を制御
 /// EnemyDataに設定されたパターンなどを実行する役割
 /// </summary>
-[RequireComponent(typeof(EnemyBase))]
+//[RequireComponent(typeof(EnemyBase))]
 public class EnemyController : MonoBehaviour
 {
     [Header("雑魚敵設定データ")]
@@ -77,6 +77,5 @@ public class EnemyController : MonoBehaviour
         {
             attackPatternInstance.UpdateAttack(this);
         }
-
     }
 }

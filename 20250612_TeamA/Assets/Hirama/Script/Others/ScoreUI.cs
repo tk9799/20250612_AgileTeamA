@@ -38,6 +38,6 @@ public class ScoreUI : MonoBehaviour
         }
 
         //表示は毎フレーム更新
-        scoreText.text = $"{displayedScore:N0}";
+        scoreText.text = $"Score:{displayedScore:N0}";
     }
 }

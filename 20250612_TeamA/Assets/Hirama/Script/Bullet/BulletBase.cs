@@ -59,6 +59,6 @@ public class BulletBase : ScriptableObject
     [Header("命中時に鳴らす効果音")]
     public AudioClip hitSE;
 
-    [Header("弾のID。識別用にスクリプト側で参照する文字列")]
-    public string bulletId;
+    //[Header("弾のID。識別用にスクリプト側で参照する文字列")]
+    //public string bulletId;
 }

@@ -46,7 +46,11 @@ public class PlayerHP : MonoBehaviour
     public void TakeDamage()
     {
         //–³“G’†‚Í–³Ž‹
-        if (isInvincible) return;
+        if (isInvincible)
+        {
+            return;
+        }
+
         Die();
     }
 
