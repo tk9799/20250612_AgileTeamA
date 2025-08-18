@@ -148,7 +148,7 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void ReturnToPool()
+    public void ReturnToPool()
     {
         //ìÒèdï‘ãpñhé~
         if (isReturned)

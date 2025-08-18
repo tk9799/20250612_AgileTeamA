@@ -10,7 +10,7 @@ public class EnemyData : ScriptableObject
     public Sprite enemySprite;
 
     [Header("ŽG‹›“G•\Ž¦–¼")]
-    public string EnemydisplayName;
+    public string EnemydisplayName = "";
 
     [Header("ŽG‹›“G‚ÌPrefab")]
     public GameObject EnemyPrefab;

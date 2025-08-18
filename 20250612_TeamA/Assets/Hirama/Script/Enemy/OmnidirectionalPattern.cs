@@ -1,4 +1,5 @@
 using UnityEngine;
+using static PlayerAimShotPattern;
 
 /// <summary>
 /// 敵が全方位弾を発射する攻撃パターン

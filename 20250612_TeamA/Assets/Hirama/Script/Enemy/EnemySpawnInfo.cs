@@ -10,7 +10,7 @@ public class EnemySpawnInfo
     public EnemyData enemyData;
 
     [Header("出現の基準位置（中心）")]
-    public Vector2 spawnCenter = new Vector2(0,0);
+    public Vector2 spawnCenter = new Vector2(0, 0);
 
     [Header("出現までの待機時間（秒）")]
     public float delayBeforeSpawn = 0f;

@@ -13,12 +13,15 @@ public class EnemyWaveManager : MonoBehaviour
     [Header("ボスのプレハブ")]
     public GameObject bossPrefab;
 
+    [Header("ボスの出現座標")]
+    public Vector3 bossAppearancePosition = new Vector3(0f, 10f, 0f);
+
     [Header("Wave開始時に自動実行するか")]
     public bool autoStart = true;
 
     private bool isWaveRunning = false;
     private bool skipToBoss = false;
-    public bool isAnnihilation = false;//全滅判定
+    public bool isAnnihilation = false;
 
     private void Start()
     {
@@ -248,7 +251,7 @@ public class EnemyWaveManager : MonoBehaviour
 
         if (bossPrefab != null)
         {
-            Instantiate(bossPrefab, new Vector3(0, 10f, 0), Quaternion.identity);
+            Instantiate(bossPrefab, bossAppearancePosition, Quaternion.identity);
         }
         else
         {
