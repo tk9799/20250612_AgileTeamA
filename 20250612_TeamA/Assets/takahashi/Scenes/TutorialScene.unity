@@ -734,6 +734,7 @@ MonoBehaviour:
     spawnSimultaneously: 0
     delayBeforeStart: 1
   bossPrefab: {fileID: 6853529735696316538, guid: dcbbb72fd2598e1459f7b0f4c79eb5ec, type: 3}
+  bossAppearancePosition: {x: 0, y: 10, z: 0}
   autoStart: 1
   isAnnihilation: 0
 --- !u!4 &301389279
@@ -799,6 +800,53 @@ MonoBehaviour:
   initialPoolSize: 10
   activeEnemies: []
   tmpText: {fileID: 537632984}
+--- !u!1 &440041773
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 440041774}
+  - component: {fileID: 440041775}
+  m_Layer: 0
+  m_Name: BulletPool.3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &440041774
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440041773}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1192818339}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &440041775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440041773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87d8a0118ed1d9c4ab34ed3c669263f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 6959598903614008223, guid: b86f82e8302e09d49b630cbd23f3698f, type: 3}
+  initialPoolSize: 100
+  maxPoolSize: 0
 --- !u!1 &500356507
 GameObject:
   m_ObjectHideFlags: 0
@@ -1100,7 +1148,7 @@ MonoBehaviour:
   tutorialText: {fileID: 2120114971}
   imageObject: {fileID: 1245301371}
   selectButton: {fileID: 1902621403}
-  bossBase: {fileID: 0}
+  bossBase: {fileID: 897210816484634694, guid: dcbbb72fd2598e1459f7b0f4c79eb5ec, type: 3}
   enemyList: []
   dieCount: 0
 --- !u!1 &602388737
@@ -1870,6 +1918,8 @@ MonoBehaviour:
     bulletPool: {fileID: 2080779052}
   - bulletBase: {fileID: 11400000, guid: 7cd9c568dc54b684fa2d1317fa1014eb, type: 2}
     bulletPool: {fileID: 1246290023}
+  - bulletBase: {fileID: 11400000, guid: d187423f784c2eb4b8195a76705ef0d7, type: 2}
+    bulletPool: {fileID: 440041775}
   activeBulletList: []
 --- !u!4 &1192818339
 Transform:
@@ -1887,6 +1937,7 @@ Transform:
   - {fileID: 602388739}
   - {fileID: 2080779053}
   - {fileID: 1246290022}
+  - {fileID: 440041774}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1242596441

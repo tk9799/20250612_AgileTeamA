@@ -26,5 +26,9 @@ public class TutorialText : MonoBehaviour
         {
             instructionsText.text = "ジャストガードを5回成功させる";
         }
+        else if(tmpText != null && tmpText.tutorial == 3)
+        {
+            instructionsText.text = "";
+        }
     }
 }
