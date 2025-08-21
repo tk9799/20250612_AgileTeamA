@@ -39,8 +39,24 @@ public class GameManager : MonoBehaviour
         IsGameClear = true;
 
         Debug.Log("ゲームクリア！");
+        int finalScore = ScoreManager.Instance?.GetScore() ?? 0;
+
         //合計スコア表示
         Debug.Log($"最終スコア: {ScoreManager.Instance?.GetScore()}");
+
+        //プレイヤー操作を止める
+        var player = FindObjectOfType<PlayerMoveController>();
+        if (player != null)
+        {
+            player.enabled = false;
+        }
+
+        //UI演出を開始
+        var ui = FindObjectOfType<GameClearUI>();
+        if (ui != null)
+        {
+            ui.ShowGameClear(finalScore);
+        }
     }
 
     /// <summary>
