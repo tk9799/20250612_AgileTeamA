@@ -50,8 +50,8 @@ public class PlayerJudgement : MonoBehaviour
 
     private void Start()
     {
-        lifeText = GameObject.Find("LifeText").GetComponent<Text>();
-        lifeText.text = "" + lives;
+        //lifeText = GameObject.Find("LifeText").GetComponent<Text>();
+        //lifeText.text = "" + lives;
 
         //spriteRenderer = GetComponent<SpriteRenderer>();
         //hitCollider = GetComponent<BoxCollider2D>();

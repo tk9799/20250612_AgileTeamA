@@ -19,7 +19,7 @@ public class ShieldController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("generate");
-        if (collision.gameObject.CompareTag("EnemyBullet"))
+        if (collision.gameObject.CompareTag("Bullet"))
         {
             collision.gameObject.SetActive(false);
         }

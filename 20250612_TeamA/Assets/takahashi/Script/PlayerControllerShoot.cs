@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerControllerShoot : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PlayerControllerShoot : MonoBehaviour
 
     private bool isFiring = false;
     private SpriteRenderer sr;
+    [SerializeField] TMPText tmpText;
 
     private void Start()
     {
@@ -23,8 +25,17 @@ public class PlayerControllerShoot : MonoBehaviour
 
     private void Update()
     {
+        if (tmpText != null && tmpText.tutorial != 2)
+        {
+            isFiring = Input.GetKey(KeyCode.JoystickButton0);
+        }
+        else if (SceneManager.GetActiveScene().name == "TutorialScene" && tmpText != null && tmpText.tutorial == 2)
+        {
+            //Debug.Log("î≠éÀÇ≈Ç´Ç»Ç¢");
+            //isFiring = false;
+        }
         // ZÉLÅ[âüÇµÇ¡ÇœÇ»ÇµÇ≈òAéÀ
-        isFiring = Input.GetKey(KeyCode.JoystickButton0);
+        //isFiring = Input.GetKey(KeyCode.JoystickButton0);
     }
 
     private IEnumerator FireRoutine()

@@ -1,7 +1,9 @@
-using UnityEngine;
-using TMPro;
-using UnityEngine.InputSystem;
+using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class TMPText : MonoBehaviour
@@ -22,7 +24,9 @@ public class TMPText : MonoBehaviour
     [SerializeField] TutorialText tutorialText;
     [SerializeField] GameObject imageObject;
     [SerializeField] GameObject selectButton;
-
+    [SerializeField] BossBase bossBase;
+    public List<GameObject> enemyList=new List<GameObject>();
+    public int dieCount = 0;
     private bool isOneProcess = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -56,6 +60,7 @@ public class TMPText : MonoBehaviour
         }
         else if (tutorial == 1)
         {
+            //Debug.Log(dieCount);
             Text.text = "弾幕の発射\nAボタンを押すと弾を発射できる\n押し続けると連射できる";
             if (BulletPool != null)
             {
@@ -89,14 +94,19 @@ public class TMPText : MonoBehaviour
                 "線の上を通過したタイミングがジャストガードの判定になる\nジャストガードが成功するとシールドが現れ、" +
                 "一定時間敵弾幕をはじく";
 
-            if (guardController2 != null && guardController2.justGuardCount == 5)
+            if (guardController2 != null && guardController2.justGuardCount == 1)
             {
                 tutorial = 3;
+                enemyWaveManager.SkipToBoss();
             }
         }
         else if (tutorial == 3)
         {
             Text.text = "これまでの操作方法でボスを倒す";
+            if (bossBase != null && bossBase.IsDead)
+            {
+                tutorial = 4;
+            }
         }
         else if(tutorial == 4)
         {
