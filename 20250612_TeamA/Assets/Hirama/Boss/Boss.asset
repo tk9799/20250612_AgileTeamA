@@ -21,6 +21,5 @@ MonoBehaviour:
   startPosition: {x: 0, y: 3}
   phases:
   - {fileID: 11400000, guid: ec35d8023276bf642b7475a9a1136c21, type: 2}
-  - {fileID: 11400000, guid: d55d9e1535c55e740a6b5840621c8f77, type: 2}
   bossBGM: {fileID: 0}
   score: 53000000

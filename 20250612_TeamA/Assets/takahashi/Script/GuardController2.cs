@@ -30,12 +30,13 @@ public class GuardController2 : MonoBehaviour
     [SerializeField] public CircleCollider2D circeCollider;
     [SerializeField] public BulletPoolManager bulletPoolManager;
     [SerializeField] private GameObject successShield;
+    [SerializeField] private TMPText tmpText;
     //[SerializeField] private GuardStamina guardStamina;
     public bool judgementEnd = false;
     private bool isBarrier = false;
     public int justGuardCount = 0;
 
-    private float justRadius = 0f;
+    private float justRadius = 2.0f;
     private float justRange = 0.45f;
     public GameObject bullet;
 
@@ -62,19 +63,22 @@ public class GuardController2 : MonoBehaviour
 
         if (playerJudgement != null && playerJudgement.isGuardJudgement==true)
         {
+            
             for (int listNum = bulletPoolManager.activeBulletList.Count - 1; listNum >= 0; listNum--)
             {
                 bullet = bulletPoolManager.activeBulletList[listNum];
+                float nearest = GetNearestBulletDistance();
 
-                float notePos = Vector2.Distance(justGuardTransform.position, bullet.transform.position);//2つのpositionの距離を返す
+
+                float notePos = Vector2.Distance(bullet.transform.position, justGuardTransform.position);//2つのpositionの距離を返す
 
                 float distances = Mathf.Abs(notePos - justRadius);//判定ラインからの距離
-
-                //Debug.Log(notePos);
+                //Debug.Log("hit");
+                Debug.Log("一番近い弾との距離 = " + nearest);
                 if (distances <= justGuardDistanceRadius)
                 {
                     //Debug.Log(distances);
-                    //Debug.Log("justGuard");
+                    Debug.Log("justGuard");
                     bullet.SetActive(false);
                     bulletPoolManager.activeBulletList.RemoveAt(listNum);
                     //Debug.Log(enemyBarrageObject);
@@ -83,9 +87,11 @@ public class GuardController2 : MonoBehaviour
                     judgementEnd = true;
                     successShield.SetActive(true);
                     isBarrier = true;
-                    if (SceneManager.GetActiveScene().name == "TutorialScene")
+                    if (SceneManager.GetActiveScene().name == "TutorialScene"&&tmpText!=null&&tmpText.tutorial==2)
                     {
+                        
                         justGuardCount++;
+                        Debug.Log(justGuardCount);
                     }
                     break;
                     //Debug.Log("InvincibleTime" + judgementEnd);
@@ -139,5 +145,25 @@ public class GuardController2 : MonoBehaviour
             Gizmos.DrawWireSphere(justGuardTransform.position, justGuardDistanceRadius);
         }
 
+    }
+
+    float GetNearestBulletDistance()
+    {
+        float nearestDistance = Mathf.Infinity; // 大きい数で初期化
+
+        // 弾リストを1つずつ調べる
+        foreach (GameObject enemyBullet in bulletPoolManager.activeBulletList)
+        {
+            // プレイヤーと弾との距離
+            float dist = Vector2.Distance(justGuardTransform.position, enemyBullet.transform.position);
+
+            // 今までで一番近ければ更新
+            if (dist < nearestDistance)
+            {
+                nearestDistance = dist;
+            }
+        }
+
+        return nearestDistance;
     }
 }

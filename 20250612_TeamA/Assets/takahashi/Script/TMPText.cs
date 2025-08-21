@@ -1,7 +1,9 @@
-using UnityEngine;
-using TMPro;
-using UnityEngine.InputSystem;
+using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class TMPText : MonoBehaviour
@@ -12,17 +14,19 @@ public class TMPText : MonoBehaviour
     [SerializeField] public int tutorial = 0;
     public int greenObujectCount = 0;
     private bool isSelect = false;
-    //[SerializeField] GameObject EnemyPool1;
-    //[SerializeField] GameObject EnemyPool2;
+    [SerializeField] GameObject BulletPool;
+    [SerializeField] GameObject BulletPool2;
     [SerializeField] GameObject EnemyWaveManager;
     [SerializeField] GameObject EnemyPoolManager;
-    [SerializeField] GameObject BulletPoolMaager;
+    [SerializeField] GameObject BulletPoolManager;
     [SerializeField] EnemyWaveManager enemyWaveManager;
     [SerializeField] GuardController2 guardController2;
     [SerializeField] TutorialText tutorialText;
     [SerializeField] GameObject imageObject;
     [SerializeField] GameObject selectButton;
-
+    [SerializeField] BossBase bossBase;
+    public List<GameObject> enemyList=new List<GameObject>();
+    public int dieCount = 0;
     private bool isOneProcess = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,11 +35,11 @@ public class TMPText : MonoBehaviour
         greenObujectCount = 4;
         imageObject.SetActive(false);
         selectButton.SetActive(false);
-        //EnemyPool1.SetActive(false);
-        //EnemyPool2.SetActive(false);
+        BulletPool.SetActive(false);
+        BulletPool2.SetActive(false);
         EnemyWaveManager.SetActive(false);
         EnemyPoolManager.SetActive(false);
-        //BulletPoolMaager.SetActive(false);
+        BulletPoolManager.SetActive(false);
     }
 
     // Update is called once per frame
@@ -56,12 +60,23 @@ public class TMPText : MonoBehaviour
         }
         else if (tutorial == 1)
         {
+            //Debug.Log(dieCount);
             Text.text = "弾幕の発射\nAボタンを押すと弾を発射できる\n押し続けると連射できる";
-            //EnemyPool1.SetActive(true);
-            //EnemyPool2.SetActive(true);
+            if (BulletPool != null)
+            {
+                BulletPool.SetActive(true);
+            }
+            if (BulletPool2 != null)
+            {
+                BulletPool2.SetActive(true);
+            }
+            
             EnemyWaveManager.SetActive(true);
             EnemyPoolManager.SetActive(true);
-            //BulletPoolMaager.SetActive(true);
+            if (BulletPoolManager != null)
+            {
+                BulletPoolManager.SetActive(true);
+            }
             if (enemyWaveManager != null && enemyWaveManager.isAnnihilation)
             {
                 tutorial = 2;
@@ -79,14 +94,19 @@ public class TMPText : MonoBehaviour
                 "線の上を通過したタイミングがジャストガードの判定になる\nジャストガードが成功するとシールドが現れ、" +
                 "一定時間敵弾幕をはじく";
 
-            if (guardController2 != null && guardController2.justGuardCount == 5)
+            if (guardController2 != null && guardController2.justGuardCount == 1)
             {
                 tutorial = 3;
+                enemyWaveManager.SkipToBoss();
             }
         }
         else if (tutorial == 3)
         {
             Text.text = "これまでの操作方法でボスを倒す";
+            if (bossBase != null && bossBase.IsDead)
+            {
+                tutorial = 4;
+            }
         }
         else if(tutorial == 4)
         {

@@ -15,5 +15,5 @@ MonoBehaviour:
   targetPosition: {x: 0, y: 3}
   relativeOffset: {x: -6, y: -4}
   useRelativeTarget: 0
-  stopDuration: 10
+  stopDuration: 1e+11
   moveAfterStopDirection: {x: 0, y: 1}

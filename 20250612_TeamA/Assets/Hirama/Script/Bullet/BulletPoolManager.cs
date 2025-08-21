@@ -26,7 +26,7 @@ public class BulletPoolManager : MonoBehaviour
 
     //“G’e–‹‚ª”­ŽË‚³‚ê‚½‚Æ‚«‚É’Ç‰Á‚³‚ê‚éƒŠƒXƒg
     //public List<Bullet> activeBulletList = new List<Bullet>();
-    public List<GameObject> activeBulletList = new List<GameObject>();
+    [SerializeField] public List<GameObject> activeBulletList = new List<GameObject>();
     //[SerializeField] public PlayerJudgement playerJudgement;
 
     void Awake()

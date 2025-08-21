@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0014563578d783440b2b551d2ff4bf0d, type: 3}
   m_Name: Bullet.A
   m_EditorClassIdentifier: 
-  bulletsprite: {fileID: 0}
+  bulletsprite: {fileID: -4568849344926584571, guid: d431a863f2f556d4890af889f03acb7c, type: 3}
   type: 2
   color: {r: 1, g: 1, b: 1, a: 1}
   scale: {x: 0.2, y: 0.2}

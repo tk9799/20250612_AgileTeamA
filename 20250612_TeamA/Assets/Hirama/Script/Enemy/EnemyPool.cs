@@ -13,7 +13,8 @@ public class EnemyPool : MonoBehaviour
     public int initialPoolSize = 10;
 
     private Queue<EnemyBase> pool = new Queue<EnemyBase>();
-    private List<EnemyBase> activeEnemies = new List<EnemyBase>();
+    [SerializeField]private List<EnemyBase> activeEnemies = new List<EnemyBase>();
+    [SerializeField] public TMPText tmpText;
 
     void Awake()
     {
@@ -42,6 +43,7 @@ public class EnemyPool : MonoBehaviour
         var enemy = pool.Dequeue();
         enemy.SetOwnerPool(this);
         enemy.gameObject.SetActive(true);
+        Debug.Log("ganerateEnemy");
         activeEnemies.Add(enemy);
         return enemy;
     }
@@ -50,6 +52,13 @@ public class EnemyPool : MonoBehaviour
     {
         enemy.gameObject.SetActive(false);
         activeEnemies.Remove(enemy);
+        if(activeEnemies.Count == 0)
+        {
+            if (tmpText!=null&&tmpText.tutorial==1)
+            {
+                tmpText.tutorial = 2;
+            }
+        }
         pool.Enqueue(enemy);
     }
 
