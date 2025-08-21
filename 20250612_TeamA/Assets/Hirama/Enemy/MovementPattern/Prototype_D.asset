@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Prototype_D
   m_EditorClassIdentifier: 
   targetPosition: {x: 0, y: 3}
-  relativeOffset: {x: 1, y: -4}
-  useRelativeTarget: 0
+  relativeOffset: {x: -1, y: -3}
+  useRelativeTarget: 1
   stopDuration: 7
   moveAfterStopDirection: {x: 0, y: -1}

@@ -959,6 +959,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2946870455517482607, guid: 6a63238b6abddf04da4f08bc3b2da472, type: 3}
   initialPoolSize: 10
+  activeEnemies: []
+  tmpText: {fileID: 0}
 --- !u!1 &674951171
 GameObject:
   m_ObjectHideFlags: 0
@@ -1211,7 +1213,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.7, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1834976947}
@@ -1260,7 +1262,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -100
-  m_Sprite: {fileID: 6627350838822759813, guid: 89344302b1b89834e85c182e1187ca71, type: 3}
+  m_Sprite: {fileID: 4930445923917455373, guid: 9bb9925e896ff1346b738458c9af41ba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1587,8 +1589,8 @@ Transform:
   m_GameObject: {fileID: 1221379562}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 10, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 10.5, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.7, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1834976947}
@@ -1637,7 +1639,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -100
-  m_Sprite: {fileID: 6627350838822759813, guid: 89344302b1b89834e85c182e1187ca71, type: 3}
+  m_Sprite: {fileID: 4930445923917455373, guid: 9bb9925e896ff1346b738458c9af41ba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1891,6 +1893,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 5283399448363462273, guid: 0b4b4b36ac6b58a4aab404a5b35e6d35, type: 3}
   initialPoolSize: 10
+  activeEnemies: []
+  tmpText: {fileID: 0}
 --- !u!1 &1321716305
 GameObject:
   m_ObjectHideFlags: 0
@@ -1937,6 +1941,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 489534160381045504, guid: 264f81bb54c6aa144b9e4547b4de379f, type: 3}
   initialPoolSize: 10
+  activeEnemies: []
+  tmpText: {fileID: 0}
 --- !u!1 &1448090917
 GameObject:
   m_ObjectHideFlags: 0
@@ -1999,6 +2005,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 7342425432545893489, guid: fab351ff520b35e45855d8d389e66d15, type: 3}
   initialPoolSize: 10
+  activeEnemies: []
+  tmpText: {fileID: 0}
 --- !u!4 &1459639355
 Transform:
   m_ObjectHideFlags: 0
@@ -2051,7 +2059,7 @@ MonoBehaviour:
       spawnCount: 8
       offsetX: 0.2
       offsetY: 0
-      interval: 1
+      interval: 0.5
       useGridLayout: 0
       gridColumns: 1
       gridRows: 1
@@ -2064,7 +2072,7 @@ MonoBehaviour:
       spawnCount: 8
       offsetX: -0.2
       offsetY: 0
-      interval: 1
+      interval: 0.5
       useGridLayout: 0
       gridColumns: 1
       gridRows: 1
@@ -2077,7 +2085,7 @@ MonoBehaviour:
       spawnCount: 5
       offsetX: 0.3
       offsetY: 0
-      interval: 1
+      interval: 0.5
       useGridLayout: 0
       gridColumns: 1
       gridRows: 1
@@ -2088,9 +2096,9 @@ MonoBehaviour:
       spawnCenter: {x: -5, y: 3}
       delayBeforeSpawn: 0
       spawnCount: 5
-      offsetX: 0.3
+      offsetX: 0.2
       offsetY: 0
-      interval: 1
+      interval: 0.7
       useGridLayout: 0
       gridColumns: 1
       gridRows: 1
@@ -2100,8 +2108,8 @@ MonoBehaviour:
     - enemyData: {fileID: 11400000, guid: c46da4201d48b90479efb44bee9a9c30, type: 2}
       spawnCenter: {x: 0, y: 6}
       delayBeforeSpawn: 0
-      spawnCount: 1
-      offsetX: 0
+      spawnCount: 2
+      offsetX: 2
       offsetY: 0
       interval: 0
       useGridLayout: 0
@@ -2174,6 +2182,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2794662867861113314, guid: aee0f076d47f62f4b9a46d23e8313346, type: 3}
   initialPoolSize: 10
+  activeEnemies: []
+  tmpText: {fileID: 0}
 --- !u!1 &1815406197
 GameObject:
   m_ObjectHideFlags: 0
@@ -2302,8 +2312,8 @@ MonoBehaviour:
   - {fileID: 1931291586}
   - {fileID: 1221379563}
   - {fileID: 1002572705}
-  scrollSpeed: 3
-  bgHeight: 20
+  scrollSpeed: 5
+  bgHeight: 10
 --- !u!4 &1834976947
 Transform:
   m_ObjectHideFlags: 0
@@ -2442,8 +2452,8 @@ Transform:
   m_GameObject: {fileID: 1931291585}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 20, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 21, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.7, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1834976947}
@@ -2492,7 +2502,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -100
-  m_Sprite: {fileID: 6627350838822759813, guid: 89344302b1b89834e85c182e1187ca71, type: 3}
+  m_Sprite: {fileID: 4930445923917455373, guid: 9bb9925e896ff1346b738458c9af41ba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
