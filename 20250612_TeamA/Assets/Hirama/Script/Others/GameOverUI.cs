@@ -26,7 +26,7 @@ public class GameOverUI : MonoBehaviour
         Color c = fadePanel.color;
         c.a = 0;
         fadePanel.color = c;
-        gameOverText.gameObject.SetActive(false);
+        //gameOverText.gameObject.SetActive(false);
     }
 
     public void ShowGameOver()
@@ -53,7 +53,7 @@ public class GameOverUI : MonoBehaviour
 
         // 1ïbë“Ç¡ÇƒÅuGAME OVERÅvï\é¶
         yield return new WaitForSeconds(1f);
-        gameOverText.gameObject.SetActive(true);
+        //gameOverText.gameObject.SetActive(true);
 
         // Ç≥ÇÁÇ…1ïbå„Ç…ñﬂÇÍÇÈÇÊÇ§Ç…Ç∑ÇÈ
         yield return new WaitForSeconds(1f);

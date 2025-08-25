@@ -12,6 +12,7 @@ public class EnemyWaveManager : MonoBehaviour
 
     [Header("ボスのプレハブ")]
     public GameObject bossPrefab;
+    private BossBase bossBase;//BossBaseのスクリプト
 
     [Header("ボスの出現座標")]
     public Vector3 bossAppearancePosition = new Vector3(0f, 10f, 0f);
@@ -19,9 +20,10 @@ public class EnemyWaveManager : MonoBehaviour
     [Header("Wave開始時に自動実行するか")]
     public bool autoStart = true;
 
-    private bool isWaveRunning = false;
+    public bool isWaveRunning = false;
     private bool skipToBoss = false;
     public bool isAnnihilation = false;
+    public bool isBossDead = false;
 
     private void Start()
     {
@@ -29,6 +31,8 @@ public class EnemyWaveManager : MonoBehaviour
         {
             StartCoroutine(SpawnAllWaves());
         }
+
+        
     }
 
     private void Update()
@@ -37,6 +41,10 @@ public class EnemyWaveManager : MonoBehaviour
         {
             //Waveスキップ
             SkipToBoss();
+        }
+        if (bossBase != null && bossBase.isDead)
+        {
+            isBossDead = true;
         }
     }
 
@@ -251,7 +259,12 @@ public class EnemyWaveManager : MonoBehaviour
 
         if (bossPrefab != null)
         {
-            Instantiate(bossPrefab, bossAppearancePosition, Quaternion.identity);
+            GameObject BossPrefab=Instantiate(bossPrefab, bossAppearancePosition, Quaternion.identity);
+            bossBase = BossPrefab.GetComponent<BossBase>();
+            if(bossBase == null)
+            {
+                Debug.LogError("BossBaseがnull");
+            }
         }
         else
         {
