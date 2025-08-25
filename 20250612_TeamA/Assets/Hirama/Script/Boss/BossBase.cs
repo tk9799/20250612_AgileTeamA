@@ -10,8 +10,10 @@ public class BossBase : MonoBehaviour, IDanmakuEnemy
 
     public int CurrentHP { get; private set; }
     private int currentMaxHP;
-    private bool isDead = false;
+    public bool isDead = false;
     public bool IsDead => isDead;
+    public bool isBossDestroy = false;
+    public bool IsBossDestroy =>isBossDestroy;
 
     public bool IsInvincible { get; set; } = false;
 
@@ -106,15 +108,11 @@ public class BossBase : MonoBehaviour, IDanmakuEnemy
     /// </summary>
     protected virtual void Die()
     {
-        if (isDead)
-        {
-            return;
-        }
-
         isDead = true;
 
         Debug.Log($"ボス「{bossData.BossDisplayName}」を撃破");
-
+        isBossDestroy = true;
+        Debug.Log(IsDead);
         //スコア処理
         AddScore();
 
@@ -122,9 +120,14 @@ public class BossBase : MonoBehaviour, IDanmakuEnemy
         if (bossData.bossType == BossType.Boss)
         {
             GameManager.Instance?.GameClear();
+            //isDead = true;
         }
-
-        Destroy(gameObject);
+        if (isDead)
+        {
+            return;
+        }
+        //gameObject.SetActive(false);
+        //Destroy(gameObject);
     }
 
     private void AddScore()

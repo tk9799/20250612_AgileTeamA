@@ -733,9 +733,25 @@ MonoBehaviour:
       gridRows: 1
     spawnSimultaneously: 0
     delayBeforeStart: 1
+  - spawnInfos:
+    - enemyData: {fileID: 11400000, guid: c46da4201d48b90479efb44bee9a9c30, type: 2}
+      spawnCenter: {x: 5, y: 7}
+      delayBeforeSpawn: 0
+      spawnCount: 1
+      offsetX: 1
+      offsetY: 0
+      interval: 0.2
+      useGridLayout: 0
+      gridColumns: 1
+      gridRows: 1
+    spawnSimultaneously: 0
+    delayBeforeStart: 1
   bossPrefab: {fileID: 6853529735696316538, guid: dcbbb72fd2598e1459f7b0f4c79eb5ec, type: 3}
+  bossAppearancePosition: {x: 0, y: 10, z: 0}
   autoStart: 1
+  isWaveRunning: 0
   isAnnihilation: 0
+  isBossDead: 0
 --- !u!4 &301389279
 Transform:
   m_ObjectHideFlags: 0
@@ -799,6 +815,53 @@ MonoBehaviour:
   initialPoolSize: 10
   activeEnemies: []
   tmpText: {fileID: 537632984}
+--- !u!1 &440041773
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 440041774}
+  - component: {fileID: 440041775}
+  m_Layer: 0
+  m_Name: BulletPool.3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &440041774
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440041773}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1192818339}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &440041775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440041773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87d8a0118ed1d9c4ab34ed3c669263f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 6959598903614008223, guid: b86f82e8302e09d49b630cbd23f3698f, type: 3}
+  initialPoolSize: 100
+  maxPoolSize: 0
 --- !u!1 &500356507
 GameObject:
   m_ObjectHideFlags: 0
@@ -1100,9 +1163,10 @@ MonoBehaviour:
   tutorialText: {fileID: 2120114971}
   imageObject: {fileID: 1245301371}
   selectButton: {fileID: 1902621403}
-  bossBase: {fileID: 0}
   enemyList: []
-  dieCount: 0
+  bossPrefab: {fileID: 6853529735696316538, guid: dcbbb72fd2598e1459f7b0f4c79eb5ec, type: 3}
+  bossBase: {fileID: 897210816484634694, guid: dcbbb72fd2598e1459f7b0f4c79eb5ec, type: 3}
+  isAttack: 0
 --- !u!1 &602388737
 GameObject:
   m_ObjectHideFlags: 0
@@ -1870,6 +1934,8 @@ MonoBehaviour:
     bulletPool: {fileID: 2080779052}
   - bulletBase: {fileID: 11400000, guid: 7cd9c568dc54b684fa2d1317fa1014eb, type: 2}
     bulletPool: {fileID: 1246290023}
+  - bulletBase: {fileID: 11400000, guid: d187423f784c2eb4b8195a76705ef0d7, type: 2}
+    bulletPool: {fileID: 440041775}
   activeBulletList: []
 --- !u!4 &1192818339
 Transform:
@@ -1887,6 +1953,7 @@ Transform:
   - {fileID: 602388739}
   - {fileID: 2080779053}
   - {fileID: 1246290022}
+  - {fileID: 440041774}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1242596441
@@ -2018,7 +2085,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1000, y: 650}
+  m_SizeDelta: {x: 1150, y: 2200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1245301373
 MonoBehaviour:
@@ -2047,7 +2114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2764,6 +2831,8 @@ MonoBehaviour:
     bulletPool: {fileID: 2080779052}
   - bulletBase: {fileID: 11400000, guid: 7cd9c568dc54b684fa2d1317fa1014eb, type: 2}
     bulletPool: {fileID: 1246290023}
+  - bulletBase: {fileID: 11400000, guid: 59f8595cb8c5dbf4999219d087b1779e, type: 2}
+    bulletPool: {fileID: 440041775}
   activeBulletList: []
 --- !u!4 &1560183716
 Transform:
@@ -2813,7 +2882,7 @@ MonoBehaviour:
   - enemyData: {fileID: 11400000, guid: 419cc9fd8a8dfd04c858584e6f1dbff3, type: 2}
     enemyPool: {fileID: 1446806524}
   - enemyData: {fileID: 11400000, guid: 51abd65514ffe454cac344f7499795fc, type: 2}
-    enemyPool: {fileID: 1446806524}
+    enemyPool: {fileID: 381227414}
 --- !u!4 &1751575307
 Transform:
   m_ObjectHideFlags: 0
@@ -3079,7 +3148,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 10
 --- !u!222 &1902621407
 CanvasRenderer:
   m_ObjectHideFlags: 0

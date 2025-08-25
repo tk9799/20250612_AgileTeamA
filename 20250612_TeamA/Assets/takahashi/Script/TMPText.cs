@@ -24,10 +24,12 @@ public class TMPText : MonoBehaviour
     [SerializeField] TutorialText tutorialText;
     [SerializeField] GameObject imageObject;
     [SerializeField] GameObject selectButton;
+    public List<GameObject> enemyList = new List<GameObject>();
+    [SerializeField] private GameObject bossPrefab;
     [SerializeField] BossBase bossBase;
-    public List<GameObject> enemyList=new List<GameObject>();
-    public int dieCount = 0;
+    //public int dieCount = 0;
     private bool isOneProcess = false;
+    public bool isAttack = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -40,11 +42,14 @@ public class TMPText : MonoBehaviour
         EnemyWaveManager.SetActive(false);
         EnemyPoolManager.SetActive(false);
         BulletPoolManager.SetActive(false);
+        //GameObject obj= Instantiate(bossPrefab, Vector2.zero, Quaternion.identity);
+        //bossBase=obj.GetComponent<BossBase>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         if (tutorial == 0)
         {
             Text.text = "プレイヤーの移動\n左スティックで移動\nXボダンを押しながら左スティックを動かすと低速移動";
@@ -70,7 +75,7 @@ public class TMPText : MonoBehaviour
             {
                 BulletPool2.SetActive(true);
             }
-            
+
             EnemyWaveManager.SetActive(true);
             EnemyPoolManager.SetActive(true);
             if (BulletPoolManager != null)
@@ -94,22 +99,42 @@ public class TMPText : MonoBehaviour
                 "線の上を通過したタイミングがジャストガードの判定になる\nジャストガードが成功するとシールドが現れ、" +
                 "一定時間敵弾幕をはじく";
 
-            if (guardController2 != null && guardController2.justGuardCount == 1)
+            if (guardController2 != null && guardController2.justGuardCount >= 1)
             {
-                tutorial = 3;
-                enemyWaveManager.SkipToBoss();
+                isAttack = true;
+                //enemyWaveManager.SkipToBoss();
+                if (enemyWaveManager != null && enemyWaveManager.isWaveRunning == false)
+                {
+                    tutorial = 3;
+                }
+                //guardController2.justGuardCount = 0;
             }
         }
         else if (tutorial == 3)
         {
+            bossBase = bossBase.GetComponent<BossBase>();
             Text.text = "これまでの操作方法でボスを倒す";
-            if (bossBase != null && bossBase.IsDead)
+
+            if(bossBase == null)
             {
+                Debug.LogError("ボスがnullになっている！！！！！！！！！！！！！");
+            }
+
+            //Debug.Log($"ボスが生きているか(TMPText)：{bossBase.IsBossDestroy} ");
+
+            if (enemyWaveManager != null && enemyWaveManager.isBossDead == true)
+            {
+                Debug.Log("Clear");
                 tutorial = 4;
             }
+            else if (bossBase == null)
+            {
+                Debug.LogError("bossBaseがnullです");
+            }
         }
-        else if(tutorial == 4)
+        else if (tutorial == 4)
         {
+            Text.text = "";
             tutorialText.instructionsText.text = "チュートリアルクリア";
             imageObject.SetActive(true);
             StartCoroutine(StargeSelect());

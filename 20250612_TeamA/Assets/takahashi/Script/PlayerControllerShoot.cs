@@ -25,11 +25,12 @@ public class PlayerControllerShoot : MonoBehaviour
 
     private void Update()
     {
-        if (tmpText != null && tmpText.tutorial != 2)
+        if (tmpText != null && tmpText.tutorial != 2||tmpText.isAttack)
         {
             isFiring = Input.GetKey(KeyCode.JoystickButton0);
         }
-        else if (SceneManager.GetActiveScene().name == "TutorialScene" && tmpText != null && tmpText.tutorial == 2)
+        else if (SceneManager.GetActiveScene().name == "TutorialScene" && tmpText != null && tmpText.tutorial == 2
+            && tmpText.isAttack==false)
         {
             //Debug.Log("”­ŽË‚Å‚«‚È‚¢");
             //isFiring = false;
