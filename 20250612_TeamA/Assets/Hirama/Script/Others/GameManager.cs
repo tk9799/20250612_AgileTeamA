@@ -64,14 +64,24 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void GameOver()
     {
-        //二重実行防止
-        if (IsGameClear || IsGameOver)
+        IsGameOver = true;
+        Debug.Log("ゲームオーバー...");
+
+        //スコア取得
+        int finalScore = ScoreManager.Instance?.GetScore() ?? 0;
+
+        //プレイヤー操作止める
+        var player = FindObjectOfType<PlayerMoveController>();
+        if (player != null)
         {
-            return;
+            player.enabled = false;
         }
 
-        IsGameOver = true;
-
-        Debug.Log("ゲームオーバー...");
+        //UI演出開始
+        var ui = FindObjectOfType<GameOverUI>();
+        if (ui != null)
+        {
+            ui.ShowGameOver(finalScore);
+        }
     }
 }

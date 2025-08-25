@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossType: 0
   BossDisplayName: "\u8A66\u4F5C\u7528\u30DC\u30B9"
-  bossSprite: {fileID: 7898605090196172914, guid: b4745dedad2557947b86705b11ea4cd5, type: 3}
+  bossSprite: {fileID: -3025146917543626293, guid: ab206406be820664dacba6cf687ac054, type: 3}
   bossPrefab: {fileID: 6853529735696316538, guid: dcbbb72fd2598e1459f7b0f4c79eb5ec, type: 3}
   maxHP: 1000
   moveSpeed: 2
   startPosition: {x: 0, y: 3}
   phases:
   - {fileID: 11400000, guid: ec35d8023276bf642b7475a9a1136c21, type: 2}
+  - {fileID: 11400000, guid: d55d9e1535c55e740a6b5840621c8f77, type: 2}
   bossBGM: {fileID: 0}
   score: 53000000
