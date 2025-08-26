@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c86f68558eb22a4bb1118f630070b3c, type: 3}
+  m_Name: Enemy.C
+  m_EditorClassIdentifier: 
+  enemySprite: {fileID: 0}
+  EnemydisplayName: 
+  EnemyPrefab: {fileID: 0}
+  bulletBase: {fileID: 0}
+  scale: {x: 1, y: 1}
+  enemyColor: {r: 1, g: 1, b: 1, a: 1}
+  maxHP: 10
+  moveSpeed: 2
+  attackPattern: {fileID: 11400000, guid: e9fb4f600d0bd284cb49fc1f4e921720, type: 2}
+  movementPattern: {fileID: 11400000, guid: e96ea0df2b8a37c469a2222d19fa0aa8, type: 2}
+  score: 0

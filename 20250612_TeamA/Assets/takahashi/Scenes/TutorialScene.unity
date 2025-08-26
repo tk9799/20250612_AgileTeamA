@@ -708,7 +708,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waveList:
   - spawnInfos:
-    - enemyData: {fileID: 11400000, guid: 419cc9fd8a8dfd04c858584e6f1dbff3, type: 2}
+    - enemyData: {fileID: 11400000, guid: 550e52dc31bbc3441b95e8e5944616fd, type: 2}
       spawnCenter: {x: 5, y: 7}
       delayBeforeSpawn: 0
       spawnCount: 5
@@ -721,20 +721,7 @@ MonoBehaviour:
     spawnSimultaneously: 0
     delayBeforeStart: 5
   - spawnInfos:
-    - enemyData: {fileID: 11400000, guid: 51abd65514ffe454cac344f7499795fc, type: 2}
-      spawnCenter: {x: 5, y: 7}
-      delayBeforeSpawn: 0
-      spawnCount: 1
-      offsetX: 1
-      offsetY: 0
-      interval: 0.2
-      useGridLayout: 0
-      gridColumns: 1
-      gridRows: 1
-    spawnSimultaneously: 0
-    delayBeforeStart: 1
-  - spawnInfos:
-    - enemyData: {fileID: 11400000, guid: c46da4201d48b90479efb44bee9a9c30, type: 2}
+    - enemyData: {fileID: 11400000, guid: 332b96198eedf2e4eaf2c685571e735e, type: 2}
       spawnCenter: {x: 5, y: 7}
       delayBeforeSpawn: 0
       spawnCount: 1
@@ -1036,8 +1023,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 400, y: 700}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 417.5, y: 700}
+  m_SizeDelta: {x: 235, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &537632982
 MonoBehaviour:
@@ -1086,8 +1073,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26
-  m_fontSizeBase: 26
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2831,7 +2818,7 @@ MonoBehaviour:
     bulletPool: {fileID: 2080779052}
   - bulletBase: {fileID: 11400000, guid: 7cd9c568dc54b684fa2d1317fa1014eb, type: 2}
     bulletPool: {fileID: 1246290023}
-  - bulletBase: {fileID: 11400000, guid: 59f8595cb8c5dbf4999219d087b1779e, type: 2}
+  - bulletBase: {fileID: 11400000, guid: d187423f784c2eb4b8195a76705ef0d7, type: 2}
     bulletPool: {fileID: 440041775}
   activeBulletList: []
 --- !u!4 &1560183716
@@ -3425,8 +3412,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26
-  m_fontSizeBase: 26
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
