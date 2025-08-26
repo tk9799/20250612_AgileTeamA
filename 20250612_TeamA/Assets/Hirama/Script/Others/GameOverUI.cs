@@ -3,11 +3,15 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class GameOverUI : MonoBehaviour
 {
     [Header("黒いフェード")]
     public Image fadePanel;
+
+    [Header("「ゲームオーバー」を表示")]
+    public TextMeshProUGUI messageText;
 
     [Header("最終スコア表示")]
     public TextMeshProUGUI scoreText;
@@ -20,24 +24,36 @@ public class GameOverUI : MonoBehaviour
 
     private bool canReturn = false;
 
+    //コントローラー
+    private Gamepad gamepad;
+    //入力間隔をあけるための時間
+    //private float inputCooldown = 0.2f;
+    //private float lastInputTime = 0f;
+    private Vector2 prevDpad = Vector2.zero;
+
     void Awake()
     {
-        // 最初は透明＋非表示
         Color c = fadePanel.color;
         c.a = 0;
         fadePanel.color = c;
-        //gameOverText.gameObject.SetActive(false);
+
+        messageText.gameObject.SetActive(false);
+        scoreText.gameObject.SetActive(false);
+        returnText.gameObject.SetActive(false);
+
+        gamepad = Gamepad.current;
     }
 
-    public void ShowGameOver()
+    public void ShowGameOver(int score)
     {
         fadePanel.gameObject.SetActive(true);
+        scoreText.text = $"Score: {score:N0}";
         StartCoroutine(ShowSequence());
     }
 
     private System.Collections.IEnumerator ShowSequence()
     {
-        // フェードイン
+        //フェードイン
         float t = 0f;
         float fadeDuration = 1.5f;
         float targetAlpha = 0.7f;
@@ -51,12 +67,19 @@ public class GameOverUI : MonoBehaviour
             yield return null;
         }
 
-        // 1秒待って「GAME OVER」表示
-        yield return new WaitForSeconds(1f);
-        //gameOverText.gameObject.SetActive(true);
+        //ゲームクリアを表示
+        messageText.gameObject.SetActive(true);
 
-        // さらに1秒後に戻れるようにする
-        yield return new WaitForSeconds(1f);
+        //何秒後に表示
+        yield return new WaitForSeconds(2f);
+
+        //スコア表示
+        scoreText.gameObject.SetActive(true);
+
+        //何秒後に表示
+        yield return new WaitForSeconds(2f);
+        returnText.gameObject.SetActive(true);
+
         canReturn = true;
     }
 
@@ -64,6 +87,16 @@ public class GameOverUI : MonoBehaviour
     {
         if (canReturn && Input.GetKeyDown(KeyCode.A))
         {
+            //シーンに戻る
+            SceneManager.LoadScene(returnSceneName);
+        }
+
+        //ゲームパッド操作
+        var pad = Gamepad.current;
+        if (canReturn && pad != null &&
+            pad.buttonSouth.wasPressedThisFrame)
+        {
+            //シーンに戻る
             SceneManager.LoadScene(returnSceneName);
         }
     }

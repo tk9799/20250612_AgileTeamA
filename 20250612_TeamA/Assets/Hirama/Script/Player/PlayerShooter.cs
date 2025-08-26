@@ -18,6 +18,9 @@ public class PlayerShooter : MonoBehaviour
     private bool isFiring = false;
     private SpriteRenderer sr;
 
+    //’e‚ğŒ‚‚Â‚©‚Ç‚¤‚©
+    public bool canShoot = true;
+
     private void Start()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -26,6 +29,14 @@ public class PlayerShooter : MonoBehaviour
 
     private void Update()
     {
+        if (!canShoot) return;
+
+        //’Êí‚ÌËŒ‚ˆ—
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Shoot();
+        }
+
         // ZƒL[‰Ÿ‚µ‚Á‚Ï‚È‚µ‚Å˜AË
         isFiring = Input.GetKey(KeyCode.Z);
     }
@@ -57,4 +68,8 @@ public class PlayerShooter : MonoBehaviour
         isFiring = false;
     }
 
+    public void Shoot()
+    {
+
+    }
 }

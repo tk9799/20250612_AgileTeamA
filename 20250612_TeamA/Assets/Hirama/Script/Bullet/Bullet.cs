@@ -29,6 +29,9 @@ public class Bullet : MonoBehaviour
     //一度でもカメラに映ったか
     private bool hasEnteredScreen = false;
 
+    //外部から設定可能な加速度
+    public float acceleration = 0f;
+
     public void SetOwnerPool(BulletPool pool)
     {
         bulletPool = pool;
@@ -201,6 +204,21 @@ public class Bullet : MonoBehaviour
         if (circleCollider != null)
         {
             circleCollider.radius = baseData.hitboxRadius * Mathf.Max(baseData.scale.x, baseData.scale.y);
+        }
+    }
+
+    /// <summary>
+    /// 弾の初速を設定
+    /// </summary>
+    public void SetInitialSpeed(float speed)
+    {
+        if (velocity != Vector2.zero)
+        {
+            velocity = velocity.normalized * speed;
+        }
+        else
+        {
+            velocity = Vector2.right * speed;
         }
     }
 }

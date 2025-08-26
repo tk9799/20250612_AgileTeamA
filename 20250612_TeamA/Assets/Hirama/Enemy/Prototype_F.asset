@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySprite: {fileID: 9136945881748350054, guid: 5916f20bd8825cd4f94430b2be186c30, type: 3}
   EnemydisplayName: "\u8A66\u4F5C\u7528\u96D1\u9B5A\u6575.6"
-  EnemyPrefab: {fileID: 5283399448363462273, guid: 0b4b4b36ac6b58a4aab404a5b35e6d35, type: 3}
-  bulletBase: {fileID: 11400000, guid: 7cd9c568dc54b684fa2d1317fa1014eb, type: 2}
+  EnemyPrefab: {fileID: 3015975370308411156, guid: 84ed7ed719fdc7a4785d655a39928afd, type: 3}
+  bulletBase: {fileID: 0}
   scale: {x: 0.4, y: 0.4}
   enemyColor: {r: 1, g: 1, b: 1, a: 1}
   maxHP: 100

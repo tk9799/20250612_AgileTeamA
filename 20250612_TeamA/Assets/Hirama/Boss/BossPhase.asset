@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: BossPhase
   m_EditorClassIdentifier: 
   PhaseDisplayName: 
-  phaseMaxHP: 1000
+  phaseMaxHP: 2000
   attackPattern: {fileID: 11400000, guid: 56bab4e0bf0fe4549990c1fd629f9890, type: 2}
   movementPattern: {fileID: 11400000, guid: 2b4d472df97c06a4a91812edd3bafe37, type: 2}
   endCondition: 1
-  hpThreshold: 0
+  hpThreshold: 1000
   timeLimit: 0
