@@ -135,10 +135,10 @@ public class TMPText : MonoBehaviour
         else if (tutorial == 4)
         {
             Text.text = "";
-            tutorialText.instructionsText.text = "チュートリアルクリア";
+            tutorialText.instructionsText.text = "チュートリアルクリア\nBボタン入力でタイトルに戻る";
             imageObject.SetActive(true);
             StartCoroutine(StargeSelect());
-            if (isSelect && Input.GetKey(KeyCode.JoystickButton0))
+            if (isSelect && Input.GetKey(KeyCode.JoystickButton1))
             {
                 SceneManager.LoadScene("GameTitleScene");
             }
