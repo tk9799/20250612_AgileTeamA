@@ -45,14 +45,34 @@ public class GameManager : MonoBehaviour
         Debug.Log($"最終スコア: {ScoreManager.Instance?.GetScore()}");
 
         //プレイヤー操作を止める
-        var player = FindObjectOfType<PlayerMoveController>();
+        var player = FindFirstObjectByType<PlayerMoveController>();
         if (player != null)
         {
             player.enabled = false;
         }
 
+        var player2 = FindFirstObjectByType<PlayerController2>();
+        if (player2 != null)
+        {
+            player2.enabled = false;
+        }
+
+        //プレイヤー弾幕を止める
+        var playerbullet = FindFirstObjectByType<PlayerShooter>();
+        if (playerbullet != null)
+        {
+            playerbullet.canShoot = false;
+            playerbullet.StopShooting();
+        }
+
+        var playerbullet2 = FindFirstObjectByType<PlayerControllerShoot2>();
+        if (playerbullet2 != null)
+        {
+            playerbullet2.enabled = false;
+        }
+
         //UI演出を開始
-        var ui = FindObjectOfType<GameClearUI>();
+        var ui = FindFirstObjectByType<GameClearUI>();
         if (ui != null)
         {
             ui.ShowGameClear(finalScore);
@@ -64,14 +84,51 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void GameOver()
     {
-        //二重実行防止
-        if (IsGameClear || IsGameOver)
+        IsGameOver = true;
+        Debug.Log("ゲームオーバー...");
+
+        //スコア取得
+        int finalScore = ScoreManager.Instance?.GetScore() ?? 0;
+
+        //プレイヤー操作止める
+        var player = FindFirstObjectByType<PlayerMoveController>();
+        if (player != null)
         {
-            return;
+            player.enabled = false;
         }
 
-        IsGameOver = true;
+        //プレイヤー弾幕を止める
+        var playerbullet = FindFirstObjectByType<PlayerShooter>();
+        if (playerbullet != null)
+        {
+            playerbullet.canShoot = false;
+            playerbullet.StopShooting();
+        }
 
-        Debug.Log("ゲームオーバー...");
+        var player2 = FindFirstObjectByType<PlayerController2>();
+        if (player2 != null)
+        {
+            player2.enabled = false;
+        }
+
+        //弾幕停止
+        var bullet = FindFirstObjectByType<Bullet>();
+        if (bullet != null)
+        {
+            bullet.enabled = false;
+        }
+
+        var playerbullet2 = FindFirstObjectByType<PlayerControllerShoot2>();
+        if (playerbullet2 != null)
+        {
+            playerbullet2.enabled = false;
+        }
+
+        //UI演出開始
+        var ui = FindFirstObjectByType<GameOverUI>();
+        if (ui != null)
+        {
+            ui.ShowGameOver(finalScore);
+        }
     }
 }

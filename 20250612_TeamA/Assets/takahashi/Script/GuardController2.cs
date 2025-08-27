@@ -67,14 +67,14 @@ public class GuardController2 : MonoBehaviour
             for (int listNum = bulletPoolManager.activeBulletList.Count - 1; listNum >= 0; listNum--)
             {
                 bullet = bulletPoolManager.activeBulletList[listNum];
-                float nearest = GetNearestBulletDistance();
+                //float nearest = GetNearestBulletDistance();
 
 
                 float notePos = Vector2.Distance(bullet.transform.position, justGuardTransform.position);//2つのpositionの距離を返す
 
                 float distances = Mathf.Abs(notePos - justRadius);//判定ラインからの距離
                 //Debug.Log("hit");
-                Debug.Log("一番近い弾との距離 = " + nearest);
+                //Debug.Log("一番近い弾との距離 = " + nearest);
                 if (distances <= justGuardDistanceRadius)
                 {
                     //Debug.Log(distances);
@@ -147,23 +147,23 @@ public class GuardController2 : MonoBehaviour
 
     }
 
-    float GetNearestBulletDistance()
-    {
-        float nearestDistance = Mathf.Infinity; // 大きい数で初期化
+    //float GetNearestBulletDistance()
+    //{
+    //    float nearestDistance = Mathf.Infinity; // 大きい数で初期化
 
-        // 弾リストを1つずつ調べる
-        foreach (GameObject enemyBullet in bulletPoolManager.activeBulletList)
-        {
-            // プレイヤーと弾との距離
-            float dist = Vector2.Distance(justGuardTransform.position, enemyBullet.transform.position);
+    //    // 弾リストを1つずつ調べる
+    //    foreach (GameObject enemyBullet in bulletPoolManager.activeBulletList)
+    //    {
+    //        // プレイヤーと弾との距離
+    //        float dist = Vector2.Distance(justGuardTransform.position, enemyBullet.transform.position);
 
-            // 今までで一番近ければ更新
-            if (dist < nearestDistance)
-            {
-                nearestDistance = dist;
-            }
-        }
+    //        // 今までで一番近ければ更新
+    //        if (dist < nearestDistance)
+    //        {
+    //            nearestDistance = dist;
+    //        }
+    //    }
 
-        return nearestDistance;
-    }
+    //    return nearestDistance;
+    //}
 }

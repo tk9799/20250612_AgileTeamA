@@ -26,6 +26,12 @@ public class TitleMenu : MonoBehaviour
 
     void Start()
     {
+        //スコアをリセット
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.ResetScore();
+        }
+
         UpdateMenuDisplay();
     }
 
@@ -160,11 +166,11 @@ public class TitleMenu : MonoBehaviour
                     Debug.Log("ゲームスタートシーン名が設定されてません");
                 }
                 break;
+            //case 1:
+            //    //オプション
+            //    Debug.Log("オプションは未実装");
+            //    break;
             case 1:
-                //オプション
-                Debug.Log("オプションは未実装");
-                break;
-            case 2:
                 //終了
                 Debug.Log("終了（エディタなので何もしない）");
                 Application.Quit();

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e1420b98e7d1894bafaba5da19a8f62, type: 3}
   m_Name: Prototype_B
   m_EditorClassIdentifier: 
-  moveLeft: 1
+  moveLeft: 0

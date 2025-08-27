@@ -68,6 +68,12 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     void Update()
     {
+        if (GameManager.Instance.IsGameClear || GameManager.Instance.IsGameOver)
+        {
+            //ˆÚ“®‚àUŒ‚‚à‚µ‚È‚¢
+            return;
+        }
+
         if (movementPatternInstance != null)
         {
             movementPatternInstance.UpdateMovement(this);

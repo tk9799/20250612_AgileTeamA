@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84987119cd6cee84d88fcdde35d85819, type: 3}
   m_Name: Prototype_D
   m_EditorClassIdentifier: 
-  targetPosition: {x: 0, y: 3}
-  relativeOffset: {x: -1, y: -3}
-  useRelativeTarget: 1
-  stopDuration: 7
+  targetPosition: {x: 1, y: 4}
+  relativeOffset: {x: 0, y: 0}
+  useRelativeTarget: 0
+  stopDuration: 2
   moveAfterStopDirection: {x: 0, y: -1}

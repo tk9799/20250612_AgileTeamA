@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b56d7715786a96b43871e37d04143cd3, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e1420b98e7d1894bafaba5da19a8f62, type: 3}
   m_Name: Prototype_A
   m_EditorClassIdentifier: 
+  moveLeft: 1

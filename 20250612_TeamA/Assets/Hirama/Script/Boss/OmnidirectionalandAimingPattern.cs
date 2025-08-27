@@ -12,6 +12,10 @@ public class OmnidirectionalandAimingPattern : BossAttackPattern
     public int radialShotsPerSet = 3;
     [Header("全方位弾の連射間隔")]
     public float radialShotInterval = 0.2f;
+    [Header("螺旋角度ずれ")]
+    public float rotationStepPerShot = 10f;
+    [Header("全方位弾のセット間隔")]
+    public float radialSetInterval = 1.0f;
 
     [Header("自機狙い弾")]
     [Header("自機狙い弾のデータ")]
@@ -22,20 +26,16 @@ public class OmnidirectionalandAimingPattern : BossAttackPattern
     public int aimShotsPerSet = 4;
     [Header("自機狙い弾の連射間隔")]
     public float aimShotInterval = 0.3f;
+    [Header("自機狙い弾のセット間隔")]
+    public float aimSetInterval = 1.0f;
 
     [Header("セット切り替え")]
     [Header("全方位弾のセットを何回撃ったら自機狙い弾に切り替えるか")]
-    public int radialSetsBeforeAim = 2;
+    public int radialSetsBeforeAim = 3;
     [Header("自機狙い弾のセットを何回撃ったら全方位弾に戻るか")]
     public int aimSetsBeforeRadial = 3;
 
     private BossController bossController;
-
-    private enum AttackPhase
-    {
-        Radial,
-        Aim
-    }
 
     private AttackPhase currentPhase = AttackPhase.Radial;
 
@@ -43,6 +43,14 @@ public class OmnidirectionalandAimingPattern : BossAttackPattern
     private int shotsFiredInSet = 0;
     private float shotTimer = 0f;
     private bool clockwise = true;
+
+    private float radialRotationOffset = 0f;
+
+    private enum AttackPhase
+    {
+        Radial,
+        Aim
+    }
 
     public override void Initialize(BossController controller)
     {
@@ -72,20 +80,20 @@ public class OmnidirectionalandAimingPattern : BossAttackPattern
                 }
                 else
                 {
-                    //1セット終了
                     shotsFiredInSet = 0;
                     setsFiredInPhase++;
+                    shotTimer = -radialSetInterval;
 
-                    //回転方向切り替え
+                    //セットごとに回転方向を反転
                     clockwise = !clockwise;
 
                     if (setsFiredInPhase >= radialSetsBeforeAim)
                     {
-                        //自機狙いフェーズに切り替え
                         currentPhase = AttackPhase.Aim;
                         setsFiredInPhase = 0;
                         shotsFiredInSet = 0;
-                        shotTimer = 0f;
+                        shotTimer = -aimSetInterval;
+                        //shotTimer = 0f;
                     }
                 }
                 break;
@@ -102,20 +110,16 @@ public class OmnidirectionalandAimingPattern : BossAttackPattern
                 }
                 else
                 {
-                    //1セット終了
                     shotsFiredInSet = 0;
                     setsFiredInPhase++;
 
                     if (setsFiredInPhase >= aimSetsBeforeRadial)
                     {
-                        //全方位フェーズに戻る
                         currentPhase = AttackPhase.Radial;
                         setsFiredInPhase = 0;
                         shotsFiredInSet = 0;
                         shotTimer = 0f;
-
-                        //次回の全方位は今の回転方向を維持しない
-                        clockwise = !clockwise;
+                        //Aimフェーズから戻る時は回転方向は維持
                     }
                 }
                 break;
@@ -129,7 +133,7 @@ public class OmnidirectionalandAimingPattern : BossAttackPattern
         for (int i = 0; i < radialBulletsPerSet; i++)
         {
             float angleStep = 360f / radialBulletsPerSet;
-            float angle = angleStep * i;
+            float angle = angleStep * i + radialRotationOffset;
 
             if (!clockwise)
             {
@@ -137,10 +141,11 @@ public class OmnidirectionalandAimingPattern : BossAttackPattern
             }
 
             Vector2 dir = Quaternion.Euler(0, 0, angle) * Vector2.up;
-
-            // Instantiateの代わりにBulletPoolManagerを使う
             BulletPoolManager.Instance.FireBullet(radialBulletBase, origin, dir);
         }
+
+        //次のショットでは少し回転
+        radialRotationOffset += clockwise ? rotationStepPerShot : -rotationStepPerShot;
     }
 
     private void FireAim()
@@ -149,8 +154,7 @@ public class OmnidirectionalandAimingPattern : BossAttackPattern
         var player = GameObject.FindGameObjectWithTag("Player");
         if (player == null) return;
 
-        Vector3 playerPos = player.transform.position;
-        Vector2 dir = (playerPos - origin).normalized;
+        Vector2 dir = (player.transform.position - origin).normalized;
 
         for (int i = 0; i < aimBulletsPerSet; i++)
         {
@@ -158,13 +162,6 @@ public class OmnidirectionalandAimingPattern : BossAttackPattern
         }
     }
 
-    public override bool IsFinished()
-    {
-        return false;
-    }
-
-    public override void OnExit(BossController controller)
-    {
-        // 攻撃終了時の後処理があればここ
-    }
+    public override bool IsFinished() => false;
+    public override void OnExit(BossController controller) { }
 }

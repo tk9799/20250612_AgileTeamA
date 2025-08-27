@@ -9,10 +9,13 @@ public class GameClearUI : MonoBehaviour
     [Header("黒いフェード")]
     public Image fadePanel;
 
+    [Header("「ゲームクリア」を表示")]
+    public TextMeshProUGUI messageText;
+
     [Header("最終スコア表示")]
     public TextMeshProUGUI scoreText;
 
-    [Header("文字を表示")]
+    [Header("「タイトルへ」を表示")]
     public TextMeshProUGUI returnText;
 
     [Header("遷移先シーン名")]
@@ -23,8 +26,8 @@ public class GameClearUI : MonoBehaviour
     //コントローラー
     private Gamepad gamepad;
     //入力間隔をあけるための時間
-    private float inputCooldown = 0.2f;
-    private float lastInputTime = 0f;
+    //private float inputCooldown = 0.2f;
+    //private float lastInputTime = 0f;
     private Vector2 prevDpad = Vector2.zero;
 
     void Awake()
@@ -33,14 +36,18 @@ public class GameClearUI : MonoBehaviour
         c.a = 0;
         fadePanel.color = c;
 
+        messageText.gameObject.SetActive(false);
         scoreText.gameObject.SetActive(false);
         returnText.gameObject.SetActive(false);
+
+        gamepad = Gamepad.current;
     }
 
     public void ShowGameClear(int score)
     {
         fadePanel.gameObject.SetActive(true);
         scoreText.text = $"Score: {score:N0}";
+
         StartCoroutine(ShowSequence());
     }
 
@@ -60,12 +67,21 @@ public class GameClearUI : MonoBehaviour
             yield return null;
         }
 
+        //ゲームクリアを表示
+        messageText.gameObject.SetActive(true);
+
+        //何秒後に表示
+        yield return new WaitForSeconds(2f);
+
         //スコア表示
         scoreText.gameObject.SetActive(true);
 
-        // 2秒後に表示
-        yield return new WaitForSeconds(3f);
+        //何秒後に表示
+        yield return new WaitForSeconds(2f);
+
+        //「タイトルへ」を表示
         returnText.gameObject.SetActive(true);
+
         canReturn = true;
     }
 
@@ -78,13 +94,12 @@ public class GameClearUI : MonoBehaviour
         }
 
         //ゲームパッド操作
-        if (gamepad != null)
+        var pad = Gamepad.current;
+        if (canReturn && pad != null &&
+            pad.buttonSouth.wasPressedThisFrame)
         {
-            if (gamepad.buttonSouth.wasPressedThisFrame)
-            {
-                //シーンに戻る
-                SceneManager.LoadScene(returnSceneName);
-            }
+            //シーンに戻る
+            SceneManager.LoadScene(returnSceneName);
         }
     }
 }

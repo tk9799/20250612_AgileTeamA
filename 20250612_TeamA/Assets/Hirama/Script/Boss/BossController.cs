@@ -23,6 +23,12 @@ public class BossController : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.IsGameClear || GameManager.Instance.IsGameOver)
+        {
+            //ˆÚ“®‚àUŒ‚‚à‚µ‚È‚¢
+            return;
+        }
+
         if (currentPhase == null)
         {
             return;

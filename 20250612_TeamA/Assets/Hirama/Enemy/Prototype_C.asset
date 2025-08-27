@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Prototype_C
   m_EditorClassIdentifier: 
   enemySprite: {fileID: 9136945881748350054, guid: 5916f20bd8825cd4f94430b2be186c30, type: 3}
-  EnemydisplayName: "\u8A66\u4F5C\u7528\u96D1\u9B5A\u6575.3"
+  EnemydisplayName: "\u96D1\u9B5A\u6575.3"
   EnemyPrefab: {fileID: 489534160381045504, guid: 264f81bb54c6aa144b9e4547b4de379f, type: 3}
-  bulletBase: {fileID: 11400000, guid: e1c98e15d5a412a48a0c1d53a669b17a, type: 2}
+  bulletBase: {fileID: 11400000, guid: 4740f1b0983f28c47a85366adf3ad121, type: 2}
   scale: {x: 0.4, y: 0.4}
   enemyColor: {r: 1, g: 1, b: 1, a: 1}
   maxHP: 50
-  moveSpeed: 1
-  attackPattern: {fileID: 11400000, guid: f0c2d207c27b90a4ab3ccc258e45d8f3, type: 2}
-  movementPattern: {fileID: 11400000, guid: be3756e4d1d9c7a45b4be344ea4ec30b, type: 2}
-  score: 1000
+  moveSpeed: 2
+  attackPattern: {fileID: 11400000, guid: 6a9dfdbb4e15c204bbaff71ad2978bbe, type: 2}
+  movementPattern: {fileID: 11400000, guid: d1511daf309c7bb4a8f7716515f8d2d0, type: 2}
+  score: 1500
