@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shotMode: 1
   bulletBase: {fileID: 11400000, guid: e1c98e15d5a412a48a0c1d53a669b17a, type: 2}
-  bulletsPerSet: 5
+  bulletsPerSet: 3
   intervalBetweenShots: 0.2
   waitTimeBetweenSets: 2
   waitTimeBeforeOneShotSet: 2

@@ -51,12 +51,24 @@ public class GameManager : MonoBehaviour
             player.enabled = false;
         }
 
+        var player2 = FindFirstObjectByType<PlayerController2>();
+        if (player2 != null)
+        {
+            player2.enabled = false;
+        }
+
         //プレイヤー弾幕を止める
         var playerbullet = FindFirstObjectByType<PlayerShooter>();
         if (playerbullet != null)
         {
             playerbullet.canShoot = false;
             playerbullet.StopShooting();
+        }
+
+        var playerbullet2 = FindFirstObjectByType<PlayerControllerShoot2>();
+        if (playerbullet2 != null)
+        {
+            playerbullet2.enabled = false;
         }
 
         //UI演出を開始
@@ -93,11 +105,23 @@ public class GameManager : MonoBehaviour
             playerbullet.StopShooting();
         }
 
+        var player2 = FindFirstObjectByType<PlayerController2>();
+        if (player2 != null)
+        {
+            player2.enabled = false;
+        }
+
         //弾幕停止
         var bullet = FindFirstObjectByType<Bullet>();
         if (bullet != null)
         {
             bullet.enabled = false;
+        }
+
+        var playerbullet2 = FindFirstObjectByType<PlayerControllerShoot2>();
+        if (playerbullet2 != null)
+        {
+            playerbullet2.enabled = false;
         }
 
         //UI演出開始

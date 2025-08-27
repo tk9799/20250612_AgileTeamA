@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Prototype_A
   m_EditorClassIdentifier: 
   shotMode: 1
-  bulletBase: {fileID: 11400000, guid: e1c98e15d5a412a48a0c1d53a669b17a, type: 2}
+  bulletBase: {fileID: 11400000, guid: 4740f1b0983f28c47a85366adf3ad121, type: 2}
   bulletsPerSet: 3
   intervalBetweenShots: 0.2
   waitTimeBetweenSets: 2
-  waitTimeBeforeOneShotSet: 1
+  waitTimeBeforeOneShotSet: 2
