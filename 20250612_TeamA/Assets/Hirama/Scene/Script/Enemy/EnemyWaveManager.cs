@@ -12,7 +12,7 @@ public class EnemyWaveManager : MonoBehaviour
 
     [Header("ボスのプレハブ")]
     public GameObject bossPrefab;
-    private BossBase bossBase;//BossBaseのスクリプト
+    private BossBase bossBase;
 
     [Header("ボスの出現座標")]
     public Vector3 bossAppearancePosition = new Vector3(0f, 10f, 0f);
@@ -25,14 +25,18 @@ public class EnemyWaveManager : MonoBehaviour
     public bool isAnnihilation = false;
     public bool isBossDead = false;
 
-    private void Start()
+    private void Awake()
     {
+        //初期化
+        isWaveRunning = false;
+        skipToBoss = false;
+        isAnnihilation = false;
+        isBossDead = false;
+
         if (autoStart)
         {
             StartCoroutine(SpawnAllWaves());
         }
-
-        
     }
 
     private void Update()
@@ -259,9 +263,9 @@ public class EnemyWaveManager : MonoBehaviour
 
         if (bossPrefab != null)
         {
-            GameObject BossPrefab=Instantiate(bossPrefab, bossAppearancePosition, Quaternion.identity);
+            GameObject BossPrefab = Instantiate(bossPrefab, bossAppearancePosition, Quaternion.identity);
             bossBase = BossPrefab.GetComponent<BossBase>();
-            if(bossBase == null)
+            if (bossBase == null)
             {
                 Debug.LogError("BossBaseがnull");
             }
@@ -271,4 +275,26 @@ public class EnemyWaveManager : MonoBehaviour
             Debug.LogWarning("ボスのプレハブが設定されていません！");
         }
     }
+
+    //public void ResetManager()
+    //{
+    //    //リセット
+    //    isWaveRunning = false;
+    //    skipToBoss = false;
+    //    isAnnihilation = false;
+    //    isBossDead = false;
+
+    //    //生存中の敵をすべて返す
+    //    foreach (var enemy in EnemyPoolManager.Instance.GetAllActiveEnemies())
+    //    {
+    //        enemy.ReturnToPool();
+    //    }
+
+    //    //ボスが存在すれば削除
+    //    if (bossBase != null)
+    //    {
+    //        Destroy(bossBase.gameObject);
+    //        bossBase = null;
+    //    }
+    //}
 }

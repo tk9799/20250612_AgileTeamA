@@ -150,7 +150,7 @@ public class PlayerJudgement : MonoBehaviour
         {
             Debug.Log("プレイヤーがやられた！残機なし → ゲームオーバー");
             OnPlayerDied?.Invoke();
-            GameOverManager.Instance?.StopAllEnemies();
+            //GameOverManager.Instance?.StopAllEnemies();
             gameObject.SetActive(false);
             //SceneManager.LoadScene("GameOverScene");
         }

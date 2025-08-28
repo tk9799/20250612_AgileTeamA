@@ -847,8 +847,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  minBounds: {x: -2.3, y: -4.5}
-  maxBounds: {x: 2.3, y: 4.5}
+  minBounds: {x: -2, y: -3.5}
+  maxBounds: {x: 2, y: 4.5}
 --- !u!1 &348701875
 GameObject:
   m_ObjectHideFlags: 0
