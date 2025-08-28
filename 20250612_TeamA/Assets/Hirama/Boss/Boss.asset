@@ -23,5 +23,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ec35d8023276bf642b7475a9a1136c21, type: 2}
   - {fileID: 11400000, guid: 7e53d560933f9824d9fd56543aeb45f6, type: 2}
   - {fileID: 11400000, guid: c22499f35106cd340abc58b6ed5ce64c, type: 2}
-  bossBGM: {fileID: 0}
+  bossBGM: {fileID: 8300000, guid: 9448e2d6baae7f54c8563ab5069738d7, type: 3}
   score: 30000
