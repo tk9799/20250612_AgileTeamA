@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     //ゲームオーバー済みフラグ
     public bool IsGameOver { get; private set; } = false;
 
+    public bool isClear = false;
+
     private void Awake()
     {
         //シングルトン初期化
@@ -37,6 +39,7 @@ public class GameManager : MonoBehaviour
         }
 
         IsGameClear = true;
+        isClear = true;
 
         Debug.Log("ゲームクリア！");
         int finalScore = ScoreManager.Instance?.GetScore() ?? 0;

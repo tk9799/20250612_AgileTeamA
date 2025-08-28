@@ -46,8 +46,11 @@ public class EnemyWaveManager : MonoBehaviour
             //Waveスキップ
             SkipToBoss();
         }
-        if (bossBase != null && bossBase.isDead)
+
+
+        if (bossBase != null && bossBase.IsDead)
         {
+            Debug.Log("ボス撃破確認");
             isBossDead = true;
         }
     }
@@ -263,8 +266,8 @@ public class EnemyWaveManager : MonoBehaviour
 
         if (bossPrefab != null)
         {
-            GameObject BossPrefab = Instantiate(bossPrefab, bossAppearancePosition, Quaternion.identity);
-            bossBase = BossPrefab.GetComponent<BossBase>();
+            GameObject BossEnemy = Instantiate(bossPrefab, bossAppearancePosition, Quaternion.identity);
+            bossBase = BossEnemy.GetComponent<BossBase>();
             if (bossBase == null)
             {
                 Debug.LogError("BossBaseがnull");

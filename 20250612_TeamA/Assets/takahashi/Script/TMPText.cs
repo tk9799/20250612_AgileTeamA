@@ -27,6 +27,7 @@ public class TMPText : MonoBehaviour
     public List<GameObject> enemyList = new List<GameObject>();
     [SerializeField] private GameObject bossPrefab;
     [SerializeField] BossBase bossBase;
+    [SerializeField] GameManager gameManager;
     //public int dieCount = 0;
     private bool isOneProcess = false;
     public bool isAttack = false;
@@ -112,7 +113,6 @@ public class TMPText : MonoBehaviour
         }
         else if (tutorial == 3)
         {
-            bossBase = bossBase.GetComponent<BossBase>();
             Text.text = "これまでの操作方法でボスを倒す";
 
             if(bossBase == null)
@@ -121,8 +121,14 @@ public class TMPText : MonoBehaviour
             }
 
             //Debug.Log($"ボスが生きているか(TMPText)：{bossBase.IsBossDestroy} ");
+            //if(gameManager!=null&&gameManager.IsGameClear == true)
+            //{
+            //    Debug.Log("Clear");
+            //    tutorial = 4;
+            //}
 
-            if (enemyWaveManager != null && enemyWaveManager.isBossDead == true)
+            if (enemyWaveManager != null && enemyWaveManager.isBossDead)
+            //if (bossBase.IsDead)
             {
                 Debug.Log("Clear");
                 tutorial = 4;
