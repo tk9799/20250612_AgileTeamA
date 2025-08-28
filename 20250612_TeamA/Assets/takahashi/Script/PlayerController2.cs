@@ -11,6 +11,7 @@ public class PlayerController2 : MonoBehaviour
     public Vector2 maxBounds = new Vector2(8f, 4.5f);
     private Gamepad gamepad;
     [SerializeField] private Animator animator;
+    //[SerializeField] SpriteRenderer judgementObjectSpriteRenderer;
     private bool isRight = false;//アニメーション切替のbool
     private bool isLeft = false;
 
@@ -28,6 +29,12 @@ public class PlayerController2 : MonoBehaviour
 
     }
 
+    void Start()
+    {
+        animator = GetComponent<Animator>();
+        //judgementObjectSpriteRenderer.enabled = false;
+    }
+
     private void Update()
     {
         // 現在接続されているGamepadを取得
@@ -37,6 +44,19 @@ public class PlayerController2 : MonoBehaviour
         //入力取得（WASDや矢印キー）
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
+
+        if (Input.GetKeyDown(KeyCode.JoystickButton2))
+        {
+            Debug.Log("スロー移動");
+            moveSpeed = 2f;
+            //judgementObjectSpriteRenderer.enabled = true;
+        }
+        if (Input.GetKeyUp(KeyCode.JoystickButton2))
+        {
+            moveSpeed = 5f;
+            //judgementObjectSpriteRenderer.enabled = false;
+        }
+        Vector3 move = new Vector3(moveX, moveY, 0f).normalized * moveSpeed * Time.deltaTime;
 
         animator.SetBool("isRight", isRight);
         animator.SetBool("isLeft", isLeft);
@@ -57,8 +77,10 @@ public class PlayerController2 : MonoBehaviour
         }
 
         //移動ベクトル計算
-        Vector3 move = new Vector3(moveX, moveY, 0).normalized * moveSpeed * Time.deltaTime;
+        //Vector3 move = new Vector3(moveX, moveY, 0).normalized * moveSpeed * Time.deltaTime;
         Vector3 newPos = transform.position + move;
+
+        
 
         //画面外に出ないよう制限
         newPos.x = Mathf.Clamp(newPos.x, minBounds.x, maxBounds.x);
