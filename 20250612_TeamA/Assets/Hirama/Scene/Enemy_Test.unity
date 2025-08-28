@@ -354,9 +354,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeCount: 3
+  respawnPosition: {x: 0, y: -3, z: 0}
   respawnDelay: 2
   invincibleTime: 1
-  respawnPosition: {x: 0, y: -3}
 --- !u!114 &465983351
 MonoBehaviour:
   m_ObjectHideFlags: 0
