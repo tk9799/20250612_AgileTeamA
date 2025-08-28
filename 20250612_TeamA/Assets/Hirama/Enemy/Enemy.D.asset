@@ -15,7 +15,7 @@ MonoBehaviour:
   enemySprite: {fileID: 0}
   EnemydisplayName: 
   EnemyPrefab: {fileID: 0}
-  bulletBase: {fileID: 0}
+  bulletBase: {fileID: 11400000, guid: c24e3ab2e5ec1d5439440e5000b098c3, type: 2}
   scale: {x: 1, y: 1}
   enemyColor: {r: 1, g: 1, b: 1, a: 1}
   maxHP: 10
