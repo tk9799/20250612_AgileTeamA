@@ -53,7 +53,8 @@ public class TMPText : MonoBehaviour
         
         if (tutorial == 0)
         {
-            Text.text = "プレイヤーの移動\n左スティックで移動\nXボダンを押しながら左スティックを動かすと低速移動";
+            Text.text = "プレイヤーの移動\n左スティックで移動\nXボダンを押しながら左スティックを動かすと低速移動" +
+                "\nXボタンを押しながらスティック入力をすると低速移動";
             //    "\nBボタンを押すとキャラクター移動ができます";
             //if (Input.GetKey(KeyCode.Joystick1Button1))
             //{
@@ -100,7 +101,7 @@ public class TMPText : MonoBehaviour
                 "線の上を通過したタイミングがジャストガードの判定になる\nジャストガードが成功するとシールドが現れ、" +
                 "一定時間敵弾幕をはじく";
 
-            if (guardController2 != null && guardController2.justGuardCount >= 1)
+            if (guardController2 != null && guardController2.justGuardCount >= 5)
             {
                 isAttack = true;
                 //enemyWaveManager.SkipToBoss();

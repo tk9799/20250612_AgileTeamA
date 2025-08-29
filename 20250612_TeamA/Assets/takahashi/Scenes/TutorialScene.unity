@@ -930,7 +930,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 436d9cbd4a15fb141ac6dc9c80e49625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 4150953292242175023, guid: f2bdfe0238656fd4f9fa0970b5340485, type: 3}
+  enemyPrefab: {fileID: 4150953292242175023, guid: d88550973732c7e4484b38b6bbf2875e, type: 3}
   initialPoolSize: 10
   activeEnemies: []
   tmpText: {fileID: 537632984}
@@ -1175,8 +1175,8 @@ GameObject:
   m_Component:
   - component: {fileID: 537632981}
   - component: {fileID: 537632983}
-  - component: {fileID: 537632982}
   - component: {fileID: 537632984}
+  - component: {fileID: 537632985}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1200,10 +1200,48 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 439.7, y: 745}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 442.5, y: 781}
+  m_SizeDelta: {x: 195, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &537632982
+--- !u!222 &537632983
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537632980}
+  m_CullTransparentMesh: 1
+--- !u!114 &537632984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537632980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f4b7e35240ae69498f10b1de49e53e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Text: {fileID: 537632985}
+  tutorial: 0
+  greenObujectCount: 0
+  BulletPool: {fileID: 602388737}
+  BulletPool2: {fileID: 2080779051}
+  EnemyWaveManager: {fileID: 301389277}
+  EnemyPoolManager: {fileID: 1751575305}
+  BulletPoolManager: {fileID: 1489762808}
+  enemyWaveManager: {fileID: 301389278}
+  guardController2: {fileID: 256187710}
+  tutorialText: {fileID: 2120114971}
+  imageObject: {fileID: 1245301371}
+  selectButton: {fileID: 1902621403}
+  enemyList: []
+  bossPrefab: {fileID: 6853529735696316538, guid: dcbbb72fd2598e1459f7b0f4c79eb5ec, type: 3}
+  bossBase: {fileID: 897210816484634694, guid: dcbbb72fd2598e1459f7b0f4c79eb5ec, type: 3}
+  gameManager: {fileID: 0}
+  isAttack: 0
+--- !u!114 &537632985
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1223,17 +1261,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: new Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a7b8101af43b2bd4a92f193028111582, type: 2}
-  m_sharedMaterial: {fileID: 4922056095672373402, guid: a7b8101af43b2bd4a92f193028111582, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1b8d2ce5219bd714fa2a37a3bc5451fe, type: 2}
+  m_sharedMaterial: {fileID: -4788625446339020284, guid: 1b8d2ce5219bd714fa2a37a3bc5451fe, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294902016
+  m_fontColor: {r: 0, g: 0.0058526993, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1250,13 +1288,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28
-  m_fontSizeBase: 28
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 17
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -1288,50 +1326,12 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0.68933105, y: -1.9597168, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &537632983
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 537632980}
-  m_CullTransparentMesh: 1
---- !u!114 &537632984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 537632980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f4b7e35240ae69498f10b1de49e53e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Text: {fileID: 537632982}
-  tutorial: 0
-  greenObujectCount: 0
-  BulletPool: {fileID: 602388737}
-  BulletPool2: {fileID: 2080779051}
-  EnemyWaveManager: {fileID: 301389277}
-  EnemyPoolManager: {fileID: 1751575305}
-  BulletPoolManager: {fileID: 1489762808}
-  enemyWaveManager: {fileID: 301389278}
-  guardController2: {fileID: 256187710}
-  tutorialText: {fileID: 2120114971}
-  imageObject: {fileID: 1245301371}
-  selectButton: {fileID: 1902621403}
-  enemyList: []
-  bossPrefab: {fileID: 6853529735696316538, guid: dcbbb72fd2598e1459f7b0f4c79eb5ec, type: 3}
-  bossBase: {fileID: 897210816484634694, guid: dcbbb72fd2598e1459f7b0f4c79eb5ec, type: 3}
-  gameManager: {fileID: 0}
-  isAttack: 0
 --- !u!1 &602388737
 GameObject:
   m_ObjectHideFlags: 0
@@ -1947,8 +1947,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1965,8 +1965,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
-  m_fontSizeBase: 18
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2707,17 +2707,17 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1493581950}
+  - {fileID: 2138445494}
+  - {fileID: 1517018985}
+  - {fileID: 1782074326}
   - {fileID: 1838397612}
   - {fileID: 1919996629}
   - {fileID: 1902621404}
   - {fileID: 1245301372}
-  - {fileID: 1493581950}
-  - {fileID: 1517018985}
-  - {fileID: 2138445494}
-  - {fileID: 1782074326}
-  - {fileID: 537632981}
-  - {fileID: 2120114968}
   - {fileID: 1242596442}
+  - {fileID: 2120114968}
+  - {fileID: 537632981}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3694,7 +3694,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -130}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 350, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1902621405
 MonoBehaviour:
@@ -3996,8 +3996,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -880}
-  m_SizeDelta: {x: 300, y: 50}
+  m_AnchoredPosition: {x: 0, y: -920}
+  m_SizeDelta: {x: 680, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2120114969
 MonoBehaviour:
@@ -4021,15 +4021,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a7b8101af43b2bd4a92f193028111582, type: 2}
-  m_sharedMaterial: {fileID: 4922056095672373402, guid: a7b8101af43b2bd4a92f193028111582, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1b8d2ce5219bd714fa2a37a3bc5451fe, type: 2}
+  m_sharedMaterial: {fileID: -4788625446339020284, guid: 1b8d2ce5219bd714fa2a37a3bc5451fe, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294904064
+  m_fontColor: {r: 0, g: 0.037088394, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4052,7 +4052,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 17
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -4112,6 +4112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tmpText: {fileID: 537632984}
   instructionsText: {fileID: 2120114969}
+  guardController2: {fileID: 256187710}
 --- !u!1 &2138445493
 GameObject:
   m_ObjectHideFlags: 0
