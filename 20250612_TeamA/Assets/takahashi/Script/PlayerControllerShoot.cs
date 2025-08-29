@@ -33,7 +33,7 @@ public class PlayerControllerShoot : MonoBehaviour
             && tmpText.isAttack==false)
         {
             //Debug.Log("”­Ë‚Å‚«‚È‚¢");
-            //isFiring = false;
+            isFiring = false;
         }
         // ZƒL[‰Ÿ‚µ‚Á‚Ï‚È‚µ‚Å˜AË
         //isFiring = Input.GetKey(KeyCode.JoystickButton0);

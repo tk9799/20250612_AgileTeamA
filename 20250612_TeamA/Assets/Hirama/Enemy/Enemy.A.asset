@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c86f68558eb22a4bb1118f630070b3c, type: 3}
   m_Name: Enemy.A
   m_EditorClassIdentifier: 
-  enemySprite: {fileID: 9136945881748350054, guid: 5916f20bd8825cd4f94430b2be186c30, type: 3}
+  enemySprite: {fileID: 5909708296614477052, guid: 09063abe80bd8c84c82f8642d4d5679e, type: 3}
   EnemydisplayName: "\u8A66\u4F5C\u7528\u96D1\u9B5A\u6575"
-  EnemyPrefab: {fileID: 5936056130938081689, guid: d010376af4bda4943867ec88a45937a2, type: 3}
+  EnemyPrefab: {fileID: 4150953292242175023, guid: f2bdfe0238656fd4f9fa0970b5340485, type: 3}
   bulletBase: {fileID: 11400000, guid: e1c98e15d5a412a48a0c1d53a669b17a, type: 2}
-  scale: {x: 0.5, y: 0.5}
+  scale: {x: 0.2, y: 0.2}
   enemyColor: {r: 1, g: 1, b: 1, a: 1}
-  maxHP: 10
+  maxHP: 9
   moveSpeed: 1.5
   attackPattern: {fileID: 11400000, guid: e9fb4f600d0bd284cb49fc1f4e921720, type: 2}
   movementPattern: {fileID: 11400000, guid: e96ea0df2b8a37c469a2222d19fa0aa8, type: 2}

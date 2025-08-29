@@ -5,6 +5,7 @@ public class TutorialText : MonoBehaviour
 {
     [SerializeField] private TMPText tmpText;
     [SerializeField] public TextMeshProUGUI instructionsText;//指示するテキストを書く
+    [SerializeField] GuardController2 guardController2;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -24,7 +25,8 @@ public class TutorialText : MonoBehaviour
         }
         else if (tmpText != null && tmpText.tutorial == 2)
         {
-            instructionsText.text = "ジャストガードを5回成功させる";
+            instructionsText.text = "ジャストガードを5回成功させる/"+ guardController2.justGuardCount+"回目" +
+                "\n５回目以降プレイヤーが攻撃できるようになり、敵を攻撃して次のチュートリアルに進む";
         }
         else if(tmpText != null && tmpText.tutorial == 3)
         {

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySprite: {fileID: 5909708296614477052, guid: 09063abe80bd8c84c82f8642d4d5679e, type: 3}
   EnemydisplayName: "\u96D1\u9B5A\u6575"
-  EnemyPrefab: {fileID: 0}
+  EnemyPrefab: {fileID: 4150953292242175023, guid: f2bdfe0238656fd4f9fa0970b5340485, type: 3}
   bulletBase: {fileID: 11400000, guid: 4740f1b0983f28c47a85366adf3ad121, type: 2}
   scale: {x: 0.5, y: 0.5}
   enemyColor: {r: 1, g: 1, b: 1, a: 1}

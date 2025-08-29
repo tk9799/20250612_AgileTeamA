@@ -124,7 +124,7 @@ public class BossBase : MonoBehaviour, IDanmakuEnemy
             GameManager.Instance?.GameClear();
         }
 
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 
     private void AddScore()
