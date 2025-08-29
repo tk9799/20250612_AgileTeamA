@@ -21,7 +21,19 @@ public class GameClearUI : MonoBehaviour
     [Header("遷移先シーン名")]
     public string returnSceneName = "Title";
 
+    [Header("BGMとSE")]
+    [Header("BGM用")]
+    public AudioSource bgmAudioSource;
+    [Header("クリア時のBGM")]
+    public AudioClip bgmClip;
+
+    [Header("SE用")]
+    public AudioSource seAudioSource;
+    [Header("決定SE")]
+    public AudioClip selectSE;
+
     private bool canReturn = false;
+    private bool isReturning = false;
 
     //コントローラー
     private Gamepad gamepad;
@@ -47,6 +59,15 @@ public class GameClearUI : MonoBehaviour
     {
         fadePanel.gameObject.SetActive(true);
         scoreText.text = $"Score: {score:N0}";
+
+        //BGM再生
+        if (bgmAudioSource != null && bgmClip != null)
+        {
+            bgmAudioSource.clip = bgmClip;
+            bgmAudioSource.loop = true;
+            bgmAudioSource.Play();
+            Debug.Log("GameClear BGM 再生開始");
+        }
 
         StartCoroutine(ShowSequence());
     }
@@ -87,6 +108,7 @@ public class GameClearUI : MonoBehaviour
 
     void Update()
     {
+        //キーボード操作
         if (canReturn && Input.GetKeyDown(KeyCode.A))
         {
             //シーンに戻る

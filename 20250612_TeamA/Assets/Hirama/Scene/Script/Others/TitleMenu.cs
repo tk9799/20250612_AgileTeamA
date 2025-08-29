@@ -34,6 +34,19 @@ public class TitleMenu : MonoBehaviour
     public float blinkInterval = 0.5f;
     private Coroutine blinkCoroutine;
 
+    [Header("サウンド設定")]
+    [Header("BGM用")]
+    public AudioSource bgmAudioSource;
+    [Header("タイトルBGM")]
+    public AudioClip bgmClip;
+
+    [Header("効果音用")]
+    public AudioSource seAudioSource;
+    [Header("決定音")]
+    public AudioClip confirmClip;
+    [Header("キャンセル音")]
+    public AudioClip cancelClip;
+
     private int selectedIndex = 0;
     private Button[] currentMenu;
     private bool inDifficultyMenu = false;
@@ -56,6 +69,23 @@ public class TitleMenu : MonoBehaviour
             ScoreManager.Instance.ResetScore();
         }
 
+        //BGM再生開始
+        if (bgmAudioSource != null && bgmClip != null)
+        {
+            bgmAudioSource.clip = bgmClip;
+            bgmAudioSource.loop = true;
+            bgmAudioSource.Play();
+        }
+
+    }
+
+    //SE再生メソッド
+    void PlaySE(AudioClip clip)
+    {
+        if (seAudioSource != null && clip != null)
+        {
+            seAudioSource.PlayOneShot(clip);
+        }
     }
 
     void Update()
@@ -89,6 +119,12 @@ public class TitleMenu : MonoBehaviour
             {
                 ExecuteSelection();
             }
+
+            //Xキーで戻る
+            if (inDifficultyMenu && Keyboard.current.xKey.wasPressedThisFrame)
+            {
+                ReturnToMainMenu();
+            }
         }
 
         //ゲームパッド操作
@@ -120,6 +156,12 @@ public class TitleMenu : MonoBehaviour
             if (gamepad.buttonSouth.wasPressedThisFrame)
             {
                 ExecuteSelection();
+            }
+
+            //Bボタンで戻る
+            if (inDifficultyMenu && gamepad.buttonEast.wasPressedThisFrame)
+            {
+                ReturnToMainMenu();
             }
         }
 
@@ -205,6 +247,9 @@ public class TitleMenu : MonoBehaviour
 
     void ExecuteSelection()
     {
+        //決定音
+        PlaySE(confirmClip);
+
         if (!inDifficultyMenu)
         {
             switch (selectedIndex)
@@ -222,6 +267,12 @@ public class TitleMenu : MonoBehaviour
         }
         else
         {
+            //シーン移動前にBGMを止める
+            if (bgmAudioSource != null && bgmAudioSource.isPlaying)
+            {
+                bgmAudioSource.Stop();
+            }
+
             switch (selectedIndex)
             {
                 case 0: //チュートリアル
@@ -238,6 +289,28 @@ public class TitleMenu : MonoBehaviour
                     //    break;
             }
         }
+    }
+
+    void ReturnToMainMenu()
+    {
+        //キャンセル音
+        PlaySE(cancelClip);
+
+        inDifficultyMenu = false;
+        difficultyPanel.SetActive(false);
+        currentMenu = mainMenuButtons;
+        selectedIndex = 0;
+
+        //メインメニューを再表示
+        if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
+
+        //非表示にしたオブジェクトを戻す
+        foreach (var obj in hideWhenDifficulty)
+        {
+            if (obj != null) obj.SetActive(true);
+        }
+
+        UpdateSelection();
     }
 
     void ShowDifficultyMenu()

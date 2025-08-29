@@ -85,6 +85,7 @@ public class GameOverUI : MonoBehaviour
 
     void Update()
     {
+        //キーボード操作
         if (canReturn && Input.GetKeyDown(KeyCode.A))
         {
             //シーンに戻る
