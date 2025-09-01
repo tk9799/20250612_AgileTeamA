@@ -577,7 +577,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeImage: {fileID: 441921962}
-  fadeDuration: 4
+  fadeDuration: 3
   loadingText: {fileID: 1994386771}
   loadingSpinner: {fileID: 1856291685}
   loadingTime: 2

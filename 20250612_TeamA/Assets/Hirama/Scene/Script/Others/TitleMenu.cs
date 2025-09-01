@@ -93,7 +93,10 @@ public class TitleMenu : MonoBehaviour
         }
 
         //ローディングUIを有効化
-        if (loadingText != null) loadingText.gameObject.SetActive(true);
+        if (loadingText != null)
+        {
+            loadingText.gameObject.SetActive(true);
+        }
         if (loadingSpinner != null)
         {
             loadingSpinner.SetActive(true);
@@ -120,7 +123,11 @@ public class TitleMenu : MonoBehaviour
         yield return new WaitForSeconds(loadingTime);
 
         //ローディングUI非表示
-        if (loadingText != null) loadingText.gameObject.SetActive(false);
+        if (loadingText != null)
+        {
+            loadingText.gameObject.SetActive(false);
+        }
+
         if (loadingSpinner != null)
         {
             if (spinnerCoroutine != null)
@@ -333,15 +340,25 @@ public class TitleMenu : MonoBehaviour
                 bgmAudioSource.Stop();
             }
 
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.ResetGameState();
+            }
+
             switch (selectedIndex)
             {
                 case 0:
                     if (!string.IsNullOrEmpty(tutorialSceneName))
+                    {
                         SceneManager.LoadScene(tutorialSceneName);
+                    }
                     break;
                 case 1:
                     if (!string.IsNullOrEmpty(normalSceneName))
+                    {
                         SceneManager.LoadScene(normalSceneName);
+
+                    }
                     break;
             }
         }

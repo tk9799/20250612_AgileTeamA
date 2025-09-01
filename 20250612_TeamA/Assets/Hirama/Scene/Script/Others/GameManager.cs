@@ -30,6 +30,13 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public void ResetGameState()
+    {
+        IsGameClear = false;
+        IsGameOver = false;
+        isClear = false;
+    }
+
     public void StopBGM()
     {
         if (bgmSource != null && bgmSource.isPlaying)

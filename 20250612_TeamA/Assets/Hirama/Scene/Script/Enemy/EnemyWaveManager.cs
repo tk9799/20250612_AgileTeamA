@@ -71,14 +71,12 @@ public class EnemyWaveManager : MonoBehaviour
 
         if (bossBase != null && bossBase.IsDead)
         {
-            Debug.Log("ボス撃破確認");
             isBossDead = true;
 
             //ボスBGMを停止
             if (bgmSource != null && bgmSource.isPlaying)
             {
                 bgmSource.Stop();
-                Debug.Log("[EnemyWaveManager] Boss BGM 停止");
             }
         }
     }
@@ -328,9 +326,15 @@ public class EnemyWaveManager : MonoBehaviour
         {
             GameObject BossEnemy = Instantiate(bossPrefab, bossAppearancePosition, Quaternion.identity);
             bossBase = BossEnemy.GetComponent<BossBase>();
-            if (bossBase == null)
+            //if (bossBase == null)
+            //{
+            //    Debug.LogError("BossBaseがnull");
+            //}
+
+            if (bossBase != null)
             {
-                Debug.LogError("BossBaseがnull");
+                //ボス撃破イベントを購読
+                bossBase.OnBossDied += HandleBossDead;
             }
 
             //ボスBGMを再生
@@ -345,6 +349,22 @@ public class EnemyWaveManager : MonoBehaviour
         else
         {
             Debug.LogWarning("ボスのプレハブが設定されていません！");
+        }
+    }
+
+    private void HandleBossDead()
+    {
+        Debug.Log("[EnemyWaveManager] ボス撃破 → BGM停止");
+        if (bgmSource != null && bgmSource.isPlaying)
+        {
+            bgmSource.Stop();
+        }
+        isBossDead = true;
+
+        // 念のため購読解除
+        if (bossBase != null)
+        {
+            bossBase.OnBossDied -= HandleBossDead;
         }
     }
 

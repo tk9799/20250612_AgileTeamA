@@ -17,4 +17,4 @@ MonoBehaviour:
   bulletsPerSet: 45
   intervalBetweenBullets: 0.1
   intervalBetweenSets: 2
-  spreadAngle: 45
+  spreadAngle: 15
