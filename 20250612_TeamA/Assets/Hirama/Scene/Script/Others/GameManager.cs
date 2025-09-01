@@ -6,6 +6,9 @@ using UnityEngine;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    [Header("シーンにあるゲームオーバーのAudioSource")]
+    public AudioSource bgmSource;
+
     public static GameManager Instance { get; private set; }
 
     //ゲームクリア済みフラグ
@@ -25,6 +28,19 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void ResetGameState()
+    {
+        IsGameClear = false;
+        IsGameOver = false;
+        isClear = false;
+    }
+
+    public void StopBGM()
+    {
+        if (bgmSource != null && bgmSource.isPlaying)
+            bgmSource.Stop();
     }
 
     /// <summary>
@@ -89,6 +105,13 @@ public class GameManager : MonoBehaviour
     {
         IsGameOver = true;
         Debug.Log("ゲームオーバー...");
+
+        //BGM停止
+        if (bgmSource != null && bgmSource.isPlaying)
+        {
+            bgmSource.Stop();
+            Debug.Log("[GameManager] BGM 停止（ゲームオーバー）");
+        }
 
         //スコア取得
         int finalScore = ScoreManager.Instance?.GetScore() ?? 0;

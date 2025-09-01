@@ -60,6 +60,9 @@ public class BossController : MonoBehaviour
         bossBase.SetPhaseHP(currentPhase.phaseMaxHP);
         phaseTimer = 0f;
 
+        currentPhase.attackPattern?.Initialize(this);
+        currentPhase.movementPattern?.Initialize(this);
+
         OnPhaseStart();
     }
 

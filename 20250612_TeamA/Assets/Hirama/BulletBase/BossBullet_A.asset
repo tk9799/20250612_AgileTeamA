@@ -27,5 +27,5 @@ MonoBehaviour:
   piercing: 0
   hitEffect: {fileID: 0}
   deathEffect: {fileID: 0}
-  shotSE: {fileID: 8300000, guid: d6f46d5ce90a372498485e4d6467df46, type: 3}
+  shotSE: {fileID: 0}
   hitSE: {fileID: 0}

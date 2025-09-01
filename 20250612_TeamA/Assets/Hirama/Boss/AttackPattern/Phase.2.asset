@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Phase.2
   m_EditorClassIdentifier: 
   bulletBase: {fileID: 11400000, guid: ec002bdd55e15514dbd14885a00ef9db, type: 2}
-  bulletsPerSet: 20
+  initialDelay: 2
+  bulletsPerSet: 45
+  intervalBetweenBullets: 0.1
   intervalBetweenSets: 2
-  initialSpeed: 9
-  acceleration: -5
+  spreadAngle: 15

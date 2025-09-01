@@ -20,6 +20,14 @@ public class EnemyWaveManager : MonoBehaviour
     [Header("Wave開始時に自動実行するか")]
     public bool autoStart = true;
 
+    [Header("BGM設定")]
+    [Header("雑魚戦BGMを再生するAudioSource")]
+    public AudioSource bgmSource;
+    [Header("雑魚戦BGM")]
+    public AudioClip stageBGM;
+    [Header("ボス戦BGM")]
+    public AudioClip bossBGM;
+
     public bool isWaveRunning = false;
     private bool skipToBoss = false;
     public bool isAnnihilation = false;
@@ -28,10 +36,23 @@ public class EnemyWaveManager : MonoBehaviour
     private void Awake()
     {
         //初期化
-        isWaveRunning = false;
-        skipToBoss = false;
-        isAnnihilation = false;
-        isBossDead = false;
+        ResetManager();
+        //isWaveRunning = false;
+        //skipToBoss = false;
+        //isAnnihilation = false;
+        //isBossDead = false;
+
+        //シーンに入った瞬間から雑魚戦BGMを鳴らす
+        if (bgmSource != null && stageBGM != null)
+        {
+            if (!bgmSource.isPlaying)
+            {
+                bgmSource.clip = stageBGM;
+                bgmSource.loop = true;
+                bgmSource.Play();
+                Debug.Log("[EnemyWaveManager] Stage BGM 再生開始");
+            }
+        }
 
         if (autoStart)
         {
@@ -50,8 +71,13 @@ public class EnemyWaveManager : MonoBehaviour
 
         if (bossBase != null && bossBase.IsDead)
         {
-            Debug.Log("ボス撃破確認");
             isBossDead = true;
+
+            //ボスBGMを停止
+            if (bgmSource != null && bgmSource.isPlaying)
+            {
+                bgmSource.Stop();
+            }
         }
     }
 
@@ -217,10 +243,8 @@ public class EnemyWaveManager : MonoBehaviour
         {
             yield return null;
         }
-        if (EnemyPoolManager.Instance.GetAllActiveEnemies().Count > 0)
-        {
-            isAnnihilation = true;
-        }
+        //全滅確認
+        isAnnihilation = true;
     }
 
     /// <summary>
@@ -258,19 +282,68 @@ public class EnemyWaveManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ボス戦の開始処理（任意の処理に置き換え）
+    /// ボス戦の開始処理
     /// </summary>
     private void StartBossBattle()
     {
         Debug.Log("ボス戦開始！");
 
+        //BGMをフェードアウトしてからボスを出す
+        if (bgmSource != null && bgmSource.isPlaying)
+        {
+            StartCoroutine(FadeOutBGMAndSpawnBoss(2f));
+        }
+        else
+        {
+            //BGMが無い場合は即ボス出現
+            SpawnBoss();
+        }
+    }
+
+    /// <summary>
+    /// BGMを徐々にフェードアウトするコルーチン
+    /// </summary>
+    private IEnumerator FadeOutBGMAndSpawnBoss(float duration)
+    {
+        float startVolume = bgmSource.volume;
+        float time = 0f;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            bgmSource.volume = Mathf.Lerp(startVolume, 0f, time / duration);
+            yield return null;
+        }
+
+        bgmSource.Stop();
+        bgmSource.volume = startVolume;
+
+        SpawnBoss();
+    }
+
+    private void SpawnBoss()
+    {
         if (bossPrefab != null)
         {
             GameObject BossEnemy = Instantiate(bossPrefab, bossAppearancePosition, Quaternion.identity);
             bossBase = BossEnemy.GetComponent<BossBase>();
-            if (bossBase == null)
+            //if (bossBase == null)
+            //{
+            //    Debug.LogError("BossBaseがnull");
+            //}
+
+            if (bossBase != null)
             {
-                Debug.LogError("BossBaseがnull");
+                //ボス撃破イベントを購読
+                bossBase.OnBossDied += HandleBossDead;
+            }
+
+            //ボスBGMを再生
+            if (bgmSource != null && bossBGM != null)
+            {
+                bgmSource.clip = bossBGM;
+                bgmSource.loop = true;
+                bgmSource.Play();
+                Debug.Log("[EnemyWaveManager] Boss BGM 再生開始");
             }
         }
         else
@@ -279,25 +352,47 @@ public class EnemyWaveManager : MonoBehaviour
         }
     }
 
-    //public void ResetManager()
-    //{
-    //    //リセット
-    //    isWaveRunning = false;
-    //    skipToBoss = false;
-    //    isAnnihilation = false;
-    //    isBossDead = false;
+    private void HandleBossDead()
+    {
+        Debug.Log("[EnemyWaveManager] ボス撃破 → BGM停止");
+        if (bgmSource != null && bgmSource.isPlaying)
+        {
+            bgmSource.Stop();
+        }
+        isBossDead = true;
 
-    //    //生存中の敵をすべて返す
-    //    foreach (var enemy in EnemyPoolManager.Instance.GetAllActiveEnemies())
-    //    {
-    //        enemy.ReturnToPool();
-    //    }
+        // 念のため購読解除
+        if (bossBase != null)
+        {
+            bossBase.OnBossDied -= HandleBossDead;
+        }
+    }
 
-    //    //ボスが存在すれば削除
-    //    if (bossBase != null)
-    //    {
-    //        Destroy(bossBase.gameObject);
-    //        bossBase = null;
-    //    }
-    //}
+    public void ResetManager()
+    {
+        //リセット
+        isWaveRunning = false;
+        skipToBoss = false;
+        isAnnihilation = false;
+        isBossDead = false;
+
+        //EnemyPoolManager.Instanceがまだ存在しない場合
+        if (EnemyPoolManager.Instance != null)
+        {
+            var enemies = EnemyPoolManager.Instance.GetAllActiveEnemies();
+            if (enemies != null)
+            {
+                foreach (var enemy in enemies)
+                {
+                    enemy.ReturnToPool();
+                }
+            }
+        }
+
+        if (bossBase != null)
+        {
+            Destroy(bossBase.gameObject);
+            bossBase = null;
+        }
+    }
 }

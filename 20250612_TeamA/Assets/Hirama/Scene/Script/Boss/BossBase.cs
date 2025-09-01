@@ -15,6 +15,8 @@ public class BossBase : MonoBehaviour, IDanmakuEnemy
 
     public bool IsInvincible { get; set; } = false;
 
+    public event System.Action OnBossDied;
+
     protected virtual void OnEnable()
     {
         if (bossData != null)
@@ -118,13 +120,15 @@ public class BossBase : MonoBehaviour, IDanmakuEnemy
         //スコア処理
         AddScore();
 
+        OnBossDied?.Invoke();
+
         //最終ボスだった場合のみ、ゲームクリアを呼ぶ
         if (bossData.bossType == BossType.Boss)
         {
             GameManager.Instance?.GameClear();
         }
 
-        //Destroy(gameObject);
+        Destroy(gameObject);
     }
 
     private void AddScore()
