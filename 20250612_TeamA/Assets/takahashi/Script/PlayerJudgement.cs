@@ -35,7 +35,7 @@ public class PlayerJudgement : MonoBehaviour
     public event Action OnPlayerDied;
 
     [SerializeField]private SpriteRenderer spriteRenderer;
-    [SerializeField] private BoxCollider2D hitCollider;
+    [SerializeField] public BoxCollider2D hitCollider;
 
     private Vector2 myPosition;
     public bool isDead = false;
@@ -115,6 +115,7 @@ public class PlayerJudgement : MonoBehaviour
             collision.gameObject.CompareTag("Bullet"))
         {
             playerControllerHP.TakeDamage();
+            hitCollider.enabled = false;
             ////敵の弾幕、本体に当たった時ライフを減らす
             //Debug.Log("hit");
 

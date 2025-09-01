@@ -27,6 +27,7 @@ public class PlayerControllerHP : MonoBehaviour
 
     private SpriteRenderer sr;
     private Collider2D hitCollider;
+    [SerializeField] public PlayerJudgement playerJudgement;
 
     private void Start()
     {
@@ -91,7 +92,7 @@ public class PlayerControllerHP : MonoBehaviour
         //復活位置へ移動・見えるように戻す
         transform.position = respawnPosition;
         sr.enabled = true;
-        hitCollider.enabled = true;
+        //playerJudgement.hitCollider.enabled = true;
 
         //無敵開始
         StartCoroutine(Invincibility(invincibleTime));
@@ -116,7 +117,7 @@ public class PlayerControllerHP : MonoBehaviour
 
         //無敵終了
         sr.enabled = true;
-        hitCollider.enabled = true;
+        playerJudgement.hitCollider.enabled = true;
         isInvincible = false;
     }
 }
