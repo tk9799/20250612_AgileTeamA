@@ -1234,7 +1234,7 @@ MonoBehaviour:
   BulletPool2: {fileID: 2080779051}
   EnemyWaveManager: {fileID: 301389277}
   EnemyPoolManager: {fileID: 1751575305}
-  BulletPoolManager: {fileID: 1489762808}
+  BulletPoolManager: {fileID: 1192818337}
   enemyWaveManager: {fileID: 301389278}
   guardController2: {fileID: 256187710}
   tutorialText: {fileID: 2120114971}
@@ -2438,7 +2438,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1326987219}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -2527,6 +2527,7 @@ MonoBehaviour:
   respawnPosition: {x: 0, y: -3, z: 0}
   respawnDelay: 0.5
   invincibleTime: 2
+  playerJudgement: {fileID: 817639123}
 --- !u!114 &1326987225
 MonoBehaviour:
   m_ObjectHideFlags: 0
