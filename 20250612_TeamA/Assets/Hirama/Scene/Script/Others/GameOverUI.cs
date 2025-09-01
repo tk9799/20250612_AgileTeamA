@@ -22,7 +22,20 @@ public class GameOverUI : MonoBehaviour
     [Header("遷移先シーン名")]
     public string returnSceneName = "Title";
 
+    [Header("BGMとSE")]
+    [Header("BGM用")]
+    public AudioSource bgmAudioSource;
+    [Header("クリア時のBGM")]
+    public AudioClip bgmClip;
+
+    [Header("SE用")]
+    public AudioSource seAudioSource;
+    [Header("決定SE")]
+    public AudioClip selectSE;
+
     private bool canReturn = false;
+    private bool isReturning = false;
+
 
     //コントローラー
     private Gamepad gamepad;
@@ -48,6 +61,18 @@ public class GameOverUI : MonoBehaviour
     {
         fadePanel.gameObject.SetActive(true);
         scoreText.text = $"Score: {score:N0}";
+
+        //BGM再生
+        if (bgmAudioSource != null && bgmClip != null)
+        {
+            if (!bgmAudioSource.isPlaying)
+            {
+                bgmAudioSource.clip = bgmClip;
+                bgmAudioSource.loop = false;
+                bgmAudioSource.Play();
+            }
+        }
+
         StartCoroutine(ShowSequence());
     }
 
@@ -67,7 +92,7 @@ public class GameOverUI : MonoBehaviour
             yield return null;
         }
 
-        //ゲームクリアを表示
+        //ゲームオーバーを表示
         messageText.gameObject.SetActive(true);
 
         //何秒後に表示
@@ -88,8 +113,13 @@ public class GameOverUI : MonoBehaviour
         //キーボード操作
         if (canReturn && Input.GetKeyDown(KeyCode.A))
         {
-            //シーンに戻る
-            SceneManager.LoadScene(returnSceneName);
+            //決定SE
+            if (seAudioSource != null && selectSE != null)
+            {
+                seAudioSource.PlayOneShot(selectSE);
+            }
+
+            ReturnToTitle();
         }
 
         //ゲームパッド操作
@@ -97,8 +127,45 @@ public class GameOverUI : MonoBehaviour
         if (canReturn && pad != null &&
             pad.buttonSouth.wasPressedThisFrame)
         {
-            //シーンに戻る
-            SceneManager.LoadScene(returnSceneName);
+            //決定SE
+            if (seAudioSource != null && selectSE != null)
+            {
+                seAudioSource.PlayOneShot(selectSE);
+            }
+
+            ReturnToTitle();
         }
+    }
+
+    private void ReturnToTitle()
+    {
+        if (isReturning) return;
+        isReturning = true;
+
+        //SEを再生してからシーン移動するコルーチンを開始
+        StartCoroutine(ReturnAfterSE());
+    }
+
+    private System.Collections.IEnumerator ReturnAfterSE()
+    {
+        //決定SE
+        float waitTime = 0f;
+        if (seAudioSource != null && selectSE != null)
+        {
+            seAudioSource.PlayOneShot(selectSE);
+            waitTime = selectSE.length;
+        }
+
+        //BGM停止
+        if (bgmAudioSource != null && bgmAudioSource.isPlaying)
+        {
+            bgmAudioSource.Stop();
+        }
+
+        //SEが終わるまで待機
+        yield return new WaitForSeconds(waitTime);
+
+        //シーン遷移
+        SceneManager.LoadScene(returnSceneName);
     }
 }

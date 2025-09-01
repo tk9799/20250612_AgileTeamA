@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 /// <summary>
 /// ボス専用の全方位無差別攻撃パターン
@@ -9,23 +10,26 @@ public class PromiscuousPattern : BossAttackPattern
     [Header("使用する弾")]
     public BulletBase bulletBase;
 
+    [Header("初回発射までの待機時間")]
+    public float initialDelay = 1f;
+
     [Header("1セット内の弾数")]
-    public int bulletsPerSet = 12;
+    public int bulletsPerSet = 8;
+    [Header("セット内の弾の連射間隔")]
+    public float intervalBetweenBullets = 0.1f;
     [Header("セット間の待機時間")]
     public float intervalBetweenSets = 2f;
 
-    [Header("弾の初速")]
-    public float initialSpeed = 1f;
-    [Header("弾の加速度(正なら加速、負なら減速)")]
-    public float acceleration = -0.5f;
+    [Header("弾の散らす角度の幅(±)")]
+    public float spreadAngle = 15f;
 
+    private bool isFiring = false;
     private float timer = 0f;
-    private bool isFiringSet = false;
 
     public override void Initialize(BossController bossController)
     {
-        timer = 0f;
-        isFiringSet = false;
+        timer = -initialDelay;
+        isFiring = false;
     }
 
     public override void UpdateAttack(BossController bossController)
@@ -35,45 +39,46 @@ public class PromiscuousPattern : BossAttackPattern
 
         timer += Time.deltaTime;
 
-        if (!isFiringSet)
+        if (!isFiring && timer >= 0f)
         {
-            //セット開始待機
-            if (timer >= intervalBetweenSets)
-            {
-                timer = 0f;
-                isFiringSet = true;
-
-                FireSet(bossController);
-                isFiringSet = false;
-            }
+            isFiring = true;
+            timer = 0f;
+            bossController.StartCoroutine(FireSet(bossController));
         }
     }
 
-    /// <summary>
-    /// 1セット分の全方位弾を発射
-    /// </summary>
-    private void FireSet(BossController bossController)
+    private IEnumerator FireSet(BossController bossController)
     {
-        float angleStep = 360f / bulletsPerSet;
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player == null)
+        {
+            isFiring = false;
+            yield break; //プレイヤーが存在しなければ発射しない
+        }
 
         for (int i = 0; i < bulletsPerSet; i++)
         {
-            float angle = angleStep * i;
+            if (bulletBase == null)
+                yield break;
+
+            Vector2 direction = ((Vector2)player.transform.position - (Vector2)bossController.transform.position).normalized;
+
+            //角度をランダムに散らす
+            float angleOffset = Random.Range(-spreadAngle, spreadAngle);
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + angleOffset;
             Vector2 dir = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
 
-            //弾を取得して初期化
             Bullet bullet = BulletPoolManager.Instance.FireBullet(bulletBase, bossController.transform.position, dir);
-
-            if (bullet != null)
-            {
-                //初期速度と加速度を設定
-                bullet.SetInitialSpeed(initialSpeed);
-                bullet.acceleration = acceleration;
-            }
 
             if (bulletBase.shotSE != null)
                 AudioSource.PlayClipAtPoint(bulletBase.shotSE, bossController.transform.position);
+
+            yield return new WaitForSeconds(intervalBetweenBullets);
         }
+
+        //セット間待機
+        yield return new WaitForSeconds(intervalBetweenSets);
+        isFiring = false;
     }
 
     public override void OnExit(BossController bossController)

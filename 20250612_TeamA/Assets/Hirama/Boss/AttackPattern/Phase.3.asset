@@ -16,7 +16,7 @@ MonoBehaviour:
   radialBulletsPerSet: 24
   radialShotsPerSet: 5
   radialShotInterval: 0.2
-  rotationStepPerShot: 20
+  rotationStepPerShot: -20
   radialSetInterval: 1
   aimBulletBase: {fileID: 11400000, guid: 59f8595cb8c5dbf4999219d087b1779e, type: 2}
   aimBulletsPerSet: 3

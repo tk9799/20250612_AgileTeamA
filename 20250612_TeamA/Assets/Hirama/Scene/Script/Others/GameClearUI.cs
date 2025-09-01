@@ -63,10 +63,12 @@ public class GameClearUI : MonoBehaviour
         //BGM再生
         if (bgmAudioSource != null && bgmClip != null)
         {
-            bgmAudioSource.clip = bgmClip;
-            bgmAudioSource.loop = true;
-            bgmAudioSource.Play();
-            Debug.Log("GameClear BGM 再生開始");
+            if (!bgmAudioSource.isPlaying)
+            {
+                bgmAudioSource.clip = bgmClip;
+                bgmAudioSource.loop = false;
+                bgmAudioSource.Play();
+            }
         }
 
         StartCoroutine(ShowSequence());
@@ -108,11 +110,18 @@ public class GameClearUI : MonoBehaviour
 
     void Update()
     {
+        if (!canReturn) return;
+
         //キーボード操作
         if (canReturn && Input.GetKeyDown(KeyCode.A))
         {
-            //シーンに戻る
-            SceneManager.LoadScene(returnSceneName);
+            //決定SE
+            if (seAudioSource != null && selectSE != null)
+            {
+                seAudioSource.PlayOneShot(selectSE);
+            }
+
+            ReturnToTitle();
         }
 
         //ゲームパッド操作
@@ -120,8 +129,45 @@ public class GameClearUI : MonoBehaviour
         if (canReturn && pad != null &&
             pad.buttonSouth.wasPressedThisFrame)
         {
-            //シーンに戻る
-            SceneManager.LoadScene(returnSceneName);
+            //決定SE
+            if (seAudioSource != null && selectSE != null)
+            {
+                seAudioSource.PlayOneShot(selectSE);
+            }
+
+            ReturnToTitle();
         }
+    }
+
+    private void ReturnToTitle()
+    {
+        if (isReturning) return;
+        isReturning = true;
+
+        //SEを再生してからシーン移動するコルーチンを開始
+        StartCoroutine(ReturnAfterSE());
+    }
+
+    private System.Collections.IEnumerator ReturnAfterSE()
+    {
+        //決定SE
+        float waitTime = 0f;
+        if (seAudioSource != null && selectSE != null)
+        {
+            seAudioSource.PlayOneShot(selectSE);
+            waitTime = selectSE.length;
+        }
+
+        //BGM停止
+        if (bgmAudioSource != null && bgmAudioSource.isPlaying)
+        {
+            bgmAudioSource.Stop();
+        }
+
+        //SEが終わるまで待機
+        yield return new WaitForSeconds(waitTime);
+
+        //シーン遷移
+        SceneManager.LoadScene(returnSceneName);
     }
 }
