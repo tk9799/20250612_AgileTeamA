@@ -55,6 +55,20 @@ public class BulletPoolManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        foreach (var entry in poolEntries)
+        {
+            // 弾種データ
+            BulletBase baseData = entry.bulletBase;
+            // 弾プール
+            BulletPool pool = entry.bulletPool;
+
+            // 例: 名前を表示
+            Debug.Log($"BulletBase: {baseData.name}, Pool: {pool.name}");
+        }
+    }
+
     /// <summary>
     /// 引数のBulletBaseに対応するBulletPoolを返す
     /// </summary>
@@ -82,6 +96,11 @@ public class BulletPoolManager : MonoBehaviour
     /// </summary>
     public Bullet FireBullet(BulletBase baseData, Vector2 position, Vector2 direction)
     {
+        if (poolEntries.Count > 0)
+        {
+            var entry = poolEntries[2];
+        }
+
         var pool = GetPool(baseData);
         if (pool == null)
         {
@@ -91,10 +110,38 @@ public class BulletPoolManager : MonoBehaviour
         Bullet bullet = pool.GetBullet();
         Vector2 velocity = direction.normalized * baseData.speed;
         bullet.Init(baseData, position, velocity);
-
-        activeBulletList.Add(gameObject);//リストに追加
+        activeBulletList.Add(bullet.gameObject);//リストに追加
+        //プレイヤーの弾幕をリストから削除
+        activeBulletList.RemoveAll(obj => obj.CompareTag("PlayerBarrage"));
+        RemoveBulletsOfEntry(2);//リストから削除
 
         return bullet;
+    }
+
+    //プレイヤーの弾幕をListから削除する関数
+    public void RemoveBulletsOfEntry(int entryIndex)
+    {
+        if (poolEntries.Count > entryIndex)
+        {
+            
+            var targetBase = poolEntries[2].bulletBase;
+            var toRemove = new List<GameObject>();
+            foreach (var obj in activeBulletList)
+            {
+                
+                var bullet = obj.GetComponent<Bullet>();
+                if (bullet != null && bullet.bulletBase == targetBase)
+                {
+                    Debug.Log("hit");
+                    toRemove.Add(gameObject);
+                }
+            }
+            foreach (var obj in toRemove)
+            {
+                activeBulletList.Remove(gameObject);
+                Debug.Log("removeObj");
+            }
+        }
     }
 
     /// <summary>
