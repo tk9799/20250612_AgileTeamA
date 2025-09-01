@@ -707,7 +707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b47434f61bda6f14facb3b70c012a6fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  justGuardTransform: {fileID: 256187709}
+  justGuardTransform: {fileID: 1326987227}
   justGuardDistanceRadius: 0.65
   playerJudgement: {fileID: 817639123}
   spriteRenderer: {fileID: 256187712}
@@ -717,7 +717,7 @@ MonoBehaviour:
   tmpText: {fileID: 537632984}
   judgementEnd: 0
   justGuardCount: 0
-  bullet: {fileID: 1192818337}
+  bullet: {fileID: 0}
 --- !u!58 &256187711
 CircleCollider2D:
   m_ObjectHideFlags: 0
