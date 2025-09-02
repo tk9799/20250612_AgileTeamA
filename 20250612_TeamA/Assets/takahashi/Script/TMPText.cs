@@ -84,15 +84,15 @@ public class TMPText : MonoBehaviour
             {
                 BulletPoolManager.SetActive(true);
             }
-            if (enemyWaveManager != null && enemyWaveManager.isAnnihilation)
+            if (enemyWaveManager != null && enemyWaveManager.isAnnihilation==true)
             {
                 tutorial = 2;
             }
-            if (!isOneProcess)
-            {
-                //StartCoroutine(enemyWaveManager.HandleWaves());
-                isOneProcess = true;
-            }
+            //if (!isOneProcess)
+            //{
+            //    //StartCoroutine(enemyWaveManager.HandleWaves());
+            //    isOneProcess = true;
+            //}
 
         }
         else if (tutorial == 2)

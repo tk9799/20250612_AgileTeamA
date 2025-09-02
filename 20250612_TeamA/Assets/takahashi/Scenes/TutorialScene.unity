@@ -843,7 +843,7 @@ MonoBehaviour:
     - enemyData: {fileID: 11400000, guid: 550e52dc31bbc3441b95e8e5944616fd, type: 2}
       spawnCenter: {x: 5, y: 7}
       delayBeforeSpawn: 0
-      spawnCount: 5
+      spawnCount: 1
       offsetX: 1
       offsetY: 0
       interval: 0.2
@@ -2607,7 +2607,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1326987219}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -3, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
@@ -4208,8 +4208,8 @@ SceneRoots:
   - {fileID: 301389279}
   - {fileID: 1560183716}
   - {fileID: 1751575307}
-  - {fileID: 1326987227}
   - {fileID: 1409788272}
   - {fileID: 1192818339}
   - {fileID: 435159684}
   - {fileID: 1880811767}
+  - {fileID: 1326987227}
