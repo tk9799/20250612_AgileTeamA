@@ -51,7 +51,12 @@ public class TMPText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(gameManager==null)
+        {
+            Debug.LogError("gameManagerがnullです");
+            gameManager= GetComponent<GameManager>();
+            
+        }
         if (tutorial == 0)
         {
             Text.text = "プレイヤーの移動\n左スティックで移動\nXボダンを押しながら左スティックを動かすと低速移動" +
