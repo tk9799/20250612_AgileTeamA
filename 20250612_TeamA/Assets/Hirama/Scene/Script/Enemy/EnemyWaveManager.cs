@@ -239,9 +239,10 @@ public class EnemyWaveManager : MonoBehaviour
     /// </summary>
     private IEnumerator WaitUntilAllEnemiesCleared()
     {
-        while (EnemyPoolManager.Instance.GetAllActiveEnemies().Count < 0)
+        while (EnemyPoolManager.Instance.GetAllActiveEnemies().Count > 0)
         {
             //全滅確認
+            //Debug.Log("全滅確認");
             isAnnihilation = true;
             yield return null;
         }
