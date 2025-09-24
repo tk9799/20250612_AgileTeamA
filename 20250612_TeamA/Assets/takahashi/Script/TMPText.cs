@@ -19,7 +19,8 @@ public class TMPText : MonoBehaviour
     [SerializeField] GameObject EnemyWaveManager;
     [SerializeField] GameObject EnemyPoolManager;
     [SerializeField] GameObject BulletPoolManager;
-    [SerializeField] EnemyWaveManager enemyWaveManager;
+    //[SerializeField] EnemyWaveManager enemyWaveManager;
+    [SerializeField] EnemyWaveManagerTutorial enemyWaveManagerTutorial;
     [SerializeField] GuardController2 guardController2;
     [SerializeField] TutorialText tutorialText;
     [SerializeField] GameObject imageObject;
@@ -84,7 +85,7 @@ public class TMPText : MonoBehaviour
             {
                 BulletPoolManager.SetActive(true);
             }
-            if (enemyWaveManager != null && enemyWaveManager.isAnnihilation==true)
+            if (enemyWaveManagerTutorial != null && enemyWaveManagerTutorial.waveList.Count == 1)
             {
                 tutorial = 2;
             }
@@ -105,7 +106,7 @@ public class TMPText : MonoBehaviour
             {
                 isAttack = true;
                 //enemyWaveManager.SkipToBoss();
-                if (enemyWaveManager != null && enemyWaveManager.isWaveRunning == false)
+                if (enemyWaveManagerTutorial != null && enemyWaveManagerTutorial.isWaveRunning == false)
                 {
                     tutorial = 3;
                 }
@@ -128,7 +129,7 @@ public class TMPText : MonoBehaviour
             //    tutorial = 4;
             //}
 
-            if (enemyWaveManager != null && enemyWaveManager.isBossDead)
+            if (gameManager != null && gameManager.isClear == true)
             //if (bossBase.IsDead)
             {
                 Debug.Log("Clear");
