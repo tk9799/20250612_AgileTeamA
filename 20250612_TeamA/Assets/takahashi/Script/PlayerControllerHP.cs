@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using TMPro;
 
 public class PlayerControllerHP : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class PlayerControllerHP : MonoBehaviour
 
     private SpriteRenderer sr;
     private Collider2D hitCollider;
+    [SerializeField] public TextMeshProUGUI lifeCountText;
     [SerializeField] public PlayerJudgement playerJudgement;
 
     private void Start()
@@ -36,6 +38,7 @@ public class PlayerControllerHP : MonoBehaviour
         transform.position = respawnPosition;
 
         OnLifeChanged?.Invoke(lifeCount);
+        lifeCountText.text = lifeCount.ToString();
     }
 
     /// <summary>
@@ -62,6 +65,7 @@ public class PlayerControllerHP : MonoBehaviour
 
         lifeCount--;
         OnLifeChanged?.Invoke(lifeCount);
+        lifeCountText.text = lifeCount.ToString();
 
         if (lifeCount > 0)
         {

@@ -328,8 +328,11 @@ public class TitleMenu : MonoBehaviour
                     ShowDifficultyMenu();
                     break;
                 case 1:
-                    Application.Quit();
-                    UnityEditor.EditorApplication.isPlaying = false;
+                    Application.Quit(); // ビルド後はここでアプリ終了
+
+#if UNITY_EDITOR
+                    UnityEditor.EditorApplication.isPlaying = false; // エディタ上では再生モード終了
+#endif
                     break;
             }
         }
