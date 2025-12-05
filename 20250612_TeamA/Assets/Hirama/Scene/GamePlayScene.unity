@@ -1662,7 +1662,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 654143667}
-  - component: {fileID: 654143663}
+  - component: {fileID: 654143668}
   - component: {fileID: 654143664}
   - component: {fileID: 654143666}
   - component: {fileID: 654143665}
@@ -1673,36 +1673,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &654143663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 654143662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c31ccd77655b43f42a62ce48b036a937, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lives: 3
-  respawnDelay: 1
-  invincibleTime: 1
-  justGuardInvincibleTime: 3
-  respawnPosition: {x: 0, y: -4.45}
-  myTransform: {fileID: 654143667}
-  playerTransfom: {fileID: 1187666939}
-  guardController: {fileID: 1024359242}
-  guradObject: {fileID: 1024359240}
-  invincible: 1
-  guardStamina: {fileID: 1934553000}
-  playerControllerHP: {fileID: 1187666936}
-  spriteRenderer: {fileID: 654143665}
-  hitCollider: {fileID: 654143664}
-  isDead: 0
-  isInput: 0
-  isInvincible: 0
-  isGuardJudgement: 0
 --- !u!61 &654143664
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1846,6 +1816,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1187666939}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &654143668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654143662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 216c067d981076245af715536b13cdd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lives: 3
+  respawnDelay: 2
+  invincibleTime: 2
+  justGuardInvincibleTime: 2
+  respawnPosition: {x: 0, y: 0}
+  myTransform: {fileID: 654143667}
+  playerTransfom: {fileID: 1187666939}
+  gamePlaySceneGuardController: {fileID: 1024359245}
+  guradObject: {fileID: 1024359240}
+  invincible: 1
+  gamePlaySceneGuardStamina: {fileID: 1934553004}
+  gamePlayScenePlayerControllerHP: {fileID: 1187666941}
+  spriteRenderer: {fileID: 654143665}
+  hitCollider: {fileID: 654143664}
+  isDead: 0
+  isInput: 0
+  isInvincible: 0
+  isGuardJudgement: 0
 --- !u!1 &674951171
 GameObject:
   m_ObjectHideFlags: 0
@@ -2277,7 +2277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   circleCollider2D: {fileID: 855417027}
-  guardController2: {fileID: 1024359242}
+  guardController2: {fileID: 0}
 --- !u!212 &855417029
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2685,7 +2685,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1024359241}
   - component: {fileID: 1024359244}
-  - component: {fileID: 1024359242}
+  - component: {fileID: 1024359245}
   - component: {fileID: 1024359243}
   m_Layer: 0
   m_Name: CircleGuard
@@ -2710,29 +2710,6 @@ Transform:
   - {fileID: 855417026}
   m_Father: {fileID: 1187666939}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1024359242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1024359240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b47434f61bda6f14facb3b70c012a6fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  justGuardTransform: {fileID: 1024359241}
-  justGuardDistanceRadius: 0.65
-  playerJudgement: {fileID: 654143663}
-  spriteRenderer: {fileID: 1024359244}
-  circeCollider: {fileID: 1024359243}
-  bulletPoolManager: {fileID: 281137741}
-  successShield: {fileID: 855417025}
-  tmpText: {fileID: 0}
-  judgementEnd: 0
-  justGuardCount: 0
-  bullet: {fileID: 281137740}
 --- !u!58 &1024359243
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2824,6 +2801,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1024359245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024359240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffbe2d49a3c05134b810306bfe07d894, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  justGuardTransform: {fileID: 1024359241}
+  justGuardDistanceRadius: 0.65
+  gamaPlayScenePlayerJudgement: {fileID: 654143668}
+  spriteRenderer: {fileID: 1024359244}
+  circeCollider: {fileID: 1024359243}
+  bulletPoolManager: {fileID: 281137741}
+  successShield: {fileID: 855417025}
+  judgementEnd: 0
+  justGuardCount: 0
+  bullet: {fileID: 281137740}
 --- !u!1 &1026538645
 GameObject:
   m_ObjectHideFlags: 0
@@ -3331,7 +3330,7 @@ GameObject:
   - component: {fileID: 1187666939}
   - component: {fileID: 1187666938}
   - component: {fileID: 1187666937}
-  - component: {fileID: 1187666936}
+  - component: {fileID: 1187666941}
   - component: {fileID: 1187666934}
   - component: {fileID: 1187666933}
   - component: {fileID: 1187666932}
@@ -3428,24 +3427,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &1187666936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1187666931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c6229e14477f9242a2b96876af5c0a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifeCount: 4
-  respawnPosition: {x: 0, y: -3, z: 0}
-  respawnDelay: 1
-  invincibleTime: 2
-  lifeCountText: {fileID: 236432411}
-  playerJudgement: {fileID: 654143663}
 --- !u!114 &1187666937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3553,6 +3534,24 @@ MonoBehaviour:
   shotPoints:
   - {fileID: 727062495}
   - {fileID: 1761837829}
+--- !u!114 &1187666941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187666931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0deb1e730eacb5a48b00fc75175fbe41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeCount: 4
+  respawnPosition: {x: 0, y: -3, z: 0}
+  respawnDelay: 1
+  invincibleTime: 2
+  lifeCountText: {fileID: 236432411}
+  gamaPlayScenePlayerJudgement: {fileID: 654143668}
 --- !u!1 &1221379562
 GameObject:
   m_ObjectHideFlags: 0
@@ -5339,7 +5338,7 @@ GameObject:
   - component: {fileID: 1934553003}
   - component: {fileID: 1934553002}
   - component: {fileID: 1934553001}
-  - component: {fileID: 1934553000}
+  - component: {fileID: 1934553004}
   m_Layer: 5
   m_Name: GuardStamina
   m_TagString: Untagged
@@ -5347,23 +5346,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1934553000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1934552999}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1d105e2b2df6374da8fc5e7d95b4d42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerJudgement: {fileID: 654143663}
-  staminagage: {fileID: 1934553001}
-  maxStaminaGauge: 10
-  canStamina: 0
-  currentStamina: 0
 --- !u!114 &1934553001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5421,6 +5403,23 @@ RectTransform:
   m_AnchoredPosition: {x: -50, y: -150}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1934553004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934552999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ace41cc0fc43f424280275e2a5603295, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gamaPlayScenePlayerJudgement: {fileID: 654143668}
+  staminagage: {fileID: 1934553001}
+  maxStaminaGauge: 10
+  canStamina: 0
+  currentStamina: 0
 --- !u!1 &2031965539
 GameObject:
   m_ObjectHideFlags: 0

@@ -1917,7 +1917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c31ccd77655b43f42a62ce48b036a937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lives: 3
+  lives: 99999
   respawnDelay: 1
   invincibleTime: 1
   justGuardInvincibleTime: 3
@@ -1928,7 +1928,7 @@ MonoBehaviour:
   guradObject: {fileID: 256187708}
   invincible: 1
   guardStamina: {fileID: 1242596443}
-  playerControllerHP: {fileID: 1326987224}
+  playerControllerHP: {fileID: 1326987228}
   spriteRenderer: {fileID: 817639120}
   hitCollider: {fileID: 817639122}
   isDead: 0
@@ -2478,11 +2478,11 @@ GameObject:
   - component: {fileID: 1326987227}
   - component: {fileID: 1326987226}
   - component: {fileID: 1326987225}
-  - component: {fileID: 1326987224}
   - component: {fileID: 1326987223}
   - component: {fileID: 1326987222}
   - component: {fileID: 1326987221}
   - component: {fileID: 1326987220}
+  - component: {fileID: 1326987228}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Untagged
@@ -2592,23 +2592,6 @@ MonoBehaviour:
   shotPoints:
   - {fileID: 929109247}
   tmpText: {fileID: 537632984}
---- !u!114 &1326987224
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1326987219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c6229e14477f9242a2b96876af5c0a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifeCount: 9999999
-  respawnPosition: {x: 0, y: -3, z: 0}
-  respawnDelay: 0.5
-  invincibleTime: 2
-  playerJudgement: {fileID: 817639123}
 --- !u!114 &1326987225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2699,6 +2682,23 @@ Transform:
   - {fileID: 1276663439}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1326987228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326987219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 911e637ee2910364a974a623a88ee94d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeCount: 99999
+  respawnPosition: {x: 0, y: -3, z: 0}
+  respawnDelay: 0.5
+  invincibleTime: 2
+  playerJudgement: {fileID: 817639123}
 --- !u!1 &1409788268
 GameObject:
   m_ObjectHideFlags: 0

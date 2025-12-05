@@ -28,7 +28,7 @@ public class PlayerJudgement : MonoBehaviour
     [SerializeField] private GameObject guradObject;
     [SerializeField] public float invincible = 1.0f;//ジャストガード時の無敵時間
     [SerializeField] private GuardStamina guardStamina;
-    [SerializeField] public PlayerControllerHP playerControllerHP;
+    [SerializeField] public PlayerControllerHPTutorial playerControllerHP;
 
 
     public event Action<int> OnLifeChanged;
