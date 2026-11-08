@@ -35,8 +35,6 @@ public class PlayerControllerShoot : MonoBehaviour
             //Debug.Log("”­Ë‚Å‚«‚È‚¢");
             isFiring = false;
         }
-        // ZƒL[‰Ÿ‚µ‚Á‚Ï‚È‚µ‚Å˜AË
-        //isFiring = Input.GetKey(KeyCode.JoystickButton0);
     }
 
     private IEnumerator FireRoutine()

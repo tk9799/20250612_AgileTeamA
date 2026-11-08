@@ -69,14 +69,8 @@ public class GamePlaySceneGuardController : MonoBehaviour
                     judgementEnd = true;
                     successShield.SetActive(true);
                     isBarrier = true;
-                    //if (SceneManager.GetActiveScene().name == "TutorialScene" && tmpText != null && tmpText.tutorial == 2)
-                    //{
-
-                    //    justGuardCount++;
-                    //    Debug.Log(justGuardCount);
-                    //}
+                    
                     break;
-                    //Debug.Log("InvincibleTime" + judgementEnd);
                 }
                 bulletPoolManager.activeBulletList.Remove(bullet);
             }
