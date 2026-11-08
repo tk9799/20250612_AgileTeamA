@@ -55,25 +55,5 @@ public class GuardStamina : MonoBehaviour
             }
             chargeTime = 0f;
         }
-
-        if (currentStamina < maxStaminaGauge)
-        {
-            //StartCoroutine(ChargeStamina());
-            
-            
-        }
     }
-
-    //IEnumerator ChargeStamina()
-    //{
-    //    chargeTime = 0f;
-    //    while (chargeTime < 3f)
-    //    {
-    //        yield return new WaitForSeconds(0.1f);
-    //        chargeTime += 0.1f;
-    //    }
-    //    currentStamina += 1;
-    //    staminagage.fillAmount = currentStamina / maxStaminaGauge;
-    //    Debug.Log(currentStamina);
-    //}
 }
